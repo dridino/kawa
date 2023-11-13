@@ -1,0 +1,62 @@
+
+** Conflict (shift/reduce) in state 33.
+** Tokens involved: SUB REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD
+** The following explanations concentrate on token SUB.
+** This state is reached from program after reading:
+
+MAIN BEGIN expression binop expression
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+MAIN BEGIN list(instruction) END EOF 
+           instruction list(instruction) 
+           mem_access EQUAL expression 
+           expression POINT IDENT 
+           (?)
+
+** In state 33, looking ahead at SUB, shifting is permitted
+** because of the following sub-derivation:
+
+expression binop expression 
+                 expression binop expression 
+                            . SUB 
+
+** In state 33, looking ahead at SUB, reducing production
+** expression -> expression binop expression
+** is permitted because of the following sub-derivation:
+
+expression binop expression // lookahead token appears because binop can begin with SUB
+expression binop expression . 
+
+** Conflict (shift/reduce) in state 16.
+** Tokens involved: SUB REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD
+** The following explanations concentrate on token SUB.
+** This state is reached from program after reading:
+
+MAIN BEGIN unop expression
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+MAIN BEGIN list(instruction) END EOF 
+           instruction list(instruction) 
+           mem_access EQUAL expression 
+           expression POINT IDENT 
+           (?)
+
+** In state 16, looking ahead at SUB, shifting is permitted
+** because of the following sub-derivation:
+
+unop expression 
+     expression binop expression 
+                . SUB 
+
+** In state 16, looking ahead at SUB, reducing production
+** expression -> unop expression
+** is permitted because of the following sub-derivation:
+
+expression binop expression // lookahead token appears because binop can begin with SUB
+unop expression . 
