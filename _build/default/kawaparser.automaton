@@ -23,561 +23,804 @@ State 2:
 ## LR(1) items:
 program -> MAIN BEGIN . list(instruction) END EOF [ # ]
 ## Transitions:
--- On THIS shift to state 3
--- On PRINT shift to state 4
--- On OPP shift to state 6
--- On NOT shift to state 7
--- On NEW shift to state 8
--- On LPAR shift to state 10
--- On INT shift to state 11
--- On IDENT shift to state 12
--- On BOOL shift to state 13
--- On unop shift to state 14
--- On mem_access shift to state 39
--- On list(instruction) shift to state 42
--- On instruction shift to state 45
--- On expression shift to state 47
+-- On PRINT shift to state 3
+-- On list(instruction) shift to state 43
+-- On instruction shift to state 46
 ## Reductions:
 -- On END
 --   reduce production list(instruction) ->
 
 State 3:
 ## Known stack suffix:
-## THIS
+## PRINT
 ## LR(1) items:
-expression -> THIS . [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+instruction -> PRINT . LPAR expression RPAR SEMI [ PRINT END ]
 ## Transitions:
+-- On LPAR shift to state 4
 ## Reductions:
--- On THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD
---   reduce production expression -> THIS
 
 State 4:
 ## Known stack suffix:
-## PRINT
+## PRINT LPAR
 ## LR(1) items:
-instruction -> PRINT . LPAR expression RPAR SEMI [ THIS PRINT OPP NOT NEW LPAR INT IDENT END BOOL ]
+instruction -> PRINT LPAR . expression RPAR SEMI [ PRINT END ]
 ## Transitions:
--- On LPAR shift to state 5
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 40
 ## Reductions:
 
 State 5:
 ## Known stack suffix:
-## PRINT LPAR
+## SUB
 ## LR(1) items:
-instruction -> PRINT LPAR . expression RPAR SEMI [ THIS PRINT OPP NOT NEW LPAR INT IDENT END BOOL ]
+unop -> SUB . [ SUB NOT LPAR INT BOOL ]
 ## Transitions:
--- On THIS shift to state 3
--- On OPP shift to state 6
--- On NOT shift to state 7
--- On NEW shift to state 8
--- On LPAR shift to state 10
--- On INT shift to state 11
--- On IDENT shift to state 12
--- On BOOL shift to state 13
--- On unop shift to state 14
--- On mem_access shift to state 15
--- On expression shift to state 36
 ## Reductions:
+-- On SUB NOT LPAR INT BOOL
+--   reduce production unop -> SUB
 
 State 6:
 ## Known stack suffix:
-## OPP
+## NOT
 ## LR(1) items:
-unop -> OPP . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+unop -> NOT . [ SUB NOT LPAR INT BOOL ]
 ## Transitions:
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production unop -> OPP
+-- On SUB NOT LPAR INT BOOL
+--   reduce production unop -> NOT
 
 State 7:
 ## Known stack suffix:
-## NOT
+## LPAR
 ## LR(1) items:
-unop -> NOT . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> LPAR . expression RPAR [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 12
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production unop -> NOT
 
 State 8:
 ## Known stack suffix:
-## NEW
+## INT
 ## LR(1) items:
-expression -> NEW . IDENT [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> INT . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On IDENT shift to state 9
 ## Reductions:
+-- On SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD
+--   reduce production expression -> INT
 
 State 9:
 ## Known stack suffix:
-## NEW IDENT
+## BOOL
 ## LR(1) items:
-expression -> NEW IDENT . [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> BOOL . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
 ## Reductions:
--- On THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD
---   reduce production expression -> NEW IDENT
+-- On SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD
+--   reduce production expression -> BOOL
 
 State 10:
 ## Known stack suffix:
-## LPAR
+## unop
 ## LR(1) items:
-expression -> LPAR . expression RPAR [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> unop . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On THIS shift to state 3
--- On OPP shift to state 6
--- On NOT shift to state 7
--- On NEW shift to state 8
--- On LPAR shift to state 10
--- On INT shift to state 11
--- On IDENT shift to state 12
--- On BOOL shift to state 13
--- On unop shift to state 14
--- On mem_access shift to state 15
--- On expression shift to state 34
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 11
 ## Reductions:
 
 State 11:
 ## Known stack suffix:
-## INT
+## unop expression
 ## LR(1) items:
-expression -> INT . [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> unop expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
 ## Reductions:
--- On THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD
---   reduce production expression -> INT
+-- On SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD
+--   reduce production expression -> unop expression
 
 State 12:
 ## Known stack suffix:
-## IDENT
+## LPAR expression
 ## LR(1) items:
-mem_access -> IDENT . [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQUAL EQ END DIV BOOL AND ADD ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> LPAR expression . RPAR [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 13
+-- On RPAR shift to state 19
+-- On REM shift to state 20
+-- On OR shift to state 22
+-- On NEQ shift to state 34
+-- On MUL shift to state 15
+-- On LT shift to state 24
+-- On LE shift to state 28
+-- On GT shift to state 30
+-- On GE shift to state 32
+-- On EQ shift to state 36
+-- On DIV shift to state 17
+-- On AND shift to state 38
+-- On ADD shift to state 26
 ## Reductions:
--- On THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQUAL EQ END DIV BOOL AND ADD
---   reduce production mem_access -> IDENT
 
 State 13:
 ## Known stack suffix:
-## BOOL
+## expression SUB
 ## LR(1) items:
-expression -> BOOL . [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> expression SUB . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 14
 ## Reductions:
--- On THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD
---   reduce production expression -> BOOL
 
 State 14:
 ## Known stack suffix:
-## unop
+## expression SUB expression
 ## LR(1) items:
-expression -> unop . expression [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression SUB expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On THIS shift to state 3
--- On OPP shift to state 6
--- On NOT shift to state 7
--- On NEW shift to state 8
--- On LPAR shift to state 10
--- On INT shift to state 11
--- On IDENT shift to state 12
--- On BOOL shift to state 13
--- On unop shift to state 14
--- On mem_access shift to state 15
--- On expression shift to state 16
+-- On MUL shift to state 15
+-- On DIV shift to state 17
 ## Reductions:
+-- On SUB RPAR REM OR NEQ LT LE GT GE EQ AND ADD
+--   reduce production expression -> expression SUB expression
 
 State 15:
 ## Known stack suffix:
-## mem_access
+## expression MUL
 ## LR(1) items:
-expression -> mem_access . [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> expression MUL . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 16
 ## Reductions:
--- On THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD
---   reduce production expression -> mem_access
 
 State 16:
 ## Known stack suffix:
-## unop expression
+## expression MUL expression
 ## LR(1) items:
-expression -> unop expression . [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
-expression -> expression . binop expression [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
-mem_access -> expression . POINT IDENT [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression MUL expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On SUB shift to state 17
--- On REM shift to state 18
--- On POINT shift to state 19
--- On OR shift to state 21
--- On NEQ shift to state 22
--- On MUL shift to state 23
--- On LT shift to state 24
--- On LE shift to state 25
--- On GT shift to state 26
--- On GE shift to state 27
--- On EQ shift to state 28
--- On DIV shift to state 29
--- On AND shift to state 30
--- On ADD shift to state 31
--- On binop shift to state 32
 ## Reductions:
--- On THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD
---   reduce production expression -> unop expression
-** Conflict on SUB REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD
+-- On SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD
+--   reduce production expression -> expression MUL expression
 
 State 17:
 ## Known stack suffix:
-## SUB
+## expression DIV
 ## LR(1) items:
-binop -> SUB . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression DIV . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 18
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> SUB
 
 State 18:
 ## Known stack suffix:
-## REM
+## expression DIV expression
 ## LR(1) items:
-binop -> REM . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression DIV expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> REM
+-- On SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD
+--   reduce production expression -> expression DIV expression
 
 State 19:
 ## Known stack suffix:
-## expression POINT
+## LPAR expression RPAR
 ## LR(1) items:
-mem_access -> expression POINT . IDENT [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQUAL EQ END DIV BOOL AND ADD ]
+expression -> LPAR expression RPAR . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On IDENT shift to state 20
 ## Reductions:
+-- On SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD
+--   reduce production expression -> LPAR expression RPAR
 
 State 20:
 ## Known stack suffix:
-## expression POINT IDENT
+## expression REM
 ## LR(1) items:
-mem_access -> expression POINT IDENT . [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQUAL EQ END DIV BOOL AND ADD ]
+expression -> expression REM . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 21
 ## Reductions:
--- On THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQUAL EQ END DIV BOOL AND ADD
---   reduce production mem_access -> expression POINT IDENT
 
 State 21:
 ## Known stack suffix:
-## OR
+## expression REM expression
 ## LR(1) items:
-binop -> OR . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression REM expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On MUL shift to state 15
+-- On DIV shift to state 17
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> OR
+-- On SUB RPAR REM OR NEQ LT LE GT GE EQ AND ADD
+--   reduce production expression -> expression REM expression
 
 State 22:
 ## Known stack suffix:
-## NEQ
+## expression OR
 ## LR(1) items:
-binop -> NEQ . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression OR . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 23
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> NEQ
 
 State 23:
 ## Known stack suffix:
-## MUL
+## expression OR expression
 ## LR(1) items:
-binop -> MUL . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression OR expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 13
+-- On REM shift to state 20
+-- On MUL shift to state 15
+-- On LT shift to state 24
+-- On LE shift to state 28
+-- On GT shift to state 30
+-- On GE shift to state 32
+-- On DIV shift to state 17
+-- On ADD shift to state 26
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> MUL
+-- On RPAR OR NEQ EQ AND
+--   reduce production expression -> expression OR expression
 
 State 24:
 ## Known stack suffix:
-## LT
+## expression LT
 ## LR(1) items:
-binop -> LT . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression LT . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 25
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> LT
 
 State 25:
 ## Known stack suffix:
-## LE
+## expression LT expression
 ## LR(1) items:
-binop -> LE . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression LT expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 13
+-- On REM shift to state 20
+-- On MUL shift to state 15
+-- On DIV shift to state 17
+-- On ADD shift to state 26
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> LE
+-- On RPAR OR NEQ LT LE GT GE EQ AND
+--   reduce production expression -> expression LT expression
 
 State 26:
 ## Known stack suffix:
-## GT
+## expression ADD
 ## LR(1) items:
-binop -> GT . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression ADD . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 27
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> GT
 
 State 27:
 ## Known stack suffix:
-## GE
+## expression ADD expression
 ## LR(1) items:
-binop -> GE . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression ADD expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On MUL shift to state 15
+-- On DIV shift to state 17
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> GE
+-- On SUB RPAR REM OR NEQ LT LE GT GE EQ AND ADD
+--   reduce production expression -> expression ADD expression
 
 State 28:
 ## Known stack suffix:
-## EQ
+## expression LE
 ## LR(1) items:
-binop -> EQ . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression LE . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 29
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> EQ
 
 State 29:
 ## Known stack suffix:
-## DIV
+## expression LE expression
 ## LR(1) items:
-binop -> DIV . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression LE expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 13
+-- On REM shift to state 20
+-- On MUL shift to state 15
+-- On DIV shift to state 17
+-- On ADD shift to state 26
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> DIV
+-- On RPAR OR NEQ LT LE GT GE EQ AND
+--   reduce production expression -> expression LE expression
 
 State 30:
 ## Known stack suffix:
-## AND
+## expression GT
 ## LR(1) items:
-binop -> AND . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression GT . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 31
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> AND
 
 State 31:
 ## Known stack suffix:
-## ADD
+## expression GT expression
 ## LR(1) items:
-binop -> ADD . [ THIS OPP NOT NEW LPAR INT IDENT BOOL ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression GT expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 13
+-- On REM shift to state 20
+-- On MUL shift to state 15
+-- On DIV shift to state 17
+-- On ADD shift to state 26
 ## Reductions:
--- On THIS OPP NOT NEW LPAR INT IDENT BOOL
---   reduce production binop -> ADD
+-- On RPAR OR NEQ LT LE GT GE EQ AND
+--   reduce production expression -> expression GT expression
 
 State 32:
 ## Known stack suffix:
-## expression binop
+## expression GE
 ## LR(1) items:
-expression -> expression binop . expression [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> expression GE . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On THIS shift to state 3
--- On OPP shift to state 6
--- On NOT shift to state 7
--- On NEW shift to state 8
--- On LPAR shift to state 10
--- On INT shift to state 11
--- On IDENT shift to state 12
--- On BOOL shift to state 13
--- On unop shift to state 14
--- On mem_access shift to state 15
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
 -- On expression shift to state 33
 ## Reductions:
 
 State 33:
 ## Known stack suffix:
-## expression binop expression
+## expression GE expression
 ## LR(1) items:
-expression -> expression . binop expression [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
-expression -> expression binop expression . [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
-mem_access -> expression . POINT IDENT [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression GE expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On SUB shift to state 17
--- On REM shift to state 18
--- On POINT shift to state 19
--- On OR shift to state 21
--- On NEQ shift to state 22
--- On MUL shift to state 23
--- On LT shift to state 24
--- On LE shift to state 25
--- On GT shift to state 26
--- On GE shift to state 27
--- On EQ shift to state 28
--- On DIV shift to state 29
--- On AND shift to state 30
--- On ADD shift to state 31
--- On binop shift to state 32
+-- On SUB shift to state 13
+-- On REM shift to state 20
+-- On MUL shift to state 15
+-- On DIV shift to state 17
+-- On ADD shift to state 26
 ## Reductions:
--- On THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD
---   reduce production expression -> expression binop expression
-** Conflict on SUB REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD
+-- On RPAR OR NEQ LT LE GT GE EQ AND
+--   reduce production expression -> expression GE expression
 
 State 34:
 ## Known stack suffix:
-## LPAR expression
+## expression NEQ
 ## LR(1) items:
-expression -> expression . binop expression [ SUB RPAR REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
-expression -> LPAR expression . RPAR [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
-mem_access -> expression . POINT IDENT [ SUB RPAR REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression NEQ . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On SUB shift to state 17
--- On RPAR shift to state 35
--- On REM shift to state 18
--- On POINT shift to state 19
--- On OR shift to state 21
--- On NEQ shift to state 22
--- On MUL shift to state 23
--- On LT shift to state 24
--- On LE shift to state 25
--- On GT shift to state 26
--- On GE shift to state 27
--- On EQ shift to state 28
--- On DIV shift to state 29
--- On AND shift to state 30
--- On ADD shift to state 31
--- On binop shift to state 32
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 35
 ## Reductions:
 
 State 35:
 ## Known stack suffix:
-## LPAR expression RPAR
+## expression NEQ expression
 ## LR(1) items:
-expression -> LPAR expression RPAR . [ THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression NEQ expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 13
+-- On REM shift to state 20
+-- On MUL shift to state 15
+-- On LT shift to state 24
+-- On LE shift to state 28
+-- On GT shift to state 30
+-- On GE shift to state 32
+-- On DIV shift to state 17
+-- On ADD shift to state 26
 ## Reductions:
--- On THIS SUB RPAR REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD
---   reduce production expression -> LPAR expression RPAR
+-- On RPAR OR NEQ EQ AND
+--   reduce production expression -> expression NEQ expression
 
 State 36:
 ## Known stack suffix:
-## PRINT LPAR expression
+## expression EQ
 ## LR(1) items:
-expression -> expression . binop expression [ SUB RPAR REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
-instruction -> PRINT LPAR expression . RPAR SEMI [ THIS PRINT OPP NOT NEW LPAR INT IDENT END BOOL ]
-mem_access -> expression . POINT IDENT [ SUB RPAR REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression EQ . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On SUB shift to state 17
--- On RPAR shift to state 37
--- On REM shift to state 18
--- On POINT shift to state 19
--- On OR shift to state 21
--- On NEQ shift to state 22
--- On MUL shift to state 23
--- On LT shift to state 24
--- On LE shift to state 25
--- On GT shift to state 26
--- On GE shift to state 27
--- On EQ shift to state 28
--- On DIV shift to state 29
--- On AND shift to state 30
--- On ADD shift to state 31
--- On binop shift to state 32
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 37
 ## Reductions:
 
 State 37:
 ## Known stack suffix:
-## PRINT LPAR expression RPAR
+## expression EQ expression
 ## LR(1) items:
-instruction -> PRINT LPAR expression RPAR . SEMI [ THIS PRINT OPP NOT NEW LPAR INT IDENT END BOOL ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression EQ expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On SEMI shift to state 38
+-- On SUB shift to state 13
+-- On REM shift to state 20
+-- On MUL shift to state 15
+-- On LT shift to state 24
+-- On LE shift to state 28
+-- On GT shift to state 30
+-- On GE shift to state 32
+-- On DIV shift to state 17
+-- On ADD shift to state 26
 ## Reductions:
+-- On RPAR OR NEQ EQ AND
+--   reduce production expression -> expression EQ expression
 
 State 38:
 ## Known stack suffix:
-## PRINT LPAR expression RPAR SEMI
+## expression AND
 ## LR(1) items:
-instruction -> PRINT LPAR expression RPAR SEMI . [ THIS PRINT OPP NOT NEW LPAR INT IDENT END BOOL ]
+expression -> expression AND . expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
+-- On SUB shift to state 5
+-- On NOT shift to state 6
+-- On LPAR shift to state 7
+-- On INT shift to state 8
+-- On BOOL shift to state 9
+-- On unop shift to state 10
+-- On expression shift to state 39
 ## Reductions:
--- On THIS PRINT OPP NOT NEW LPAR INT IDENT END BOOL
---   reduce production instruction -> PRINT LPAR expression RPAR SEMI
 
 State 39:
 ## Known stack suffix:
-## mem_access
+## expression AND expression
 ## LR(1) items:
-expression -> mem_access . [ SUB REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
-instruction -> mem_access . EQUAL expression [ THIS PRINT OPP NOT NEW LPAR INT IDENT END BOOL ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression AND expression . [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
 ## Transitions:
--- On EQUAL shift to state 40
+-- On SUB shift to state 13
+-- On REM shift to state 20
+-- On MUL shift to state 15
+-- On LT shift to state 24
+-- On LE shift to state 28
+-- On GT shift to state 30
+-- On GE shift to state 32
+-- On DIV shift to state 17
+-- On ADD shift to state 26
 ## Reductions:
--- On SUB REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD
---   reduce production expression -> mem_access
+-- On RPAR OR NEQ EQ AND
+--   reduce production expression -> expression AND expression
 
 State 40:
 ## Known stack suffix:
-## mem_access EQUAL
+## PRINT LPAR expression
 ## LR(1) items:
-instruction -> mem_access EQUAL . expression [ THIS PRINT OPP NOT NEW LPAR INT IDENT END BOOL ]
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
+instruction -> PRINT LPAR expression . RPAR SEMI [ PRINT END ]
 ## Transitions:
--- On THIS shift to state 3
--- On OPP shift to state 6
--- On NOT shift to state 7
--- On NEW shift to state 8
--- On LPAR shift to state 10
--- On INT shift to state 11
--- On IDENT shift to state 12
--- On BOOL shift to state 13
--- On unop shift to state 14
--- On mem_access shift to state 15
--- On expression shift to state 41
+-- On SUB shift to state 13
+-- On RPAR shift to state 41
+-- On REM shift to state 20
+-- On OR shift to state 22
+-- On NEQ shift to state 34
+-- On MUL shift to state 15
+-- On LT shift to state 24
+-- On LE shift to state 28
+-- On GT shift to state 30
+-- On GE shift to state 32
+-- On EQ shift to state 36
+-- On DIV shift to state 17
+-- On AND shift to state 38
+-- On ADD shift to state 26
 ## Reductions:
 
 State 41:
 ## Known stack suffix:
-## mem_access EQUAL expression
+## PRINT LPAR expression RPAR
 ## LR(1) items:
-expression -> expression . binop expression [ THIS SUB REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
-instruction -> mem_access EQUAL expression . [ THIS PRINT OPP NOT NEW LPAR INT IDENT END BOOL ]
-mem_access -> expression . POINT IDENT [ THIS SUB REM PRINT POINT OR OPP NOT NEW NEQ MUL LT LPAR LE INT IDENT GT GE EQ END DIV BOOL AND ADD ]
+instruction -> PRINT LPAR expression RPAR . SEMI [ PRINT END ]
 ## Transitions:
--- On SUB shift to state 17
--- On REM shift to state 18
--- On POINT shift to state 19
--- On OR shift to state 21
--- On NEQ shift to state 22
--- On MUL shift to state 23
--- On LT shift to state 24
--- On LE shift to state 25
--- On GT shift to state 26
--- On GE shift to state 27
--- On EQ shift to state 28
--- On DIV shift to state 29
--- On AND shift to state 30
--- On ADD shift to state 31
--- On binop shift to state 32
+-- On SEMI shift to state 42
 ## Reductions:
--- On THIS PRINT OPP NOT NEW LPAR INT IDENT END BOOL
---   reduce production instruction -> mem_access EQUAL expression
 
 State 42:
+## Known stack suffix:
+## PRINT LPAR expression RPAR SEMI
+## LR(1) items:
+instruction -> PRINT LPAR expression RPAR SEMI . [ PRINT END ]
+## Transitions:
+## Reductions:
+-- On PRINT END
+--   reduce production instruction -> PRINT LPAR expression RPAR SEMI
+
+State 43:
 ## Known stack suffix:
 ## MAIN BEGIN list(instruction)
 ## LR(1) items:
 program -> MAIN BEGIN list(instruction) . END EOF [ # ]
 ## Transitions:
--- On END shift to state 43
+-- On END shift to state 44
 ## Reductions:
 
-State 43:
+State 44:
 ## Known stack suffix:
 ## MAIN BEGIN list(instruction) END
 ## LR(1) items:
 program -> MAIN BEGIN list(instruction) END . EOF [ # ]
 ## Transitions:
--- On EOF shift to state 44
+-- On EOF shift to state 45
 ## Reductions:
 
-State 44:
+State 45:
 ## Known stack suffix:
 ## MAIN BEGIN list(instruction) END EOF
 ## LR(1) items:
@@ -587,31 +830,20 @@ program -> MAIN BEGIN list(instruction) END EOF . [ # ]
 -- On #
 --   reduce production program -> MAIN BEGIN list(instruction) END EOF
 
-State 45:
+State 46:
 ## Known stack suffix:
 ## instruction
 ## LR(1) items:
 list(instruction) -> instruction . list(instruction) [ END ]
 ## Transitions:
--- On THIS shift to state 3
--- On PRINT shift to state 4
--- On OPP shift to state 6
--- On NOT shift to state 7
--- On NEW shift to state 8
--- On LPAR shift to state 10
--- On INT shift to state 11
--- On IDENT shift to state 12
--- On BOOL shift to state 13
--- On unop shift to state 14
--- On mem_access shift to state 39
--- On list(instruction) shift to state 46
--- On instruction shift to state 45
--- On expression shift to state 47
+-- On PRINT shift to state 3
+-- On list(instruction) shift to state 47
+-- On instruction shift to state 46
 ## Reductions:
 -- On END
 --   reduce production list(instruction) ->
 
-State 46:
+State 47:
 ## Known stack suffix:
 ## instruction list(instruction)
 ## LR(1) items:
@@ -620,30 +852,6 @@ list(instruction) -> instruction list(instruction) . [ END ]
 ## Reductions:
 -- On END
 --   reduce production list(instruction) -> instruction list(instruction)
-
-State 47:
-## Known stack suffix:
-## expression
-## LR(1) items:
-expression -> expression . binop expression [ SUB REM POINT OR NEQ MUL LT LE GT GE EQ DIV AND ADD ]
-mem_access -> expression . POINT IDENT [ SUB REM POINT OR NEQ MUL LT LE GT GE EQUAL EQ DIV AND ADD ]
-## Transitions:
--- On SUB shift to state 17
--- On REM shift to state 18
--- On POINT shift to state 19
--- On OR shift to state 21
--- On NEQ shift to state 22
--- On MUL shift to state 23
--- On LT shift to state 24
--- On LE shift to state 25
--- On GT shift to state 26
--- On GE shift to state 27
--- On EQ shift to state 28
--- On DIV shift to state 29
--- On AND shift to state 30
--- On ADD shift to state 31
--- On binop shift to state 32
-## Reductions:
 
 State 48:
 ## Known stack suffix:

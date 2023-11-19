@@ -29,6 +29,8 @@ rule token = parse
   | "//" [^ '\n']* "\n"  { new_line lexbuf; token lexbuf }
   | "/*"                 { comment lexbuf; token lexbuf }
 
+  | "false" { BOOL(false) }
+  | "true" { BOOL(true) }
   | number as n  { INT(int_of_string n) }
   | ident as id  { keyword_or_ident id }
 
@@ -42,6 +44,18 @@ rule token = parse
   | "-" { SUB }
   | "*" { MUL }
   | "/" { DIV }
+  | "%" { REM }
+
+  | "==" { EQ }
+  | "!=" { NEQ }
+  | "<"  { LT }
+  | "<=" { LE }
+  | ">"  { GT }
+  | ">=" { GE }
+  | "&&" { AND }
+  | "||" { OR }
+
+  | "!" { NOT }
 
   | _    { raise (Error ("unknown character : " ^ lexeme lexbuf)) }
   | eof  { EOF }

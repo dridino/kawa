@@ -2,19 +2,14 @@
 (* The type of tokens. *)
 
 type token = 
-  | VOID
-  | VAR
-  | THIS
   | SUB
   | SEMI
   | RPAR
   | REM
   | PRINT
-  | POINT
   | OR
   | OPP
   | NOT
-  | NEW
   | NEQ
   | MUL
   | MAIN
@@ -25,15 +20,12 @@ type token =
   | IDENT of (string)
   | GT
   | GE
-  | EQUAL
   | EQ
   | EOF
   | END
   | DIV
-  | CLASS of (string)
   | BOOL of (bool)
   | BEGIN
-  | ATTRIBUTE
   | AND
   | ADD
 

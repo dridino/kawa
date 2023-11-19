@@ -1,10 +1,9 @@
 # dune build
 # OCAMLPARAM: unset
 # Shared cache: disabled
-# Workspace root:
-# /home/tp-home006/40f228c1-0433-4af6-af86-a1a861a9cbcb/compilation/Kawa
+# Workspace root: /home/user/Compilation/kawa
 # Auto-detected concurrency: 8
-$ /partage/public/kn/opam/4.14.1/bin/ocamlc.opt -config > /tmp/dune_4fc3b7_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_6b8dfc_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -13,77 +12,113 @@ $ /partage/public/kn/opam/4.14.1/bin/ocamlc.opt -config > /tmp/dune_4fc3b7_outpu
 #  ; for_host = None
 #  ; fdo_target_exe = None
 #  ; build_dir = "default"
-#  ; toplevel_path =
-#      Some External "/partage/public/kn/opam/4.14.1/lib/toplevel"
-#  ; ocaml_bin = External "/partage/public/kn/opam/4.14.1/bin"
-#  ; ocaml = Ok External "/public/kn/bin/ocaml"
-#  ; ocamlc = External "/partage/public/kn/opam/4.14.1/bin/ocamlc.opt"
-#  ; ocamlopt = Ok External "/partage/public/kn/opam/4.14.1/bin/ocamlopt.opt"
-#  ; ocamldep = Ok External "/partage/public/kn/opam/4.14.1/bin/ocamldep.opt"
-#  ; ocamlmklib =
-#      Ok External "/partage/public/kn/opam/4.14.1/bin/ocamlmklib.opt"
+#  ; toplevel_path = Some External "/home/user/.opam/default/lib/toplevel"
+#  ; ocaml_bin = External "/usr/bin"
+#  ; ocaml = Ok External "/home/user/.opam/default/bin/ocaml"
+#  ; ocamlc = External "/usr/bin/ocamlc.opt"
+#  ; ocamlopt = Ok External "/usr/bin/ocamlopt.opt"
+#  ; ocamldep = Ok External "/usr/bin/ocamldep.opt"
+#  ; ocamlmklib = Ok External "/usr/bin/ocamlmklib.opt"
 #  ; env =
 #      map
-#        { "DUNE_OCAML_HARDCODED" : "/partage/public/kn/opam/4.14.1/lib"
-#        ; "DUNE_OCAML_STDLIB" : "/partage/public/kn/opam/4.14.1/lib/ocaml"
-#        ; "DUNE_SOURCEROOT" :
-#            "/home/tp-home006/40f228c1-0433-4af6-af86-a1a861a9cbcb/compilation/Kawa"
-#        ; "INSIDE_DUNE" :
-#            "/home/tp-home006/40f228c1-0433-4af6-af86-a1a861a9cbcb/compilation/Kawa/_build/default"
+#        { "DUNE_OCAML_HARDCODED" : "/home/user/.opam/default/lib"
+#        ; "DUNE_OCAML_STDLIB" : "/usr/lib/ocaml"
+#        ; "DUNE_SOURCEROOT" : "/home/user/Compilation/kawa"
+#        ; "INSIDE_DUNE" : "/home/user/Compilation/kawa/_build/default"
 #        ; "OCAMLFIND_IGNORE_DUPS_IN" :
-#            "/home/tp-home006/40f228c1-0433-4af6-af86-a1a861a9cbcb/compilation/Kawa/_build/install/default/lib"
+#            "/home/user/Compilation/kawa/_build/install/default/lib"
 #        ; "OCAMLPATH" :
-#            "/home/tp-home006/40f228c1-0433-4af6-af86-a1a861a9cbcb/compilation/Kawa/_build/install/default/lib"
+#            "/home/user/Compilation/kawa/_build/install/default/lib"
 #        ; "OCAMLTOP_INCLUDE_PATH" :
-#            "/home/tp-home006/40f228c1-0433-4af6-af86-a1a861a9cbcb/compilation/Kawa/_build/install/default/lib/toplevel"
+#            "/home/user/Compilation/kawa/_build/install/default/lib/toplevel"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
-#  ; findlib_paths = [ External "/partage/public/kn/opam/4.14.1/lib" ]
+#  ; findlib_paths = [ External "/home/user/.opam/default/lib" ]
 #  ; arch_sixtyfour = true
 #  ; natdynlink_supported = true
 #  ; supports_shared_libraries = true
 #  ; ocaml_config =
-#      { version = "4.14.1"
-#      ; standard_library_default = "/partage/public/kn/opam/4.14.1/lib/ocaml"
-#      ; standard_library = "/partage/public/kn/opam/4.14.1/lib/ocaml"
+#      { version = "4.13.1"
+#      ; standard_library_default = "/usr/lib/ocaml"
+#      ; standard_library = "/usr/lib/ocaml"
 #      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
 #      ; ccomp_type = "cc"
-#      ; c_compiler = "gcc"
+#      ; c_compiler = "x86_64-linux-gnu-gcc"
 #      ; ocamlc_cflags =
-#          [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-pthread"; "-fPIC" ]
-#      ; ocamlc_cppflags = [ "-D_FILE_OFFSET_BITS=64" ]
+#          [ "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-pthread"
+#          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
+#          ]
+#      ; ocamlc_cppflags =
+#          [ "-D_FILE_OFFSET_BITS=64"; "-Wdate-time"; "-D_FORTIFY_SOURCE=2" ]
 #      ; ocamlopt_cflags =
-#          [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-pthread"; "-fPIC" ]
-#      ; ocamlopt_cppflags = [ "-D_FILE_OFFSET_BITS=64" ]
+#          [ "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-pthread"
+#          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
+#          ]
+#      ; ocamlopt_cppflags =
+#          [ "-D_FILE_OFFSET_BITS=64"; "-Wdate-time"; "-D_FORTIFY_SOURCE=2" ]
 #      ; bytecomp_c_compiler =
-#          [ "gcc"
+#          [ "x86_64-linux-gnu-gcc"
 #          ; "-O2"
 #          ; "-fno-strict-aliasing"
 #          ; "-fwrapv"
 #          ; "-pthread"
 #          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
 #          ; "-D_FILE_OFFSET_BITS=64"
+#          ; "-Wdate-time"
+#          ; "-D_FORTIFY_SOURCE=2"
 #          ]
-#      ; bytecomp_c_libraries = [ "-lm"; "-ldl"; "-lpthread" ]
+#      ; bytecomp_c_libraries = [ "-lm"; "-lpthread" ]
 #      ; native_c_compiler =
-#          [ "gcc"
+#          [ "x86_64-linux-gnu-gcc"
 #          ; "-O2"
 #          ; "-fno-strict-aliasing"
 #          ; "-fwrapv"
 #          ; "-pthread"
 #          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
 #          ; "-D_FILE_OFFSET_BITS=64"
+#          ; "-Wdate-time"
+#          ; "-D_FORTIFY_SOURCE=2"
 #          ]
-#      ; native_c_libraries = [ "-lm"; "-ldl" ]
-#      ; native_pack_linker = [ "ld"; "-r"; "-o" ]
+#      ; native_c_libraries = [ "-lm" ]
+#      ; native_pack_linker = [ "x86_64-linux-gnu-ld"; "-r"; "-o" ]
 #      ; cc_profile = []
 #      ; architecture = "amd64"
 #      ; model = "default"
 #      ; int_size = 63
 #      ; word_size = 64
 #      ; system = "linux"
-#      ; asm = [ "as" ]
+#      ; asm = [ "x86_64-linux-gnu-as" ]
 #      ; asm_cfi_supported = true
 #      ; with_frame_pointers = false
 #      ; ext_exe = ""
@@ -100,36 +135,28 @@ $ /partage/public/kn/opam/4.14.1/bin/ocamlc.opt -config > /tmp/dune_4fc3b7_outpu
 #      ; flambda = false
 #      ; spacetime = false
 #      ; safe_string = true
-#      ; exec_magic_number = "Caml1999X031"
-#      ; cmi_magic_number = "Caml1999I031"
-#      ; cmo_magic_number = "Caml1999O031"
-#      ; cma_magic_number = "Caml1999A031"
-#      ; cmx_magic_number = "Caml1999Y031"
-#      ; cmxa_magic_number = "Caml1999Z031"
-#      ; ast_impl_magic_number = "Caml1999M031"
-#      ; ast_intf_magic_number = "Caml1999N031"
-#      ; cmxs_magic_number = "Caml1999D031"
-#      ; cmt_magic_number = "Caml1999T031"
+#      ; exec_magic_number = "Caml1999X030"
+#      ; cmi_magic_number = "Caml1999I030"
+#      ; cmo_magic_number = "Caml1999O030"
+#      ; cma_magic_number = "Caml1999A030"
+#      ; cmx_magic_number = "Caml1999Y030"
+#      ; cmxa_magic_number = "Caml1999Z030"
+#      ; ast_impl_magic_number = "Caml1999M030"
+#      ; ast_intf_magic_number = "Caml1999N030"
+#      ; cmxs_magic_number = "Caml1999D030"
+#      ; cmt_magic_number = "Caml1999T030"
 #      ; natdynlink_supported = true
 #      ; supports_shared_libraries = true
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /partage/public/kn/opam/4.14.1/bin/menhir --explain --dump kawaparser.mly --base kawaparser --infer-write-query kawaparser__mock.ml.mock)
-> File "kawaparser.mly", line 18, characters 7-16:
-> Warning: the token ATTRIBUTE is unused.
-> File "kawaparser.mly", line 11, characters 16-21:
-> Warning: the token CLASS is unused.
-> File "kawaparser.mly", line 16, characters 7-11:
-> Warning: the token VOID is unused.
-> File "kawaparser.mly", line 35, characters 0-8:
-> Warning: symbol var_decl is unreachable from any of the start symbol(s).
-$ (cd _build/default && /partage/public/kn/opam/4.14.1/bin/ocamldep.opt -modules -impl kawaparser__mock.ml.mock) > _build/default/.kawai.eobjs/kawaparser__mock.ml.mock.d
-$ (cd _build/.sandbox/1d5f1ef4943d4cf961ba78e159450f34/default && /partage/public/kn/opam/4.14.1/bin/ocamlc.opt -g -I .kawai.eobjs/byte -open Dune__exe -short-paths -i -impl kawaparser__mock.ml.mock) > _build/.sandbox/1d5f1ef4943d4cf961ba78e159450f34/default/kawaparser__mock.mli.inferred
-$ (cd _build/default && /partage/public/kn/opam/4.14.1/bin/menhir --explain --dump kawaparser.mly --base kawaparser --infer-read-reply kawaparser__mock.mli.inferred)
-> Warning: 2 states have shift/reduce conflicts.
-> Warning: 28 shift/reduce conflicts were arbitrarily resolved.
-$ (cd _build/default && /partage/public/kn/opam/4.14.1/bin/ocamldep.opt -modules -impl kawaparser.ml) > _build/default/.kawai.eobjs/kawaparser.ml.d
-$ (cd _build/default && /partage/public/kn/opam/4.14.1/bin/ocamlopt.opt -g -I .kawai.eobjs/byte -I .kawai.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/native/dune__exe__Kawaparser.cmx -c -impl kawaparser.ml)
-$ (cd _build/default && /partage/public/kn/opam/4.14.1/bin/ocamlopt.opt -g -o kawai.exe .kawai.eobjs/native/dune__exe.cmx .kawai.eobjs/native/dune__exe__Kawa.cmx .kawai.eobjs/native/dune__exe__Interpreter.cmx .kawai.eobjs/native/dune__exe__Kawaparser.cmx .kawai.eobjs/native/dune__exe__Kawalexer.cmx .kawai.eobjs/native/dune__exe__Kawai.cmx)
+$ (cd _build/default && /home/user/.opam/default/bin/menhir --explain --dump kawaparser.mly --base kawaparser --infer-write-query kawaparser__mock.ml.mock)
+> File "kawaparser.mly", line 10, characters 16-21:
+> Warning: the token IDENT is unused.
+> File "kawaparser.mly", line 15, characters 7-10:
+> Warning: the token OPP is unused.
+$ (cd _build/default && /home/user/.opam/default/bin/menhir --explain --dump kawaparser.mly --base kawaparser --infer-read-reply kawaparser__mock.mli.inferred)
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl kawaparser.ml) > _build/default/.kawai.eobjs/kawaparser.ml.d
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .kawai.eobjs/byte -I .kawai.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/native/dune__exe__Kawaparser.cmx -c -impl kawaparser.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -o kawai.exe .kawai.eobjs/native/dune__exe.cmx .kawai.eobjs/native/dune__exe__Kawa.cmx .kawai.eobjs/native/dune__exe__Interpreter.cmx .kawai.eobjs/native/dune__exe__Kawaparser.cmx .kawai.eobjs/native/dune__exe__Kawalexer.cmx .kawai.eobjs/native/dune__exe__Kawai.cmx)
 # Promoting "_build/default/kawai.exe" to "kawai.exe"

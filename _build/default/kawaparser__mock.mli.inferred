@@ -1,17 +1,12 @@
 type token =
-    VOID
-  | VAR
-  | THIS
-  | SUB
+    SUB
   | SEMI
   | RPAR
   | REM
   | PRINT
-  | POINT
   | OR
   | OPP
   | NOT
-  | NEW
   | NEQ
   | MUL
   | MAIN
@@ -22,21 +17,17 @@ type token =
   | IDENT of string
   | GT
   | GE
-  | EQUAL
   | EQ
   | EOF
   | END
   | DIV
-  | CLASS of string
   | BOOL of bool
   | BEGIN
-  | ATTRIBUTE
   | AND
   | ADD
 val menhir_begin_marker : int
 val xv_unop : Kawa.unop
 val xv_program : Kawa.program
-val xv_mem_access : Kawa.mem_access
 val xv_list_instruction_ : Kawa.seq
 val xv_instruction : Kawa.instr
 val xv_expression : Kawa.expr
