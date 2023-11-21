@@ -8,7 +8,6 @@ type token =
   | REM
   | PRINT
   | OR
-  | OPP
   | NOT
   | NEQ
   | MUL

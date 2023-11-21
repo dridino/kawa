@@ -12,13 +12,16 @@
 %token LPAR RPAR BEGIN END SEMI
 %token PRINT
 %token EOF
-%token OPP NOT
+%token NOT
 %token ADD SUB MUL DIV REM
 %token EQ NEQ LT LE GT GE AND OR
 
-%left EQ NEQ AND OR
+%left AND
+%left OR
+%left EQ NEQ
 %left LT LE GT GE
-%left ADD SUB REM
+%left ADD SUB
+%left REM
 %left MUL DIV
 %nonassoc UMINUS
 
