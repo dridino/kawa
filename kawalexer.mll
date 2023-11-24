@@ -15,6 +15,10 @@
       "var",      VAR;
       "int",      T_INT;
       "bool",     T_BOOL;
+      "if",       IF;
+      "else",     ELSE;
+      "while",    WHILE;
+      "return",   RETURN;
     ] ;
   fun s ->
     try  Hashtbl.find h s
@@ -49,8 +53,6 @@ rule token = parse
   | "/" { DIV }
   | "%" { REM }
 
-  | "false" { BOOL(false) }
-  | "true" { BOOL(true) }
   | "==" { EQ }
   | "!=" { NEQ }
   | "<"  { LT }
@@ -61,9 +63,6 @@ rule token = parse
   | "||" { OR }
   | "!" { NOT }
 
-  | "var" { VAR }
-  | "int" { T_INT }
-  | "bool" { T_BOOL }
   | "=" { EQUAL }
 
   | _    { raise (Error ("unknown character : " ^ lexeme lexbuf)) }

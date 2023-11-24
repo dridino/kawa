@@ -68,6 +68,14 @@ let exec_prog (p: program): unit =
       | Set(m, e) -> (match m with
         | Var s -> let res = eval e in Hashtbl.add env s res
         | _ -> failwith "case not implemented in exec (set)")
+      | If(e, l1, l2) -> (match eval e with
+        | VBool b -> if b then exec_seq l1 else exec_seq l2
+        | VInt i -> if i <> 0 then exec_seq l1 else exec_seq l2
+        | _ -> failwith "The condition of an `if` should be of type `int` or `bool`.")
+      | While(e, l) -> (match eval e with
+        | VBool b -> if b then let () = exec_seq l in exec (While(e, l)) else ()
+        | VInt i -> if i <> 0 then let () = exec_seq l in exec (While(e, l)) else ()
+        | _ -> failwith "The condition of a `while` should be of type `int` or `bool`.")
       | _ -> failwith "case not implemented in exec"
     and exec_seq s = 
       List.iter exec s

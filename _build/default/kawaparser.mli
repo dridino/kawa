@@ -2,12 +2,14 @@
 (* The type of tokens. *)
 
 type token = 
+  | WHILE
   | VAR
   | T_INT
   | T_BOOL
   | SUB
   | SEMI
   | RPAR
+  | RETURN
   | REM
   | PRINT
   | OR
@@ -19,6 +21,7 @@ type token =
   | LPAR
   | LE
   | INT of (int)
+  | IF
   | IDENT of (string)
   | GT
   | GE
@@ -26,6 +29,7 @@ type token =
   | EQ
   | EOF
   | END
+  | ELSE
   | DIV
   | BOOL of (bool)
   | BEGIN
