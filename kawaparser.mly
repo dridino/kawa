@@ -15,6 +15,9 @@
 %token NOT
 %token ADD SUB MUL DIV REM
 %token EQ NEQ LT LE GT GE AND OR
+%token VAR
+%token T_INT T_BOOL
+%token EQUAL
 
 %left AND
 %left OR
@@ -31,12 +34,16 @@
 %%
 
 program:
-| MAIN BEGIN main=list(instruction) END EOF
-    { {classes=[]; globals=[]; main} }
+| globals=list(var_decl) MAIN BEGIN main=list(instruction) END EOF
+    { {classes=[]; globals=globals; main} }
 ;
+
+mem:
+| i=IDENT { Var(i) }
 
 instruction:
 | PRINT LPAR e=expression RPAR SEMI { Print(e) }
+| m=mem EQUAL e=expression SEMI { Set(m, e) }
 ;
 
 unop:
@@ -66,4 +73,12 @@ expression:
 | e1=expression o=binop e2=expression { Binop(o, e1, e2) }
 | u=unop e=expression %prec UMINUS { Unop(u, e) }
 | LPAR e=expression RPAR { e }
+| m=mem { Get(m) }
 ;
+
+v_type:
+| T_INT { TInt }
+| T_BOOL { TBool }
+
+var_decl:
+| VAR t=v_type i=IDENT SEMI { (i, t) }

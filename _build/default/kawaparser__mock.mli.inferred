@@ -1,5 +1,8 @@
 type token =
-    SUB
+    VAR
+  | T_INT
+  | T_BOOL
+  | SUB
   | SEMI
   | RPAR
   | REM
@@ -16,6 +19,7 @@ type token =
   | IDENT of string
   | GT
   | GE
+  | EQUAL
   | EQ
   | EOF
   | END
@@ -25,8 +29,12 @@ type token =
   | AND
   | ADD
 val menhir_begin_marker : int
+val xv_var_decl : string * Kawa.typ
+val xv_v_type : Kawa.typ
 val xv_unop : Kawa.unop
 val xv_program : Kawa.program
+val xv_mem : Kawa.mem_access
+val xv_list_var_decl_ : (string * Kawa.typ) list
 val xv_list_instruction_ : Kawa.seq
 val xv_instruction : Kawa.instr
 val xv_expression : Kawa.expr

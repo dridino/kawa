@@ -51,6 +51,11 @@ let exec_prog (p: program): unit =
       
       | Unop(Not, e) -> VBool (not (evalb e))
       | Unop(Opp, e) -> VInt (- (evali e))
+
+      | Get m -> (match m with
+          | Var s -> Hashtbl.find env s
+          | _ -> failwith "case not implemented in eval (get)")
+
       | _ -> failwith "case not implemented in eval"
     in
   
@@ -58,7 +63,11 @@ let exec_prog (p: program): unit =
       | Print e -> let res = eval e in (match res with
           | VInt n -> Printf.printf "%d\n" n
           | VBool b -> Printf.printf "%b\n" b
+          | Null -> Printf.printf "null\n"
           | _ -> failwith "case not implemented in exec (print)")
+      | Set(m, e) -> (match m with
+        | Var s -> let res = eval e in Hashtbl.add env s res
+        | _ -> failwith "case not implemented in exec (set)")
       | _ -> failwith "case not implemented in exec"
     and exec_seq s = 
       List.iter exec s

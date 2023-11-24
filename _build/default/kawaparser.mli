@@ -2,6 +2,9 @@
 (* The type of tokens. *)
 
 type token = 
+  | VAR
+  | T_INT
+  | T_BOOL
   | SUB
   | SEMI
   | RPAR
@@ -19,6 +22,7 @@ type token =
   | IDENT of (string)
   | GT
   | GE
+  | EQUAL
   | EQ
   | EOF
   | END
