@@ -20,6 +20,10 @@
 %token IF ELSE
 %token WHILE
 %token RETURN
+%token CLASS
+%token ATTR
+%token NEW
+%token DOT
 
 %left AND
 %left OR
@@ -29,6 +33,7 @@
 %left REM
 %left MUL DIV
 %nonassoc UMINUS
+%nonassoc DOT
 
 %start program
 %type <Kawa.program> program
@@ -36,12 +41,16 @@
 %%
 
 program:
-| globals=list(var_decl) MAIN BEGIN main=list(instruction) END EOF
-    { {classes=[]; globals=globals; main} }
+| globals=list(var_decl) classes=list(class_def) MAIN BEGIN main=list(instruction) END EOF
+    { {classes=classes; globals=globals; main} }
 ;
+
+class_def:
+| CLASS i=IDENT BEGIN attr=list(attr_decl) END { {class_name=i; attributes=attr; methods=[]; parent=None} }
 
 mem:
 | i=IDENT { Var(i) }
+| e=expression DOT i=IDENT { Field(e, i) }
 
 instruction:
 | PRINT LPAR e=expression RPAR SEMI { Print(e) }
@@ -76,15 +85,20 @@ unop:
 expression:
 | n=INT { Int(n) }
 | b=BOOL { Bool(b) }
-| e1=expression o=binop e2=expression { Binop(o, e1, e2) }
-| u=unop e=expression %prec UMINUS { Unop(u, e) }
-| LPAR e=expression RPAR { e }
 | m=mem { Get(m) }
+| u=unop e=expression %prec UMINUS { Unop(u, e) }
+| e1=expression o=binop e2=expression { Binop(o, e1, e2) }
+| LPAR e=expression RPAR { e }
+| NEW i=IDENT { New(i) }
 ;
 
 v_type:
 | T_INT { TInt }
 | T_BOOL { TBool }
+| c=IDENT { TClass(c) }
 
 var_decl:
 | VAR t=v_type i=IDENT SEMI { (i, t) }
+
+attr_decl:
+| ATTR t=v_type i=IDENT SEMI { (i, t) }

@@ -14,6 +14,7 @@ type token =
   | PRINT
   | OR
   | NOT
+  | NEW
   | NEQ
   | MUL
   | MAIN
@@ -30,9 +31,12 @@ type token =
   | EOF
   | END
   | ELSE
+  | DOT
   | DIV
+  | CLASS
   | BOOL of (bool)
   | BEGIN
+  | ATTR
   | AND
   | ADD
 

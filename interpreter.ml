@@ -54,7 +54,11 @@ let exec_prog (p: program): unit =
 
       | Get m -> (match m with
           | Var s -> Hashtbl.find env s
-          | _ -> failwith "case not implemented in eval (get)")
+          | Field (e, s) -> let o = evalo e in Hashtbl.find o.fields s)
+
+      | New s -> let h = Hashtbl.create 4 in
+                  let () = List.iter (fun (name, t) -> Hashtbl.add h name Null) (List.find (fun x -> x.class_name = s) p.classes).attributes in
+                  VObj({cls=s; fields=h})
 
       | _ -> failwith "case not implemented in eval"
     in
@@ -67,7 +71,7 @@ let exec_prog (p: program): unit =
           | _ -> failwith "case not implemented in exec (print)")
       | Set(m, e) -> (match m with
         | Var s -> let res = eval e in Hashtbl.add env s res
-        | _ -> failwith "case not implemented in exec (set)")
+        | Field (ee, s) -> let o = evalo ee in Hashtbl.add o.fields s (eval e))
       | If(e, l1, l2) -> (match eval e with
         | VBool b -> if b then exec_seq l1 else exec_seq l2
         | VInt i -> if i <> 0 then exec_seq l1 else exec_seq l2
