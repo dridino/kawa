@@ -16,6 +16,7 @@ exception Return of value
 let exec_prog (p: program): unit =
   let env = Hashtbl.create 16 in
   List.iter (fun (x, _) -> Hashtbl.add env x Null) p.globals;
+  Hashtbl.add env "$return_val" Null;
   
   let rec eval_call f this args =
     List.iter2 (fun x y -> Hashtbl.add env (fst y) x) args f.params;
@@ -97,7 +98,7 @@ let exec_prog (p: program): unit =
         | VInt i -> if i <> 0 then let () = exec_seq l in exec (While(e, l)) else ()
         | _ -> failwith "The condition of a `while` should be of type `int` or `bool`.")
       | Return e -> Hashtbl.add env "$return_val" (eval e)
-      | Expr e -> ()
+      | Expr e -> let _ = eval e in ()
     and exec_seq s = 
       List.iter exec s
     in

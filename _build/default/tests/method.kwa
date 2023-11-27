@@ -12,6 +12,10 @@ class point {
   method int somme() {
     return this.x + this.y;
   }
+
+  method void addToY(int v) {
+    this.y = this.y + v;
+  }
 }
 
 main {
@@ -19,4 +23,7 @@ main {
   p.x = 3 + p.x;
   print(48 + p.somme());
   // affiche 54
+  p.addToY(10);
+  print(p.y);
+  // affiche 11
 }
