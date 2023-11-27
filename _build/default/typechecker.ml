@@ -36,22 +36,16 @@ let typecheck_prog p =
     | Binop(_, e1, e2) -> check e1 TInt tenv; check e2 TInt tenv; TInt
     | Get(m) -> type_mem_access m tenv
     | This -> Env.find "this" tenv
-    | New(s) -> if not (List.exists (fun x -> x.class_name = s) p.classes) then error (Printf.sprintf "Class %s does not exist" s); TClass(s)
-    | NewCstr(s, args) -> let cl = List.find_opt (fun x -> x.class_name = s) p.classes in
-                          (match cl with
-                          | None -> error (Printf.sprintf "Class %s does not exist" s)
-                          | Some cl ->
-                          let attr = List.map snd (List.find (fun x -> x.class_name = s) p.classes).attributes in
-                          let args = List.map (fun a -> type_expr a tenv) args in
-                          if attr <> args then error (Printf.sprintf "Wrong number of arguments in class %s" cl.class_name) else TClass(cl.class_name))
+    | New(s) -> check_class s [] tenv; TClass(s)
+    | NewCstr(s, args) -> check_class s args tenv;
+                          let cl = List.find (fun x -> x.class_name = s) p.classes in
+                          TClass(cl.class_name)
     | MethCall(e, s, args) -> let t = type_expr e tenv in
                               (match t with
-                              | TClass(c) -> let cl = List.find (fun x -> x.class_name = c) p.classes in
-                                             if not (List.mem s (List.map (fun a -> a.method_name) cl.methods)) then error (Printf.sprintf "Method %s not found for class %s" s cl.class_name);
-                                             let m = List.find (fun x -> x.method_name = s) cl.methods in
-                                             let attr = List.map snd m.params in
-                                             let args = List.map (fun a -> type_expr a tenv) args in
-                                             if attr <> args then error (Printf.sprintf "Wrong number of arguments in method %s from class %s" m.method_name cl.class_name) else m.return
+                              | TClass(c) -> check_mdef c s args tenv;
+                                let cl = List.find (fun x -> x.class_name = c) p.classes in
+                                let m = List.find (fun x -> x.method_name = s) cl.methods in
+                              m.return
                               | _ -> error (Printf.sprintf "Method applied to a non-object expression"))
 
   and type_mem_access m tenv = match m with
@@ -64,14 +58,42 @@ let typecheck_prog p =
                                      if not (List.mem s (List.map fst cl.attributes)) then error (Printf.sprintf "Attribute %s is not defined for class %s" s cl.class_name);
                                      snd (List.find (fun x -> fst x = s) cl.attributes)
                       | _ -> error (Printf.sprintf "Methos %s is not applied to a class" s))
-    | _ -> failwith "case not implemented in type_mem_access"
+  
+  and check_class c args tenv =
+    match args with
+    | [] -> if not (List.exists (fun x -> x.class_name = c) p.classes) then error (Printf.sprintf "Class %s does not exist" c)
+    | _ -> let cl = List.find_opt (fun x -> x.class_name = c) p.classes in
+            (match cl with
+            | None -> error (Printf.sprintf "Class %s does not exist" c)
+            | Some cl ->
+            let attr = List.map snd (List.find (fun x -> x.class_name = c) p.classes).attributes in
+            let args = List.map (fun a -> type_expr a tenv) args in
+            if attr <> args then error (Printf.sprintf "Wrong number of arguments in class %s" cl.class_name))
+  
+  and check_mdef c m args tenv =
+    let cl = List.find (fun x -> x.class_name = c) p.classes in
+    if not (List.mem m (List.map (fun a -> a.method_name) cl.methods)) then error (Printf.sprintf "Method %s not found for class %s" m cl.class_name);
+    let m = List.find (fun x -> x.method_name = m) cl.methods in
+    let attr = List.map snd m.params in
+    let args = List.map (fun a -> type_expr a tenv) args in
+    if attr <> args then error (Printf.sprintf "Wrong number of arguments in method %s from class %s" m.method_name cl.class_name)
   in
 
-(* TODO : les instructions *)
-
   let rec check_instr i ret tenv = match i with
-    | Print e -> check e TInt tenv
-    | _ -> failwith "case not implemented in check_instr"
+    | Print e -> (match type_expr e tenv with
+                  | TInt -> ()
+                  | TBool -> ()
+                  | TClass(s) -> ()
+                  | TVoid -> ())
+    | Set (m, e) -> let tm = type_mem_access m tenv in
+                    check e tm tenv
+    | If (e, s1, s2) -> check e TBool tenv;
+                        check_seq s1 ret tenv;
+                        check_seq s2 ret tenv
+    | While (e, s) -> check e TBool tenv;
+                      check_seq s ret tenv
+    | Return e -> check e ret tenv
+    | Expr e -> check e ret tenv
   and check_seq s ret tenv =
     List.iter (fun i -> check_instr i ret tenv) s
   in

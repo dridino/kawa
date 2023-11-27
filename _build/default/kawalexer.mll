@@ -22,6 +22,9 @@
       "class",      CLASS;
       "attribute",  ATTR;
       "new",        NEW;
+      "void",       VOID;
+      "method",     METHOD;
+      "this",       THIS;
     ] ;
   fun s ->
     try  Hashtbl.find h s
@@ -69,6 +72,8 @@ rule token = parse
   | "=" { EQUAL }
 
   | "." { DOT }
+
+  | "," { COMMA }
 
   | _    { raise (Error ("unknown character : " ^ lexeme lexbuf)) }
   | eof  { EOF }

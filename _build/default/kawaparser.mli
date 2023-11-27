@@ -3,9 +3,11 @@
 
 type token = 
   | WHILE
+  | VOID
   | VAR
   | T_INT
   | T_BOOL
+  | THIS
   | SUB
   | SEMI
   | RPAR
@@ -17,6 +19,7 @@ type token =
   | NEW
   | NEQ
   | MUL
+  | METHOD
   | MAIN
   | LT
   | LPAR
@@ -33,6 +36,7 @@ type token =
   | ELSE
   | DOT
   | DIV
+  | COMMA
   | CLASS
   | BOOL of (bool)
   | BEGIN

@@ -1,8 +1,10 @@
 type token =
     WHILE
+  | VOID
   | VAR
   | T_INT
   | T_BOOL
+  | THIS
   | SUB
   | SEMI
   | RPAR
@@ -14,6 +16,7 @@ type token =
   | NEW
   | NEQ
   | MUL
+  | METHOD
   | MAIN
   | LT
   | LPAR
@@ -30,6 +33,7 @@ type token =
   | ELSE
   | DOT
   | DIV
+  | COMMA
   | CLASS
   | BOOL of bool
   | BEGIN
@@ -40,9 +44,20 @@ val menhir_begin_marker : int
 val xv_var_decl : string * Kawa.typ
 val xv_v_type : Kawa.typ
 val xv_unop : Kawa.unop
+val xv_separated_nonempty_list_COMMA_param_def_ : (string * Kawa.typ) list
+val xv_separated_nonempty_list_COMMA_expression_ : Kawa.expr list
+val xv_separated_list_COMMA_param_def_ : (string * Kawa.typ) list
+val xv_separated_list_COMMA_expression_ : Kawa.expr list
 val xv_program : Kawa.program
+val xv_param_def : string * Kawa.typ
+val xv_method_def : Kawa.method_def
 val xv_mem : Kawa.mem_access
+val xv_m_type : Kawa.typ
+val xv_loption_separated_nonempty_list_COMMA_param_def__ :
+  (string * Kawa.typ) list
+val xv_loption_separated_nonempty_list_COMMA_expression__ : Kawa.expr list
 val xv_list_var_decl_ : (string * Kawa.typ) list
+val xv_list_method_def_ : Kawa.method_def list
 val xv_list_instruction_ : Kawa.seq
 val xv_list_class_def_ : Kawa.class_def list
 val xv_list_attr_decl_ : (string * Kawa.typ) list
