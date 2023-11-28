@@ -74,6 +74,12 @@ let typecheck_prog p =
     let cl = List.find (fun x -> x.class_name = c) p.classes in
     if not (List.mem m (List.map (fun a -> a.method_name) cl.methods)) then error (Printf.sprintf "Method %s not found for class %s" m cl.class_name);
     let m = List.find (fun x -> x.method_name = m) cl.methods in
+    let () = if not (List.exists (fun i -> match i with | Return(_) -> true | _ -> false) m.code) && (m.return <> TVoid) then error (Printf.sprintf "Method %s should return a value of type %s" m.method_name (typ_to_string m.return)) in
+    let tenv' = List.fold_left (fun init (s, t) -> Env.add s t init) Env.empty p.globals in
+    let tenv' = List.fold_left (fun init (s, t) -> Env.add s t init) tenv' m.params in
+    let tenv' = List.fold_left (fun init (s, t) -> Env.add s t init) tenv' m.locals in
+    let tenv' = Env.add "this" (TClass(cl.class_name)) tenv' in
+    let () = List.iter (fun i -> match i with | Return(e) -> check e m.return tenv' | _ -> ()) m.code in
     let attr = List.map snd m.params in
     let args = List.map (fun a -> type_expr a tenv) args in
     if attr <> args then error (Printf.sprintf "Wrong number of arguments in method %s from class %s" m.method_name cl.class_name)

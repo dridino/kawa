@@ -30,6 +30,9 @@ let () =
   | Interpreter.Error s ->
      eprintf "interpreter error: %s@." s;
      exit 1
+  | Typechecker.Error s ->
+     eprintf "typechecker error; %s@." s;
+     exit 1
   | e ->
      eprintf "Anomaly: %s\n@." (Printexc.to_string e);
      exit 2

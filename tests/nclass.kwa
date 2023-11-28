@@ -9,6 +9,14 @@ class point {
 class segment {
   attribute point a;
   attribute point b;
+
+  method void bloup() {
+    print(x);
+  }
+
+  method int r() {
+    return 0;
+  }
 }
 
 main {
@@ -21,6 +29,8 @@ main {
   s.b.x = 3;
   p = s.b;
   p.y = 4;
+  // s.bloup(); -> Not_found
+  print(s.r());
   print(s.a.x + s.a.y + s.b.x + s.b.y);
   // affiche 10
 }

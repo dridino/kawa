@@ -26,7 +26,7 @@ let exec_prog (p: program): unit =
     List.iter (fun (x, _) -> Hashtbl.add env' x Null) f.locals;
     Hashtbl.add env' "this" (VObj(this));
     exec_seq f.code env';
-    let res = Hashtbl.find env' "$return_val" in if constructor then (Hashtbl.find env' "this") else res
+    if constructor then (Hashtbl.find env' "this") else (Hashtbl.find env' "$return_val")
 
   and exec_seq s lenv =
     let rec evali e = match eval e with
@@ -84,7 +84,7 @@ let exec_prog (p: program): unit =
           | VInt n -> Printf.printf "%d\n" n
           | VBool b -> Printf.printf "%b\n" b
           | Null -> Printf.printf "null\n"
-          | VObj s -> Printf.printf "Object of class : %s" s.cls)
+          | VObj s -> Printf.printf "Object of class : %s\n" s.cls)
       | Set(m, e) -> (match m with
         | Var s -> let res = eval e in Hashtbl.add lenv s res
         | Field (ee, s) -> let o = evalo ee in Hashtbl.add o.fields s (eval e))
@@ -96,13 +96,16 @@ let exec_prog (p: program): unit =
         | VBool b -> if b then let () = exec_seq l in exec (While(e, l)) else ()
         | VInt i -> if i <> 0 then let () = exec_seq l in exec (While(e, l)) else ()
         | _ -> failwith "The condition of a `while` should be of type `int` or `bool`.")
-      | Return e -> Hashtbl.add lenv "$return_val" (eval e)
+      | Return e -> raise (Return(eval e))
       | Expr e -> let _ = eval e in ()
-    and exec_seq s = 
-      List.iter exec s
+    and exec_seq s =
+      try
+        List.iter exec s
+      with
+      | Return(v) -> Hashtbl.add lenv "$return_val" v
     in
 
     exec_seq s
   in
   
-  exec_seq p.main (Hashtbl.create 1)
+  exec_seq p.main env

@@ -11,6 +11,7 @@ class point {
 
   method int somme() {
     return this.x + this.y;
+    print(0);
   }
 
   method void addToY(int v) {
