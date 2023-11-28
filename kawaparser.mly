@@ -37,7 +37,7 @@
 %left REM
 %left MUL DIV
 %nonassoc UMINUS
-%nonassoc DOT
+%left DOT
 
 %start program
 %type <Kawa.program> program

@@ -18,16 +18,15 @@ let exec_prog (p: program): unit =
   List.iter (fun (x, _) -> Hashtbl.add env x Null) p.globals;
   Hashtbl.add env "$return_val" Null;
   
-  let rec eval_call f this args =
-    List.iter2 (fun x y -> Hashtbl.add env (fst y) x) args f.params;
-    List.iter (fun (x, _) -> Hashtbl.add env x Null) f.locals;
-    Hashtbl.add env "this" (VObj(this));
-    exec_seq f.code env;
-    Hashtbl.remove env "this";
-    List.iter2 (fun x y -> Hashtbl.remove env (fst y)) args f.params;
-    List.iter (fun (x, _) -> Hashtbl.remove env x) f.locals;
-    let res = Hashtbl.find env "$return_val" in
-    Hashtbl.remove env "$return_val"; res
+  let rec eval_call f this args constructor =
+    let env' = Hashtbl.create 16 in
+    Hashtbl.add env' "$return_val" Null;
+    List.iter (fun (x,_) -> Hashtbl.add env' x (Hashtbl.find env x)) p.globals;
+    List.iter2 (fun x y -> Hashtbl.add env' (fst y) x) args f.params;
+    List.iter (fun (x, _) -> Hashtbl.add env' x Null) f.locals;
+    Hashtbl.add env' "this" (VObj(this));
+    exec_seq f.code env';
+    let res = Hashtbl.find env' "$return_val" in if constructor then (Hashtbl.find env' "this") else res
 
   and exec_seq s lenv =
     let rec evali e = match eval e with
@@ -62,22 +61,22 @@ let exec_prog (p: program): unit =
       | Unop(Opp, e) -> VInt (- (evali e))
 
       | Get m -> (match m with
-          | Var s -> Hashtbl.find env s
+          | Var s -> Hashtbl.find lenv s
           | Field (e, s) -> let o = evalo e in Hashtbl.find o.fields s)
 
       | New s -> let h = Hashtbl.create 4 in
                   let () = List.iter (fun (name, t) -> Hashtbl.add h name Null) (List.find (fun x -> x.class_name = s) p.classes).attributes in
                   VObj({cls=s; fields=h})
 
-      | NewCstr(s, args) -> let h = Hashtbl.create (List.length args) in
-                            let () = List.iter2 (fun (name, t) x -> Hashtbl.add h name (eval x)) (List.find (fun x -> x.class_name = s) p.classes).attributes args in
-                            VObj({cls=s; fields=h})
+      | NewCstr(s, args) -> let o = eval (New s) in
+                            let m = List.find (fun x -> x.method_name = "constructor") (List.find (fun x -> x.class_name = s) p.classes).methods in
+                            (match o with | VObj(o) -> eval_call m o (List.map eval args) true | _ -> failwith "error")
 
       | MethCall(e, s, args) -> let o = evalo e in
                                 let m = List.find (fun x -> x.method_name = s) (List.find (fun x -> x.class_name = o.cls) p.classes).methods in
-                                eval_call m o (List.map eval args)
+                                eval_call m o (List.map eval args) false
 
-      | This -> Hashtbl.find env "this"
+      | This -> Hashtbl.find lenv "this"
     in
   
     let rec exec (i: instr): unit = match i with
@@ -87,7 +86,7 @@ let exec_prog (p: program): unit =
           | Null -> Printf.printf "null\n"
           | VObj s -> Printf.printf "Object of class : %s" s.cls)
       | Set(m, e) -> (match m with
-        | Var s -> let res = eval e in Hashtbl.add env s res
+        | Var s -> let res = eval e in Hashtbl.add lenv s res
         | Field (ee, s) -> let o = evalo ee in Hashtbl.add o.fields s (eval e))
       | If(e, l1, l2) -> (match eval e with
         | VBool b -> if b then exec_seq l1 else exec_seq l2
@@ -97,7 +96,7 @@ let exec_prog (p: program): unit =
         | VBool b -> if b then let () = exec_seq l in exec (While(e, l)) else ()
         | VInt i -> if i <> 0 then let () = exec_seq l in exec (While(e, l)) else ()
         | _ -> failwith "The condition of a `while` should be of type `int` or `bool`.")
-      | Return e -> Hashtbl.add env "$return_val" (eval e)
+      | Return e -> Hashtbl.add lenv "$return_val" (eval e)
       | Expr e -> let _ = eval e in ()
     and exec_seq s = 
       List.iter exec s
