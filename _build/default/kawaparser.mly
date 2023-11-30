@@ -28,6 +28,7 @@
 %token METHOD
 %token THIS
 %token COMMA
+%token EXTENDS
 
 %left AND
 %left OR
@@ -49,8 +50,11 @@ program:
     { {classes=classes; globals=globals; main=main} }
 ;
 
-param_def:
+param_decl:
 | t=v_type i=IDENT { (i, t) }
+
+extends_bloc:
+| EXTENDS c=IDENT { c }
 
 m_type:
 | T_INT { TInt }
@@ -59,10 +63,10 @@ m_type:
 | VOID { TVoid }
 
 method_def:
-| METHOD t=m_type i=IDENT LPAR params=separated_list(COMMA, param_def) RPAR BEGIN locals=list(var_decl) instr=list(instruction) END { {method_name=i; code=instr; params=params; locals=locals; return=t} }
+| METHOD t=m_type i=IDENT LPAR params=separated_list(COMMA, param_decl) RPAR BEGIN locals=list(var_decl) instr=list(instruction) END { {method_name=i; code=instr; params=params; locals=locals; return=t} }
 
 class_def:
-| CLASS i=IDENT BEGIN attr=list(attr_decl) meth=list(method_def) END { {class_name=i; attributes=attr; methods=meth; parent=None} }
+| CLASS i=IDENT ext=option(extends_bloc) BEGIN attr=list(attr_decl) meth=list(method_def) END { {class_name=i; attributes=attr; methods=meth; parent=ext} }
 
 mem:
 | i=IDENT { Var(i) }

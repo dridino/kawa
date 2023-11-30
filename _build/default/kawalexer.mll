@@ -25,6 +25,7 @@
       "void",       VOID;
       "method",     METHOD;
       "this",       THIS;
+      "extends",    EXTENDS;
     ] ;
   fun s ->
     try  Hashtbl.find h s

@@ -17,6 +17,14 @@ let exec_prog (p: program): unit =
   let env = Hashtbl.create 16 in
   List.iter (fun (x, _) -> Hashtbl.add env x Null) p.globals;
   Hashtbl.add env "$return_val" Null;
+
+  let rec add_field c h =
+    List.iter (fun (n, _) -> Hashtbl.add h n Null) c.attributes;
+    match c.parent with
+    | None -> ()
+    | Some s -> let c' = List.find (fun x -> x.class_name = s) p.classes in
+                add_field c' h
+  in
   
   let rec eval_call f this args constructor =
     let env' = Hashtbl.create 16 in
@@ -65,13 +73,13 @@ let exec_prog (p: program): unit =
           | Field (e, s) -> let o = evalo e in Hashtbl.find o.fields s)
 
       | New s -> let h = Hashtbl.create 4 in
-                  let () = List.iter (fun (name, t) -> Hashtbl.add h name Null) (List.find (fun x -> x.class_name = s) p.classes).attributes in
+                  add_field (List.find (fun x -> x.class_name = s) p.classes) h;
                   VObj({cls=s; fields=h})
 
       | NewCstr(s, args) -> let o = eval (New s) in
                             let m = List.find (fun x -> x.method_name = "constructor") (List.find (fun x -> x.class_name = s) p.classes).methods in
                             (match o with | VObj(o) -> eval_call m o (List.map eval args) true | _ -> failwith "error")
-
+      (* TODO heritage *)
       | MethCall(e, s, args) -> let o = evalo e in
                                 let m = List.find (fun x -> x.method_name = s) (List.find (fun x -> x.class_name = o.cls) p.classes).methods in
                                 eval_call m o (List.map eval args) false

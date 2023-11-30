@@ -29,6 +29,7 @@ type token =
   | IDENT of (string)
   | GT
   | GE
+  | EXTENDS
   | EQUAL
   | EQ
   | EOF
