@@ -29,6 +29,7 @@
 %token THIS
 %token COMMA
 %token EXTENDS
+%token LSQR RSQR
 
 %left AND
 %left OR
@@ -52,25 +53,32 @@ program:
 
 param_decl:
 | t=v_type i=IDENT { (i, t) }
+;
 
 extends_bloc:
 | EXTENDS c=IDENT { c }
+;
 
 m_type:
 | T_INT { TInt }
 | T_BOOL { TBool }
 | c=IDENT { TClass(c) }
 | VOID { TVoid }
+;
 
 method_def:
 | METHOD t=m_type i=IDENT LPAR params=separated_list(COMMA, param_decl) RPAR BEGIN locals=list(var_decl) instr=list(instruction) END { {method_name=i; code=instr; params=params; locals=List.concat locals; return=t} }
+;
 
 class_def:
 | CLASS i=IDENT ext=option(extends_bloc) BEGIN attr=list(attr_decl) meth=list(method_def) END { {class_name=i; attributes=List.concat attr; methods=meth; parent=ext} }
+;
 
 mem:
 | i=IDENT { Var(i) }
 | e=expression DOT i=IDENT { Field(e, i) }
+| e=expression LSQR i=INT RSQR { TabIdx(e, i) }
+;
 
 instruction:
 | PRINT LPAR e=expression RPAR SEMI { Print(e) }
@@ -113,15 +121,25 @@ expression:
 | NEW i=IDENT { New(i) }
 | NEW i=IDENT LPAR args=separated_list(COMMA, expression) RPAR { NewCstr(i, args) }
 | e=expression DOT i=IDENT LPAR args=separated_list(COMMA, expression) RPAR { MethCall(e, i, args) }
+| BEGIN l=separated_list(COMMA, expression) END { Tab(Array.of_list l, List.length l) }
 ;
 
 v_type:
 | T_INT { TInt }
 | T_BOOL { TBool }
 | c=IDENT { TClass(c) }
+;
+
+var_ident:
+| i=IDENT { (i, None) }
+| i=IDENT LSQR n=INT RSQR { (i, Some n) }
+;
 
 var_decl:
-| VAR t=v_type i=separated_list(COMMA, IDENT) SEMI { List.fold_left (fun init x -> (x, t)::init) [] i }
+| VAR t=v_type i=separated_list(COMMA, var_ident) SEMI { List.fold_left
+    (fun init (id, len) -> match len with None -> (id, t)::init | Some n -> (id, TTab (t, n))::init) [] i }
+;
 
 attr_decl:
 | ATTR t=v_type i=separated_list(COMMA, IDENT) SEMI { List.fold_left (fun init x -> (x, t)::init) [] i }
+;

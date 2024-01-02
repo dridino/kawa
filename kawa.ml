@@ -9,12 +9,14 @@ type typ =
   | TInt
   | TBool
   | TClass of string
+  | TTab of typ * int
 
-let typ_to_string = function
+let rec typ_to_string = function
   | TVoid    -> "void"
   | TInt     -> "int"
   | TBool    -> "bool"
   | TClass c -> c
+  | TTab (t, n) -> typ_to_string t
 
 type unop  = Opp | Not
 type binop = Add | Sub | Mul | Div | Rem
@@ -37,11 +39,13 @@ type expr =
   | NewCstr  of string * expr list
   (* Appel de méthode *)
   | MethCall of expr * string * expr list
+  | Tab of expr array * int
 
 (* Accès mémoire : variable ou attribut d'un objet *)
 and mem_access =
   | Var   of string
   | Field of expr (* objet *) * string (* nom d'un attribut *)
+  | TabIdx of expr (* tab *) * int (* index *)
 
 (* Instructions *)
 type instr =

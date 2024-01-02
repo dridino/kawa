@@ -10,6 +10,7 @@ type token =
   | THIS
   | SUB
   | SEMI
+  | RSQR
   | RPAR
   | RETURN
   | REM
@@ -22,6 +23,7 @@ type token =
   | METHOD
   | MAIN
   | LT
+  | LSQR
   | LPAR
   | LE
   | INT of (int)

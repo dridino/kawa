@@ -1,1 +1,1 @@
-kawaparser__mock.ml.mock: Kawa Lexing List
+kawaparser__mock.ml.mock: Array Kawa Lexing List

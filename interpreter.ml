@@ -4,6 +4,7 @@ type value =
   | VInt  of int
   | VBool of bool
   | VObj  of obj
+  | VTab  of value array * int
   | Null
 and obj = {
   cls:    string;
@@ -24,6 +25,13 @@ let exec_prog (p: program): unit =
     | None -> ()
     | Some s -> let c' = List.find (fun x -> x.class_name = s) p.classes in
                 add_field c' h
+  in
+
+  let rec all_methods c =
+    let cl = (List.find (fun x -> x.class_name = c) p.classes) in
+    match cl.parent with
+    | None -> cl.methods
+    | Some s -> cl.methods @ (all_methods (List.find (fun x -> x.class_name = s) p.classes).class_name)
   in
   
   let rec eval_call f this args constructor =
@@ -70,7 +78,11 @@ let exec_prog (p: program): unit =
 
       | Get m -> (match m with
           | Var s -> Hashtbl.find lenv s
-          | Field (e, s) -> let o = evalo e in Hashtbl.find o.fields s)
+          | Field (e, s) -> let o = evalo e in Hashtbl.find o.fields s
+          | TabIdx(e, idx) -> let tab = eval e in
+            match tab with
+            | VTab(arr, len) -> Array.get arr idx
+            | _ -> failwith "expected a tab")
 
       | New s -> let h = Hashtbl.create 4 in
                   add_field (List.find (fun x -> x.class_name = s) p.classes) h;
@@ -79,23 +91,32 @@ let exec_prog (p: program): unit =
       | NewCstr(s, args) -> let o = eval (New s) in
                             let m = List.find (fun x -> x.method_name = "constructor") (List.find (fun x -> x.class_name = s) p.classes).methods in
                             (match o with | VObj(o) -> eval_call m o (List.map eval args) true | _ -> failwith "error")
-      (* TODO heritage *)
+      
       | MethCall(e, s, args) -> let o = evalo e in
-                                let m = List.find (fun x -> x.method_name = s) (List.find (fun x -> x.class_name = o.cls) p.classes).methods in
+                                let methods = all_methods o.cls in
+                                let m = List.find (fun x -> x.method_name = s) methods in
                                 eval_call m o (List.map eval args) false
 
       | This -> Hashtbl.find lenv "this"
+
+      | Tab(arr, len) -> VTab(Array.map eval arr, len)
     in
-  
+
+    let rec exec_print v =
+      (match v with
+          | VInt n -> Printf.printf "%d" n
+          | VBool b -> Printf.printf "%b" b
+          | Null -> Printf.printf "null"
+          | VObj s -> Printf.printf "Object of class : %s" s.cls
+          | VTab(arr, len) -> Printf.printf "[ "; Array.iter (fun x -> exec_print x; Printf.printf ", ") arr; Printf.printf " ]")
+    in
     let rec exec (i: instr): unit = match i with
-      | Print e -> let res = eval e in (match res with
-          | VInt n -> Printf.printf "%d\n" n
-          | VBool b -> Printf.printf "%b\n" b
-          | Null -> Printf.printf "null\n"
-          | VObj s -> Printf.printf "Object of class : %s\n" s.cls)
+      | Print e -> let res = eval e in 
+        exec_print res
       | Set(m, e) -> (match m with
         | Var s -> let res = eval e in Hashtbl.add lenv s res
-        | Field (ee, s) -> let o = evalo ee in Hashtbl.add o.fields s (eval e))
+        | Field (ee, s) -> let o = evalo ee in Hashtbl.add o.fields s (eval e)
+        | TabIdx(arr, idx) -> let arr = eval arr in match arr with VTab(arr, len) -> Array.set arr idx (eval e) | _ -> failwith "expected array")
       | If(e, l1, l2) -> (match eval e with
         | VBool b -> if b then exec_seq l1 else exec_seq l2
         | VInt i -> if i <> 0 then exec_seq l1 else exec_seq l2

@@ -16,6 +16,10 @@ class paire {
   method int somme() {
     return this.x + this.y;
   }
+
+  method void testHeritage() {
+    print(true);
+  }
 }
 
 class paire2 extends paire {
@@ -28,7 +32,6 @@ class paire2 extends paire {
   }
 
   method int somme() {
-    print(-1);
     return this.x + this.y;
   }
 }
@@ -65,4 +68,5 @@ main {
   p2 = new paire2(1, 1);
   print(p2.somme());
   // utilise la methode de paire2
+  p.testHeritage(); // affiche true via methode d'un parent
 }

@@ -76,6 +76,9 @@ rule token = parse
 
   | "," { COMMA }
 
+  | "[" { LSQR }
+  | "]" { RSQR }
+
   | _    { raise (Error ("unknown character : " ^ lexeme lexbuf)) }
   | eof  { EOF }
 

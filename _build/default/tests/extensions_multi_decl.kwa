@@ -3,7 +3,10 @@ var bool b1, b2;
 var aaa a1, a2;
 
 class aaa {
-    method int ret1() { return 1; }
+    attribute int a, b, c;
+
+    method void set1() { this.a = 1; }
+    method void printa() { print(this.a); }
 }
 
 main {
@@ -18,6 +21,6 @@ main {
     print(y);
     print(z);
     print(b1);
-    print(a1);
-    print(a2);
+    a1.set1();
+    a1.printa();
 }

@@ -3,7 +3,7 @@
 # Shared cache: disabled
 # Workspace root: /home/user/Compilation/kawa
 # Auto-detected concurrency: 8
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_1b6915_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_b25e3b_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -150,11 +150,10 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_1b6915_output
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /home/user/.opam/default/bin/menhir --explain --dump kawaparser.mly --base kawaparser --infer-write-query kawaparser__mock.ml.mock)
-$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl kawaparser__mock.ml.mock) > _build/default/.kawai.eobjs/kawaparser__mock.ml.mock.d
-$ (cd _build/.sandbox/16227f481156008233aaec8904971d9a/default && /usr/bin/ocamlc.opt -g -I .kawai.eobjs/byte -open Dune__exe -short-paths -i -impl kawaparser__mock.ml.mock) > _build/.sandbox/16227f481156008233aaec8904971d9a/default/kawaparser__mock.mli.inferred
-$ (cd _build/default && /home/user/.opam/default/bin/menhir --explain --dump kawaparser.mly --base kawaparser --infer-read-reply kawaparser__mock.mli.inferred)
-$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl kawaparser.ml) > _build/default/.kawai.eobjs/kawaparser.ml.d
-$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .kawai.eobjs/byte -I .kawai.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/native/dune__exe__Kawaparser.cmx -c -impl kawaparser.ml)
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl typechecker.ml) > _build/default/.kawai.eobjs/typechecker.ml.d
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .kawai.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/byte/dune__exe__Typechecker.cmo -c -impl typechecker.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .kawai.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/byte/dune__exe__Kawai.cmo -c -impl kawai.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .kawai.eobjs/byte -I .kawai.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/native/dune__exe__Kawai.cmx -c -impl kawai.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .kawai.eobjs/byte -I .kawai.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/native/dune__exe__Typechecker.cmx -c -impl typechecker.ml)
 $ (cd _build/default && /usr/bin/ocamlopt.opt -g -o kawai.exe .kawai.eobjs/native/dune__exe.cmx .kawai.eobjs/native/dune__exe__Kawa.cmx .kawai.eobjs/native/dune__exe__Interpreter.cmx .kawai.eobjs/native/dune__exe__Kawaparser.cmx .kawai.eobjs/native/dune__exe__Kawalexer.cmx .kawai.eobjs/native/dune__exe__Typechecker.cmx .kawai.eobjs/native/dune__exe__Kawai.cmx)
 # Promoting "_build/default/kawai.exe" to "kawai.exe"

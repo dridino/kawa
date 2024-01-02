@@ -1,1 +1,1 @@
-typechecker.ml: Kawa List Map Printf String
+typechecker.ml: Array Kawa List Map Printf String

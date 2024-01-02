@@ -29,11 +29,14 @@ let typecheck_prog p =
 
   let rec check e typ tenv =
     let typ_e = type_expr e tenv in
-    if typ_e <> typ then type_error typ_e typ
+    match typ, typ_e with
+    | TTab(t1, _), TTab(t2, _) -> if t1 <> t2 then type_error t1 t2
+      | _ -> if typ_e <> typ then type_error typ_e typ
 
   and type_expr e tenv = match e with
     | Int _  -> TInt
     | Bool _ -> TBool
+    | Tab(arr, len) -> TTab (type_expr arr.(0) tenv, len)
     | Unop(Opp, e) -> check e TInt tenv; TInt
     | Unop(Not, e) -> check e TBool tenv; TBool
     | Binop(And, e1, e2) | Binop(Or, e1, e2) -> check e1 TBool tenv; check e2 TBool tenv; TBool
@@ -42,7 +45,8 @@ let typecheck_prog p =
         | TInt ->  check e2 TInt tenv; TBool
         | TBool ->  check e2 TBool tenv; TBool
         | TClass(c) -> check e2 (TClass(c)) tenv; TBool
-        | TVoid -> check e2 TVoid tenv; TBool)
+        | TVoid -> check e2 TVoid tenv; TBool
+        | TTab(t, len) -> check e2 (TTab(t, 0)) tenv; TBool)
     | Binop(Gt, e1, e2) | Binop(Ge, e1, e2) | Binop(Lt, e1, e2) | Binop(Le, e1, e2) ->
       check e1 TInt tenv; check e2 TInt tenv; TBool
     | Binop(_, e1, e2) -> check e1 TInt tenv; check e2 TInt tenv; TInt
@@ -69,7 +73,14 @@ let typecheck_prog p =
                       | TClass(c) -> let cl = List.find (fun x -> x.class_name = c) p.classes in
                                      if not (List.mem s (List.map fst (get_attr cl))) then error (Printf.sprintf "Attribute %s is not defined for class %s" s cl.class_name);
                                      snd (List.find (fun x -> fst x = s) (get_attr cl))
-                      | _ -> error (Printf.sprintf "Methos %s is not applied to a class" s))
+                      | _ -> error (Printf.sprintf "Method %s is not applied to a class" s))
+    | TabIdx(e, idx) -> let t = type_expr e tenv in
+      begin
+        match t with
+        | TTab(t, len) -> if idx >= len || idx < 0 then error (Printf.sprintf "Index out of bound (%d while max is %d)" idx (len - 1))
+                          else t
+        | _ -> error (Printf.sprintf "Expected a tab, got a %s instead" (typ_to_string t))
+      end
   
   and check_parent c =
     match c.parent with
@@ -115,11 +126,7 @@ let typecheck_prog p =
     in
 
   let rec check_instr i ret tenv = match i with
-    | Print e -> (match type_expr e tenv with
-                  | TInt -> ()
-                  | TBool -> ()
-                  | TClass(_) -> ()
-                  | TVoid -> ())
+    | Print e -> ()
     | Set (m, e) -> let tm = type_mem_access m tenv in
                     check_type_extend tm e tenv
     | If (e, s1, s2) -> check e TBool tenv;
@@ -132,5 +139,5 @@ let typecheck_prog p =
   and check_seq s ret tenv =
     List.iter (fun i -> check_instr i ret tenv) s
   in
-
+  
   check_seq p.main TVoid tenv
