@@ -47,7 +47,7 @@
 
 program:
 | globals=list(var_decl) classes=list(class_def) MAIN BEGIN main=list(instruction) END EOF
-    { {classes=classes; globals=globals; main=main} }
+    { {classes=classes; globals=List.concat globals; main=main} }
 ;
 
 param_decl:
@@ -63,10 +63,10 @@ m_type:
 | VOID { TVoid }
 
 method_def:
-| METHOD t=m_type i=IDENT LPAR params=separated_list(COMMA, param_decl) RPAR BEGIN locals=list(var_decl) instr=list(instruction) END { {method_name=i; code=instr; params=params; locals=locals; return=t} }
+| METHOD t=m_type i=IDENT LPAR params=separated_list(COMMA, param_decl) RPAR BEGIN locals=list(var_decl) instr=list(instruction) END { {method_name=i; code=instr; params=params; locals=List.concat locals; return=t} }
 
 class_def:
-| CLASS i=IDENT ext=option(extends_bloc) BEGIN attr=list(attr_decl) meth=list(method_def) END { {class_name=i; attributes=attr; methods=meth; parent=ext} }
+| CLASS i=IDENT ext=option(extends_bloc) BEGIN attr=list(attr_decl) meth=list(method_def) END { {class_name=i; attributes=List.concat attr; methods=meth; parent=ext} }
 
 mem:
 | i=IDENT { Var(i) }
@@ -121,7 +121,7 @@ v_type:
 | c=IDENT { TClass(c) }
 
 var_decl:
-| VAR t=v_type i=IDENT SEMI { (i, t) }
+| VAR t=v_type i=separated_list(COMMA, IDENT) SEMI { List.fold_left (fun init x -> (x, t)::init) [] i }
 
 attr_decl:
-| ATTR t=v_type i=IDENT SEMI { (i, t) }
+| ATTR t=v_type i=separated_list(COMMA, IDENT) SEMI { List.fold_left (fun init x -> (x, t)::init) [] i }
