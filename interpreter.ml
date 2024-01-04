@@ -54,11 +54,19 @@ let exec_prog (p: program): unit =
     and evalo e = match eval e with
       | VObj o -> o
       | _ -> assert false
+    and evaltab e = match eval e with
+      | VTab(arr, len) -> arr, len
+      | _ -> assert false
         
     and eval (e: expr): value = match e with
       | Int n  -> VInt n
       | Bool b -> VBool b
-      | Binop(Add, e1, e2) -> VInt ((evali e1) + (evali e2))
+      | Tab(arr, len) -> VTab(Array.map eval arr, len)
+      | Binop(Add, e1, e2) -> begin match eval e1 with
+                              | VInt i -> VInt (i + (evali e2))
+                              | VTab(arr, len) -> let arr', len' = evaltab e2 in
+                                                  VTab(Array.append arr arr', len + len')
+                              | _ -> assert false end
       | Binop(Sub, e1, e2) -> VInt ((evali e1) - (evali e2))
       | Binop(Mul, e1, e2) -> VInt ((evali e1) * (evali e2))
       | Binop(Div, e1, e2) -> VInt ((evali e1) / (evali e2))
@@ -98,21 +106,19 @@ let exec_prog (p: program): unit =
                                 eval_call m o (List.map eval args) false
 
       | This -> Hashtbl.find lenv "this"
-
-      | Tab(arr, len) -> VTab(Array.map eval arr, len)
     in
 
     let rec exec_print v =
       (match v with
-          | VInt n -> Printf.printf "%d" n
-          | VBool b -> Printf.printf "%b" b
-          | Null -> Printf.printf "null"
-          | VObj s -> Printf.printf "Object of class : %s" s.cls
-          | VTab(arr, len) -> Printf.printf "[ "; Array.iter (fun x -> exec_print x; Printf.printf ", ") arr; Printf.printf " ]")
+          | VInt n -> Printf.sprintf "%d" n
+          | VBool b -> Printf.sprintf "%b" b
+          | Null -> Printf.sprintf "null"
+          | VObj s -> Printf.sprintf "Object of class : %s" s.cls
+          | VTab(arr, len) -> "[ " ^ (String.concat ", " (List.fold_right (fun x init -> exec_print x :: init) (Array.to_list arr) [])) ^ " ]")
     in
     let rec exec (i: instr): unit = match i with
       | Print e -> let res = eval e in 
-        exec_print res
+        Printf.printf "%s\n" (exec_print res)
       | Set(m, e) -> (match m with
         | Var s -> let res = eval e in Hashtbl.add lenv s res
         | Field (ee, s) -> let o = evalo ee in Hashtbl.add o.fields s (eval e)

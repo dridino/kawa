@@ -30,13 +30,13 @@ let typecheck_prog p =
   let rec check e typ tenv =
     let typ_e = type_expr e tenv in
     match typ, typ_e with
-    | TTab(t1, _), TTab(t2, _) -> if t1 <> t2 then type_error t1 t2
+    | TTab(t1, l1), TTab(t2, l2) -> if t1 <> t2 then type_error t1 t2 else if l1 <> l2 then error (Printf.sprintf "Expected length of %d, got length of %d" l1 l2)
       | _ -> if typ_e <> typ then type_error typ_e typ
 
   and type_expr e tenv = match e with
     | Int _  -> TInt
     | Bool _ -> TBool
-    | Tab(arr, len) -> TTab (type_expr arr.(0) tenv, len)
+    | Tab(arr, len) -> let t0 = type_expr arr.(0) tenv in Array.iter (fun x -> check x t0 tenv) arr; TTab (type_expr arr.(0) tenv, len)
     | Unop(Opp, e) -> check e TInt tenv; TInt
     | Unop(Not, e) -> check e TBool tenv; TBool
     | Binop(And, e1, e2) | Binop(Or, e1, e2) -> check e1 TBool tenv; check e2 TBool tenv; TBool
@@ -49,6 +49,16 @@ let typecheck_prog p =
         | TTab(t, len) -> check e2 (TTab(t, 0)) tenv; TBool)
     | Binop(Gt, e1, e2) | Binop(Ge, e1, e2) | Binop(Lt, e1, e2) | Binop(Le, e1, e2) ->
       check e1 TInt tenv; check e2 TInt tenv; TBool
+    | Binop(Add, e1, e2) -> begin
+      match type_expr e1 tenv with
+      | TInt -> check e2 TInt tenv; TInt
+      | TTab(t, len) -> begin match type_expr e2 tenv with
+                              | TTab(t', len') -> if t <> t' then type_error t t' else
+                                                  TTab(t, len + len')
+                              | t' -> type_error t t'
+                        end
+      | t -> error (Printf.sprintf "expected int or tab, got %s instead" (typ_to_string t))
+    end
     | Binop(_, e1, e2) -> check e1 TInt tenv; check e2 TInt tenv; TInt
     | Get(m) -> type_mem_access m tenv
     | This -> Env.find "this" tenv
