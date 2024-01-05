@@ -17,7 +17,7 @@
 %token ADD SUB MUL DIV REM
 %token EQ NEQ LT LE GT GE AND OR
 %token VAR EQUAL
-%token T_INT T_BOOL
+%token T_INT T_BOOL T_STR
 %token IF ELSE
 %token WHILE
 %token RETURN
@@ -31,6 +31,7 @@
 %token EXTENDS
 %token LSQR RSQR
 %token ASSERT
+%token <string> STR
 
 %left AND
 %left OR
@@ -62,10 +63,11 @@ extends_bloc:
 ;
 
 m_type:
-| T_INT { TInt }
-| T_BOOL { TBool }
+| T_INT   { TInt }
+| T_BOOL  { TBool }
 | c=IDENT { TClass(c) }
-| VOID { TVoid }
+| VOID    { TVoid }
+| T_STR   { TStr }
 ;
 
 method_def:
@@ -125,12 +127,14 @@ expression:
 | NEW i=IDENT LPAR args=separated_list(COMMA, expression) RPAR { NewCstr(i, args) }
 | e=expression DOT i=IDENT LPAR args=separated_list(COMMA, expression) RPAR { MethCall(e, i, args) }
 | BEGIN l=separated_list(COMMA, expression) END { Tab(Array.of_list l, List.length l) }
+| s=STR { Str(s) }
 ;
 
 v_type:
 | T_INT { TInt }
 | T_BOOL { TBool }
 | c=IDENT { TClass(c) }
+| T_STR   { TStr }
 ;
 
 var_ident:

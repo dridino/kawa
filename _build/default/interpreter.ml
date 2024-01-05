@@ -6,6 +6,7 @@ type value =
   | VObj  of obj
   | VTab  of value array * int
   | Null
+  | VStr  of string
 and obj = {
   cls:    string;
   fields: (string, value) Hashtbl.t;
@@ -57,15 +58,20 @@ let exec_prog (p: program): unit =
     and evaltab e = match eval e with
       | VTab(arr, len) -> arr, len
       | _ -> assert false
+      and evals e = match eval e with
+        | VStr s -> s
+        | _ -> assert false
         
     and eval (e: expr): value = match e with
       | Int n  -> VInt n
       | Bool b -> VBool b
+      | Str s  -> VStr s
       | Tab(arr, len) -> VTab(Array.map eval arr, len)
       | Binop(Add, e1, e2) -> begin match eval e1 with
                               | VInt i -> VInt (i + (evali e2))
                               | VTab(arr, len) -> let arr', len' = evaltab e2 in
                                                   VTab(Array.append arr arr', len + len')
+                              | VStr s -> let s' = evals e2 in VStr (s ^ s')
                               | _ -> assert false end
       | Binop(Sub, e1, e2) -> VInt ((evali e1) - (evali e2))
       | Binop(Mul, e1, e2) -> VInt ((evali e1) * (evali e2))
@@ -112,6 +118,7 @@ let exec_prog (p: program): unit =
       (match v with
           | VInt n -> Printf.sprintf "%d" n
           | VBool b -> Printf.sprintf "%b" b
+          | VStr s -> s
           | Null -> Printf.sprintf "null"
           | VObj s -> Printf.sprintf "Object of class : %s" s.cls
           | VTab(arr, len) -> "[ " ^ (String.concat ", " (List.fold_right (fun x init -> exec_print x :: init) (Array.to_list arr) [])) ^ " ]")
@@ -134,7 +141,7 @@ let exec_prog (p: program): unit =
       | Return e -> raise (Return(eval e))
       | Expr e -> let _ = eval e in ()
       | Assert e -> begin match eval e with
-                          | VBool b -> if b then () else failwith "ASSERT ERROR"
+                          | VBool b -> if b then () else failwith "ASSERTION ERROR"
                           | _ -> failwith "" end
     and exec_seq s =
       try

@@ -1,0 +1,6 @@
+var string s;
+
+main {
+    print("yo");
+    print("yo");
+}

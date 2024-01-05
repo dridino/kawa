@@ -36,6 +36,7 @@ let typecheck_prog p =
   and type_expr e tenv = match e with
     | Int _  -> TInt
     | Bool _ -> TBool
+    | Str _ -> TStr
     | Tab(arr, len) -> let t0 = type_expr arr.(0) tenv in Array.iter (fun x -> check x t0 tenv) arr; TTab (type_expr arr.(0) tenv, len)
     | Unop(Opp, e) -> check e TInt tenv; TInt
     | Unop(Not, e) -> check e TBool tenv; TBool
@@ -44,6 +45,7 @@ let typecheck_prog p =
       (match type_expr e1 tenv with
         | TInt ->  check e2 TInt tenv; TBool
         | TBool ->  check e2 TBool tenv; TBool
+        | TStr -> check e2 TStr tenv; TBool
         | TClass(c) -> check e2 (TClass(c)) tenv; TBool
         | TVoid -> check e2 TVoid tenv; TBool
         | TTab(t, len) -> check e2 (TTab(t, 0)) tenv; TBool)
@@ -57,6 +59,7 @@ let typecheck_prog p =
                                                   TTab(t, len + len')
                               | t' -> type_error t t'
                         end
+      | TStr -> check e2 TStr tenv; TStr
       | t -> error (Printf.sprintf "expected int or tab, got %s instead" (typ_to_string t))
     end
     | Binop(_, e1, e2) -> check e1 TInt tenv; check e2 TInt tenv; TInt

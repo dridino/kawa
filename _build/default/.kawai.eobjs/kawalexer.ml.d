@@ -1,1 +1,1 @@
-kawalexer.ml: Hashtbl Kawaparser Lexing List
+kawalexer.ml: Hashtbl Kawaparser Lexing List String

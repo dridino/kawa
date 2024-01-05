@@ -2,10 +2,12 @@ type token =
     WHILE
   | VOID
   | VAR
+  | T_STR
   | T_INT
   | T_BOOL
   | THIS
   | SUB
+  | STR of string
   | SEMI
   | RSQR
   | RPAR

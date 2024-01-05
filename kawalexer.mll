@@ -27,6 +27,7 @@
       "method",     METHOD;
       "this",       THIS;
       "extends",    EXTENDS;
+      "string",     T_STR;
     ] ;
   fun s ->
     try  Hashtbl.find h s
@@ -38,6 +39,7 @@ let digit = ['0'-'9']
 let number = ['-']? digit+
 let alpha = ['a'-'z' 'A'-'Z']
 let ident = ['a'-'z' '_'] (alpha | '_' | digit)*
+let str = ['"'] [^'"']* ['"']
   
 rule token = parse
   | ['\n']            { new_line lexbuf; token lexbuf }
@@ -48,6 +50,8 @@ rule token = parse
 
   | number as n  { INT(int_of_string n) }
   | ident as id  { keyword_or_ident id }
+
+  | str as s { STR(String.sub s 1 (String.length s - 2)) }
 
   | ";"  { SEMI }
   | "("  { LPAR }

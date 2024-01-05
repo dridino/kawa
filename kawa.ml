@@ -10,13 +10,15 @@ type typ =
   | TBool
   | TClass of string
   | TTab of typ * int
+  | TStr
 
 let rec typ_to_string = function
-  | TVoid    -> "void"
-  | TInt     -> "int"
-  | TBool    -> "bool"
-  | TClass c -> c
+  | TVoid       -> "void"
+  | TInt        -> "int"
+  | TBool       -> "bool"
+  | TClass c    -> c
   | TTab (t, n) -> typ_to_string t
+  | TStr        -> "string"
 
 type unop  = Opp | Not
 type binop = Add | Sub | Mul | Div | Rem
@@ -28,6 +30,7 @@ type expr =
   (* Base arithmétique *)
   | Int    of int
   | Bool   of bool
+  | Str    of string
   | Unop   of unop * expr
   | Binop  of binop * expr * expr
   (* Accès à une variable ou un attribut *)
