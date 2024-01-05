@@ -133,6 +133,9 @@ let exec_prog (p: program): unit =
         | _ -> failwith "The condition of a `while` should be of type `int` or `bool`.")
       | Return e -> raise (Return(eval e))
       | Expr e -> let _ = eval e in ()
+      | Assert e -> begin match eval e with
+                          | VBool b -> if b then () else failwith "ASSERT ERROR"
+                          | _ -> failwith "" end
     and exec_seq s =
       try
         List.iter exec s

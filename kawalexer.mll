@@ -9,6 +9,7 @@
   let h = Hashtbl.create 17 in
   List.iter (fun (s, k) -> Hashtbl.add h s k)
     [ "print",      PRINT;
+      "assert",     ASSERT;
       "main",       MAIN;
       "false",      BOOL(false);
       "true",       BOOL(true);

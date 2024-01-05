@@ -44,6 +44,7 @@ type token =
   | BOOL of (bool)
   | BEGIN
   | ATTR
+  | ASSERT
   | AND
   | ADD
 

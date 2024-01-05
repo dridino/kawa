@@ -41,6 +41,7 @@ type token =
   | BOOL of bool
   | BEGIN
   | ATTR
+  | ASSERT
   | AND
   | ADD
 val menhir_begin_marker : int

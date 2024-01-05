@@ -60,6 +60,8 @@ type instr =
   | Return of expr
   (* Expression utilisée comme instruction *)
   | Expr   of expr
+  (* Assert *)
+  | Assert of expr
 
 and seq = instr list
 

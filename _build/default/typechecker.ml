@@ -146,6 +146,7 @@ let typecheck_prog p =
                       check_seq s ret tenv
     | Return e -> check e ret tenv
     | Expr e -> check e ret tenv
+    | Assert e -> check e TBool tenv
   and check_seq s ret tenv =
     List.iter (fun i -> check_instr i ret tenv) s
   in

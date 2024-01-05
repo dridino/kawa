@@ -30,6 +30,7 @@
 %token COMMA
 %token EXTENDS
 %token LSQR RSQR
+%token ASSERT
 
 %left AND
 %left OR
@@ -39,6 +40,7 @@
 %left REM
 %left MUL DIV
 %nonassoc UMINUS
+%left LSQR
 %left DOT
 
 %start program
@@ -87,6 +89,7 @@ instruction:
 | WHILE LPAR e=expression RPAR BEGIN l=list(instruction) END { While(e, l) }
 | RETURN e=expression SEMI { Return(e) }
 | e=expression SEMI { Expr(e) }
+| ASSERT LPAR e=expression RPAR SEMI { Assert(e) }
 ;
 
 unop:
