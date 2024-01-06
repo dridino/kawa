@@ -43,6 +43,7 @@ type token =
   | DIV
   | COMMA
   | CLASS
+  | CIDENT of (string)
   | BOOL of (bool)
   | BEGIN
   | ATTR

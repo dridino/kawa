@@ -32,6 +32,7 @@
 %token LSQR RSQR
 %token ASSERT
 %token <string> STR
+%token <string> CIDENT
 
 %left AND
 %left OR
@@ -59,15 +60,12 @@ param_decl:
 ;
 
 extends_bloc:
-| EXTENDS c=IDENT { c }
+| EXTENDS c=CIDENT { c }
 ;
 
 m_type:
-| T_INT   { TInt }
-| T_BOOL  { TBool }
-| c=IDENT { TClass(c) }
-| VOID    { TVoid }
-| T_STR   { TStr }
+| t=v_type  { t }
+| VOID      { TVoid }
 ;
 
 method_def:
@@ -75,7 +73,7 @@ method_def:
 ;
 
 class_def:
-| CLASS i=IDENT ext=option(extends_bloc) BEGIN attr=list(attr_decl) meth=list(method_def) END { {class_name=i; attributes=List.concat attr; methods=meth; parent=ext} }
+| CLASS i=CIDENT ext=option(extends_bloc) BEGIN attr=list(attr_decl) meth=list(method_def) END { {class_name=i; attributes=List.concat attr; methods=meth; parent=ext} }
 ;
 
 mem:
@@ -123,8 +121,8 @@ expression:
 | u=unop e=expression %prec UMINUS { Unop(u, e) }
 | e1=expression o=binop e2=expression { Binop(o, e1, e2) }
 | LPAR e=expression RPAR { e }
-| NEW i=IDENT { New(i) }
-| NEW i=IDENT LPAR args=separated_list(COMMA, expression) RPAR { NewCstr(i, args) }
+| NEW i=CIDENT { New(i) }
+| NEW i=CIDENT LPAR args=separated_list(COMMA, expression) RPAR { NewCstr(i, args) }
 | e=expression DOT i=IDENT LPAR args=separated_list(COMMA, expression) RPAR { MethCall(e, i, args) }
 | BEGIN l=separated_list(COMMA, expression) END { Tab(Array.of_list l, List.length l) }
 | s=STR { Str(s) }
@@ -133,7 +131,7 @@ expression:
 v_type:
 | T_INT { TInt }
 | T_BOOL { TBool }
-| c=IDENT { TClass(c) }
+| c=CIDENT { TClass(c) }
 | T_STR   { TStr }
 ;
 
@@ -143,10 +141,11 @@ var_ident:
 ;
 
 var_decl:
-| VAR t=v_type i=separated_list(COMMA, var_ident) SEMI { List.fold_left
+| t=v_type i=separated_nonempty_list(COMMA, var_ident) SEMI { List.fold_left
     (fun init (id, len) -> match len with None -> (id, t)::init | Some n -> (id, TTab (t, n))::init) [] i }
 ;
 
 attr_decl:
-| ATTR t=v_type i=separated_list(COMMA, IDENT) SEMI { List.fold_left (fun init x -> (x, t)::init) [] i }
+| t=v_type i=separated_nonempty_list(COMMA, var_ident) SEMI { List.fold_left
+    (fun init (id, len) -> match len with None -> (id, t)::init | Some n -> (id, TTab (t, n))::init) [] i }
 ;

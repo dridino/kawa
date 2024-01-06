@@ -1,0 +1,21 @@
+int x;
+A a;
+
+class A {
+    int y;
+
+    method void printInt(int v) {
+        print(v);
+    }
+
+    method void setY(int v) {
+        this.y = v;
+    }
+}
+
+main {
+    x = 3;
+    a = new A;
+    a.setY(5);
+    a.printInt(x + a.y); // affiche 8
+}

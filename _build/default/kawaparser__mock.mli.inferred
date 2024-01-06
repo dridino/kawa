@@ -40,6 +40,7 @@ type token =
   | DIV
   | COMMA
   | CLASS
+  | CIDENT of string
   | BOOL of bool
   | BEGIN
   | ATTR
@@ -54,23 +55,17 @@ val xv_unop : Kawa.unop
 val xv_separated_nonempty_list_COMMA_var_ident_ : (string * int option) list
 val xv_separated_nonempty_list_COMMA_param_decl_ : (string * Kawa.typ) list
 val xv_separated_nonempty_list_COMMA_expression_ : Kawa.expr list
-val xv_separated_nonempty_list_COMMA_IDENT_ : string list
-val xv_separated_list_COMMA_var_ident_ : (string * int option) list
 val xv_separated_list_COMMA_param_decl_ : (string * Kawa.typ) list
 val xv_separated_list_COMMA_expression_ : Kawa.expr list
-val xv_separated_list_COMMA_IDENT_ : string list
 val xv_program : Kawa.program
 val xv_param_decl : string * Kawa.typ
 val xv_option_extends_bloc_ : string option
 val xv_method_def : Kawa.method_def
 val xv_mem : Kawa.mem_access
 val xv_m_type : Kawa.typ
-val xv_loption_separated_nonempty_list_COMMA_var_ident__ :
-  (string * int option) list
 val xv_loption_separated_nonempty_list_COMMA_param_decl__ :
   (string * Kawa.typ) list
 val xv_loption_separated_nonempty_list_COMMA_expression__ : Kawa.expr list
-val xv_loption_separated_nonempty_list_COMMA_IDENT__ : string list
 val xv_list_var_decl_ : (string * Kawa.typ) list list
 val xv_list_method_def_ : Kawa.method_def list
 val xv_list_instruction_ : Kawa.seq
