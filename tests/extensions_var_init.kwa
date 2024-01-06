@@ -1,0 +1,14 @@
+int x = 6;
+A a = new A;
+class A {
+    string s;
+    method void lol() {
+        int z = 3;
+        print(z);
+    }
+}
+
+main {
+    print(x);
+    a.lol();
+}

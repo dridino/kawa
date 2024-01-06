@@ -49,7 +49,7 @@ type token =
   | ADD
 val menhir_begin_marker : int
 val xv_var_ident : string * int option
-val xv_var_decl : (string * Kawa.typ) list
+val xv_var_decl : (string * Kawa.typ * Kawa.expr option) list
 val xv_v_type : Kawa.typ
 val xv_unop : Kawa.unop
 val xv_separated_nonempty_list_COMMA_var_ident_ : (string * int option) list
@@ -66,7 +66,7 @@ val xv_m_type : Kawa.typ
 val xv_loption_separated_nonempty_list_COMMA_param_decl__ :
   (string * Kawa.typ) list
 val xv_loption_separated_nonempty_list_COMMA_expression__ : Kawa.expr list
-val xv_list_var_decl_ : (string * Kawa.typ) list list
+val xv_list_var_decl_ : (string * Kawa.typ * Kawa.expr option) list list
 val xv_list_method_def_ : Kawa.method_def list
 val xv_list_instruction_ : Kawa.seq
 val xv_list_class_def_ : Kawa.class_def list

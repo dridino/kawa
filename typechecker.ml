@@ -10,10 +10,11 @@ module Env = Map.Make(String)
 type tenv = typ Env.t
 
 let add_env l tenv =
-  List.fold_left (fun env (x, t) -> Env.add x t env) tenv l
+  List.fold_left (fun env (x, t, _) -> Env.add x t env) tenv l
 
 let typecheck_prog p =
   let tenv = add_env p.globals Env.empty in
+  let globals_alias = List.fold_right (fun (a, b, _) init -> (a, b) :: init) p.globals [] in
 
   let rec get_attr c =
     match c.parent with
@@ -117,9 +118,9 @@ let typecheck_prog p =
     if not (List.mem m (List.map (fun a -> a.method_name) (get_meth cl))) then error (Printf.sprintf "Method %s not found for class %s" m cl.class_name);
     let m = List.find (fun x -> x.method_name = m) (get_meth cl) in
     let () = if not (List.exists (fun i -> match i with | Return(_) -> true | _ -> false) m.code) && (m.return <> TVoid) then error (Printf.sprintf "Method %s should return a value of type %s" m.method_name (typ_to_string m.return)) in
-    let tenv' = List.fold_left (fun init (s, t) -> Env.add s t init) Env.empty p.globals in
+    let tenv' = List.fold_left (fun init (s, t) -> Env.add s t init) Env.empty globals_alias in
     let tenv' = List.fold_left (fun init (s, t) -> Env.add s t init) tenv' m.params in
-    let tenv' = List.fold_left (fun init (s, t) -> Env.add s t init) tenv' m.locals in
+    let tenv' = List.fold_left (fun init (s, t) -> Env.add s t init) tenv' (List.fold_right (fun (a, b, _) init -> (a, b) :: init) m.locals []) in
     let tenv' = Env.add "this" (TClass(cl.class_name)) tenv' in
     let () = List.iter (fun i -> match i with | Return(e) -> check e m.return tenv' | _ -> ()) m.code in
     let attr = List.map snd m.params in
@@ -153,5 +154,9 @@ let typecheck_prog p =
   and check_seq s ret tenv =
     List.iter (fun i -> check_instr i ret tenv) s
   in
+
+  let check_globals g tenv =
+    List.iter (fun (i, t, e) -> match e with | None -> () | Some e -> check e t tenv) g
+  in
   
-  check_seq p.main TVoid tenv
+  check_seq p.main TVoid tenv ; check_globals p.globals tenv

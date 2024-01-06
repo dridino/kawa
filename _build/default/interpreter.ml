@@ -17,7 +17,6 @@ exception Return of value
 
 let exec_prog (p: program): unit =
   let env = Hashtbl.create 16 in
-  List.iter (fun (x, _) -> Hashtbl.add env x Null) p.globals;
   Hashtbl.add env "$return_val" Null;
 
   let rec add_field c h =
@@ -38,11 +37,12 @@ let exec_prog (p: program): unit =
   let rec eval_call f this args constructor =
     let env' = Hashtbl.create 16 in
     Hashtbl.add env' "$return_val" Null;
-    List.iter (fun (x,_) -> Hashtbl.add env' x (Hashtbl.find env x)) p.globals;
+    List.iter (fun (x,_,_) -> Hashtbl.add env' x (Hashtbl.find env x)) p.globals;
     List.iter2 (fun x y -> Hashtbl.add env' (fst y) x) args f.params;
-    List.iter (fun (x, _) -> Hashtbl.add env' x Null) f.locals;
+    let c = ref f.code in
+    List.iter (fun (x,_,e) -> Hashtbl.add env' x Null; match e with None -> () | Some v -> c := Set(Var x, v)::!c) f.locals;
     Hashtbl.add env' "this" (VObj(this));
-    exec_seq f.code env';
+    exec_seq !c env';
     if constructor then (Hashtbl.find env' "this") else (Hashtbl.find env' "$return_val")
 
   and exec_seq s lenv =
@@ -54,13 +54,18 @@ let exec_prog (p: program): unit =
       | _ -> assert false
     and evalo e = match eval e with
       | VObj o -> o
+      | VInt n -> failwith (Printf.sprintf "entier %d" n)
+      | VBool b -> failwith (Printf.sprintf "bool %b" b)
+      | VTab _ -> failwith (Printf.sprintf "tab")
+      | VStr s -> failwith (Printf.sprintf "str %s" s)
+      | Null -> failwith (Printf.sprintf "null")
       | _ -> assert false
     and evaltab e = match eval e with
       | VTab(arr, len) -> arr, len
       | _ -> assert false
-      and evals e = match eval e with
-        | VStr s -> s
-        | _ -> assert false
+    and evals e = match eval e with
+      | VStr s -> s
+      | _ -> assert false
         
     and eval (e: expr): value = match e with
       | Int n  -> VInt n
@@ -99,8 +104,8 @@ let exec_prog (p: program): unit =
             | _ -> failwith "expected a tab")
 
       | New s -> let h = Hashtbl.create 4 in
-                  add_field (List.find (fun x -> x.class_name = s) p.classes) h;
-                  VObj({cls=s; fields=h})
+                 add_field (List.find (fun x -> x.class_name = s) p.classes) h;
+                 VObj({cls=s; fields=h})
 
       | NewCstr(s, args) -> let o = eval (New s) in
                             let m = List.find (fun x -> x.method_name = "constructor") (List.find (fun x -> x.class_name = s) p.classes).methods in
@@ -150,6 +155,7 @@ let exec_prog (p: program): unit =
       | Return(v) -> Hashtbl.add lenv "$return_val" v
     in
 
+    List.iter (fun (x, _, e) -> Hashtbl.add env x (match e with | None -> Null | Some v -> eval v)) p.globals;
     exec_seq s
   in
   

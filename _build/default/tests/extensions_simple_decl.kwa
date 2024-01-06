@@ -9,13 +9,13 @@ class A {
     }
 
     method void setY(int v) {
-        y = v;
+        this.y = v;
     }
 }
 
 main {
     x = 3;
-    a = new A();
+    a = new A;
     a.setY(5);
-    a.printInt(x + y); // affiche 8
+    a.printInt(x + a.y); // affiche 8
 }
