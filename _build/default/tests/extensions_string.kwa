@@ -3,5 +3,5 @@ string s;
 main {
     s = "bla";
     print("yo");
-    print("yo" + "" + s);
+    assert("yo" + "" + s == "yobla");
 }

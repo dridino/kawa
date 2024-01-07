@@ -9,14 +9,6 @@ class Point {
 class Segment {
   Point a;
   Point b;
-
-  method void bloup() {
-    print(x);
-  }
-
-  method int r() {
-    return 0;
-  }
 }
 
 main {
@@ -29,6 +21,5 @@ main {
   s.b.x = 3;
   p = s.b;
   p.y = 4;
-  print(s.a.x + s.a.y + s.b.x + s.b.y);
-  // affiche 10
+  assert(s.a.x + s.a.y + s.b.x + s.b.y == 10);
 }

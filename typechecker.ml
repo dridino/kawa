@@ -49,7 +49,7 @@ let typecheck_prog p =
         | TStr -> check e2 TStr tenv; TBool
         | TClass(c) -> check e2 (TClass(c)) tenv; TBool
         | TVoid -> check e2 TVoid tenv; TBool
-        | TTab(t, len) -> check e2 (TTab(t, 0)) tenv; TBool)
+        | TTab(t, len) -> check e2 (TTab(t, len)) tenv; TBool)
     | Binop(Gt, e1, e2) | Binop(Ge, e1, e2) | Binop(Lt, e1, e2) | Binop(Le, e1, e2) ->
       check e1 TInt tenv; check e2 TInt tenv; TBool
     | Binop(Add, e1, e2) -> begin

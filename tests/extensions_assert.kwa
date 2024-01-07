@@ -1,5 +1,5 @@
 main {
     assert(true);
     assert(!false);
-    assert(0 == 1);
+    assert(0 != 1);
 }

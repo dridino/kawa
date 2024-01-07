@@ -7,9 +7,9 @@ main {
   n = 9;
   acc = 1;
   while (n != 0) {
-    if (n%2 != 0) { acc = a*acc; } else {print(a);}
+    if (n%2 != 0) { acc = a*acc; } else {}
     a = a*a;
     n = n/2;
   }
-  print(acc);
+  assert(acc == 512);
 }

@@ -1,18 +1,18 @@
-var point a;
-var point b;
+Point a;
+Point b;
 
-class point {
-  attribute int x;
-  attribute int y;
+class Point {
+  int x;
+  int y;
 }
 
 main {
-  a = new point;
-  b = new point;
+  a = new Point;
+  b = new Point;
   a.x = 1;
   a.y = 2;
   b.x = 3;
   b.y = 4;
   a.x = a.x + 10;
-  print(a.x + a.y + b.x + b.y);
+  assert(a.x + a.y + b.x + b.y == 20);
 }

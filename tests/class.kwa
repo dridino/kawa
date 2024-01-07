@@ -14,5 +14,5 @@ main {
   b.x = 3;
   b.y = 4;
   a.x = a.x + 10;
-  print(a.x + a.y + b.x + b.y);
+  assert(a.x + a.y + b.x + b.y == 20);
 }

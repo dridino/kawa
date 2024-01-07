@@ -1,14 +1,16 @@
 int x = 6;
+int y = 1;
 A a = new A;
 class A {
     string s;
-    method void lol() {
+    method void test() {
         int z = 3;
-        print(z);
+        assert(z == 3);
     }
 }
 
 main {
-    print(x);
-    a.lol();
+    assert(x == 6);
+    assert(y == 1);
+    a.test();
 }

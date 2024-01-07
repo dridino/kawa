@@ -2,10 +2,9 @@ int x;
 int y;
 
 main {
-  print(x);
   x = 1;
   y = 6;
   x = x+2;
   y = y*(x+4);
-  print(y);
+  assert(y == 42);
 }

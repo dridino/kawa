@@ -1,92 +1,164 @@
 # Kawa
 
+## Fonctionnalités obligatoires
 
+### Arithmétique
 
-## Getting started
+L'ensemble des opérations arithmétiques proposées est pris en charge. À savoir :
+- l'**addition**
+- la **soustraction**
+- la **multiplication**
+- la **division entière**
+- le **modulo**
+- l'**opposé**
+- l'**égalité**
+- l'**inégalité**
+- l'**inférieur** stricte et large
+- le **supérieur** stricte et large
+- le **ET**
+- le **OU**
+- le **NON**
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+Par exemple :
+```Java
+// depuis tests/arith.kwa
+...
+print(40 - 2 - (3 + 1) * 4 / 8 + 6);
+print((false && true) == false)
+...
 ```
-cd existing_repo
-git remote add origin https://gitlab.dsi.universite-paris-saclay.fr/adrien.challe/kawa.git
-git branch -M master
-git push -uf origin master
+affichera `42` puis `true`
+
+### Variables
+
+Des variables peuvent être créées au début du programme ou au sein des méthodes (voir plus loin la partie associée). En supplément des attendus initiaux (**extension**), nous avons choisi de nous **affranchir du mot-clé** `var`, de rendre possible la **déclaration multiple** sur une seule ligne et la déclaration avec une **valeur initiale**.
+
+Ainsi, le fragment de code suivant créera trois variables entières x, y, z et initialisera la variable a à 6.
+```Java
+// depuis tests/extensions_var_init.kwa et tests/extensions_multi_decl.kwa
+int x, y, z;
+int a = 6;
+...
 ```
 
-## Integrate with your tools
+### Instructions
 
-- [ ] [Set up project integrations](https://gitlab.dsi.universite-paris-saclay.fr/adrien.challe/kawa/-/settings/integrations)
+Les instructions disponibles sont :
 
-## Collaborate with your team
+- le `print`
+- l'affectation `x = 2`
+- le `if else`
+- le `while`
+- le `return`
+- le `assert` (en extension, ex : `assert(true)` ne lèvera pas d'erreur, tandis que `assert(false)` le fera)
+```Java
+// depuis tests/instr.kwa
+int a;
+int n;
+int acc;
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+main {
+  a = 2;
+  n = 9;
+  acc = 1;
+  while (n != 0) {
+    if (n%2 != 0) { acc = a*acc; } else {}
+    a = a*a;
+    n = n/2;
+  }
+  print(acc);
+}
+```
+affichera ainsi `512`.
 
-## Test and Deploy
+### Classes, attributs et méthodes
 
-Use the built-in continuous integration in GitLab.
+Ici aussi, tout a été implémenté, tant bien les constructeurs avec ou sans argument que les méthodes ou encore l'héritage. En extension, nous avons décidé de supprimer le mot-clé `attribute` de la déclaration d'un attribut d'une classe. Nous avons pris le parti de forcer les noms de classes à commencer par une majuscule (convention répandue). Ainsi, nous distinguons les `IDENT` classiques, représentants des noms de variables, d'attributs ou de méthodes, ne commençant pas par une majuscule des `CIDENT`, les identifiant réservés aux classes, commençant nécessairement par une majuscule.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Pour un exemple d'utilisation, se référer aux fichiers `tests/nclass.kwa` `tests/method.kwa` et `tests/extend.kwa`
 
-***
+## Extensions
 
-# Editing this README
+Voici un récapitulatif des extensions mises en place et des exemples d'utilisation.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### Nouveaux types
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+En plus des types de bases qu'étaient les **booléens**, les **entiers** et les **objets**, nous avons ajouter les **chaînes de charactères** et les **tableaux**.
 
-## Name
-Choose a self-explaining name for your project.
+#### Tableaux
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Comme le montre le fragment de code suivant, les tableaux supportent :
+- l'**affichage**
+- la **concaténation**
+- la **modification** en place
+- l'**accès** à une case via son indice
+- les opérateurs d'**égalité** et d'**inégalité**
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+```Java
+int t1[3];
+int t2[3];
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+main {
+    t1 = {0, 0, 0}; // création
+    t2 = {1, 1, 1};
+    print(t1 + t2); // concaténation
+    // affiche [ 0, 0, 0, 1, 1, 1 ]
+    t1[0] = 5;
+    print(t1[0]); // affiche 5
+    assert(t1 != t2); // ne lève pas d'erreur
+}
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+#### Chaînes de charactères
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Les chaînes de charactères supportent :
+- l'**affichage**
+- la **concaténation**
+- les opérateurs d'**égalité** et d'**inégalité**
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### Instruction `assert`
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Cette instruction permet de lever une exception si la condition passée en paramètre est un booléen évalué à `false`. Sa présence nous a semblée indispensable dans un langage de programmation.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Exemple :
+```Java
+...
+i = 0;
+assert(i == 0); // ne lève pas d'erreur
+assert(i == 5); // lève une erreur
+...
+```
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### Déclaration de variable / attributs
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Au lieu de déclaré une variable avec `var int x = 0;`, le mot-clé `var` a désormais été supprimé, pour une écriture allégée : `int x = 0;`, se rapprochant plus de ce qu'on retrouve communément. Il en est de même pour le mot-clé `attribute` au sein d'une classe. les attributs se déclarent désormais comme des variables, mais dans la classe.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Il est également possible de déclarer plusieurs variables de même type sur une même ligne :
+```Java
+// passant de
+int x;
+int y;
+int z;
+// à
+int x, y, z;
+...
+```
 
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Enfin, on peut fournir une valeur initiale à une variable dès sa déclaration :
+```Java
+// passant de
+int x;
+int y;
+main {
+    x = 1;
+    y = 4;
+    ...
+}
+// à
+int x = 1;
+int y = 4;
+main {
+    ...
+}
+```
+Ceci est valable aussi bien pour les variables globales que pour les variables locales à une méthode.
