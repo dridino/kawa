@@ -1,4 +1,4 @@
-var string s;
+string s;
 
 main {
     s = "bla";

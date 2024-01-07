@@ -1,12 +1,12 @@
 
-var paire p;
-var paire pt;
-var triple t;
-var paire2 p2;
+Paire p;
+Paire pt;
+Triple t;
+Paire2 p2;
 
-class paire {
-  attribute int x;
-  attribute int y;
+class Paire {
+  int x;
+  int y;
 
   method void constructor(int x, int y) {
     this.x = x;
@@ -22,9 +22,9 @@ class paire {
   }
 }
 
-class paire2 extends paire {
-  attribute int x;
-  attribute int y;
+class Paire2 extends Paire {
+  int x;
+  int y;
 
   method void constructor(int x, int y) {
     this.x = x;
@@ -36,8 +36,8 @@ class paire2 extends paire {
   }
 }
 
-class triple extends paire {
-  attribute int z;
+class Triple extends Paire {
+  int z;
 
   method void constructor(int x, int y, int z) {
     this.x = x;
@@ -55,18 +55,18 @@ class triple extends paire {
 }
 
 main {
-  p = new paire(1, 2);
-  t = new triple(3, 4, 5);
+  p = new Paire(1, 2);
+  t = new Triple(3, 4, 5);
   print(p.somme());
   print(t.somme());
   print(t.produit());
-  pt = new triple(1, 2, 3);
+  pt = new Triple(1, 2, 3);
   print(pt.somme());
-  p = new triple(1, 2, 3);
+  p = new Triple(1, 2, 3);
   print(p.somme());
   // affiche 3, puis 12, puis 60, puis 6, puis 6.
-  p2 = new paire2(1, 1);
+  p2 = new Paire2(1, 1);
   print(p2.somme());
-  // utilise la methode de paire2
+  // utilise la methode de Paire2
   p.testHeritage(); // affiche true via methode d'un parent
 }

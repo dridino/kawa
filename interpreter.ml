@@ -17,6 +17,7 @@ exception Return of value
 
 let exec_prog (p: program): unit =
   let env = Hashtbl.create 16 in
+  List.iter (fun (x,_,_) -> Hashtbl.add env x Null) p.globals;
   Hashtbl.add env "$return_val" Null;
 
   let rec add_field c h =
@@ -40,7 +41,7 @@ let exec_prog (p: program): unit =
     List.iter (fun (x,_,_) -> Hashtbl.add env' x (Hashtbl.find env x)) p.globals;
     List.iter2 (fun x y -> Hashtbl.add env' (fst y) x) args f.params;
     let c = ref f.code in
-    List.iter (fun (x,_,e) -> Hashtbl.add env' x Null; match e with None -> () | Some v -> c := Set(Var x, v)::!c) f.locals;
+    List.iter (fun (x,_,e) -> Hashtbl.add env' x Null; match e with None -> () | Some v -> c := Set(Var x, v)::!c) (List.rev f.locals);
     Hashtbl.add env' "this" (VObj(this));
     exec_seq !c env';
     if constructor then (Hashtbl.find env' "this") else (Hashtbl.find env' "$return_val")
@@ -150,8 +151,8 @@ let exec_prog (p: program): unit =
       | Return(v) -> Hashtbl.add lenv "$return_val" v
     in
 
-    List.iter (fun (x, _, e) -> Hashtbl.add env x (match e with | None -> Null | Some v -> eval v)) p.globals;
+    (* List.iter (fun (x, _, e) -> Hashtbl.add env x (match e with | None -> Null | Some v -> eval v)) p.globals; *)
     exec_seq s
   in
   
-  exec_seq p.main env
+  exec_seq (List.fold_left (fun init (s,_,e) -> match e with None -> init | Some e -> Set(Var s, e) :: init) p.main p.globals) env

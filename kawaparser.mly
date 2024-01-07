@@ -141,9 +141,9 @@ var_ident:
 ;
 
 var_decl:
-| t=v_type i=separated_nonempty_list(COMMA, var_ident) SEMI { List.fold_left
+| t=v_type i=separated_list(COMMA, var_ident) SEMI { List.fold_left
     (fun init (id, len) -> match len with None -> (id, t, None)::init | Some n -> (id, TTab (t, n), None)::init) [] i }
-| t=v_type i=IDENT EQUAL e=expression SEMI { [(i, t, Some e)] }
+| t=v_type i=var_ident EQUAL e=expression SEMI { [let i, len = i in match len with None -> (i, t, Some e) | Some len -> (i, TTab (t, len), Some e)] }
 ;
 
 attr_decl:

@@ -1,14 +1,14 @@
- Segment s;
- Point p;
+Segment s;
+Point p;
 
 class Point {
-   int x;
-   int y;
+  int x;
+  int y;
 }
 
 class Segment {
-   Point a;
-   Point b;
+  Point a;
+  Point b;
 
   method void bloup() {
     print(x);

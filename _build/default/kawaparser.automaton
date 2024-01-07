@@ -1,0 +1,2749 @@
+State 0:
+## Known stack suffix:
+##
+## LR(1) items:
+program' -> . program [ # ]
+## Transitions:
+-- On T_STR shift to state 1
+-- On T_INT shift to state 2
+-- On T_BOOL shift to state 3
+-- On CIDENT shift to state 4
+-- On var_decl shift to state 5
+-- On v_type shift to state 6
+-- On program shift to state 81
+-- On list(var_decl) shift to state 82
+## Reductions:
+-- On MAIN CLASS
+--   reduce production list(var_decl) ->
+
+State 1:
+## Known stack suffix:
+## T_STR
+## LR(1) items:
+v_type -> T_STR . [ SEMI IDENT ]
+## Transitions:
+## Reductions:
+-- On SEMI IDENT
+--   reduce production v_type -> T_STR
+
+State 2:
+## Known stack suffix:
+## T_INT
+## LR(1) items:
+v_type -> T_INT . [ SEMI IDENT ]
+## Transitions:
+## Reductions:
+-- On SEMI IDENT
+--   reduce production v_type -> T_INT
+
+State 3:
+## Known stack suffix:
+## T_BOOL
+## LR(1) items:
+v_type -> T_BOOL . [ SEMI IDENT ]
+## Transitions:
+## Reductions:
+-- On SEMI IDENT
+--   reduce production v_type -> T_BOOL
+
+State 4:
+## Known stack suffix:
+## CIDENT
+## LR(1) items:
+v_type -> CIDENT . [ SEMI IDENT ]
+## Transitions:
+## Reductions:
+-- On SEMI IDENT
+--   reduce production v_type -> CIDENT
+
+State 5:
+## Known stack suffix:
+## var_decl
+## LR(1) items:
+list(var_decl) -> var_decl . list(var_decl) [ WHILE THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS BOOL BEGIN ASSERT ]
+## Transitions:
+-- On T_STR shift to state 1
+-- On T_INT shift to state 2
+-- On T_BOOL shift to state 3
+-- On CIDENT shift to state 4
+-- On var_decl shift to state 5
+-- On v_type shift to state 6
+-- On list(var_decl) shift to state 80
+## Reductions:
+-- On WHILE THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS BOOL BEGIN ASSERT
+--   reduce production list(var_decl) ->
+
+State 6:
+## Known stack suffix:
+## v_type
+## LR(1) items:
+var_decl -> v_type . loption(separated_nonempty_list(COMMA,var_ident)) SEMI [ WHILE T_STR T_INT T_BOOL THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS CIDENT BOOL BEGIN ASSERT ]
+var_decl -> v_type . var_ident EQUAL expression SEMI [ WHILE T_STR T_INT T_BOOL THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS CIDENT BOOL BEGIN ASSERT ]
+## Transitions:
+-- On IDENT shift to state 7
+-- On var_ident shift to state 11
+-- On separated_nonempty_list(COMMA,var_ident) shift to state 77
+-- On loption(separated_nonempty_list(COMMA,var_ident)) shift to state 78
+## Reductions:
+-- On SEMI
+--   reduce production loption(separated_nonempty_list(COMMA,var_ident)) ->
+
+State 7:
+## Known stack suffix:
+## IDENT
+## LR(1) items:
+var_ident -> IDENT . [ SEMI EQUAL COMMA ]
+var_ident -> IDENT . LSQR INT RSQR [ SEMI EQUAL COMMA ]
+## Transitions:
+-- On LSQR shift to state 8
+## Reductions:
+-- On SEMI EQUAL COMMA
+--   reduce production var_ident -> IDENT
+
+State 8:
+## Known stack suffix:
+## IDENT LSQR
+## LR(1) items:
+var_ident -> IDENT LSQR . INT RSQR [ SEMI EQUAL COMMA ]
+## Transitions:
+-- On INT shift to state 9
+## Reductions:
+
+State 9:
+## Known stack suffix:
+## IDENT LSQR INT
+## LR(1) items:
+var_ident -> IDENT LSQR INT . RSQR [ SEMI EQUAL COMMA ]
+## Transitions:
+-- On RSQR shift to state 10
+## Reductions:
+
+State 10:
+## Known stack suffix:
+## IDENT LSQR INT RSQR
+## LR(1) items:
+var_ident -> IDENT LSQR INT RSQR . [ SEMI EQUAL COMMA ]
+## Transitions:
+## Reductions:
+-- On SEMI EQUAL COMMA
+--   reduce production var_ident -> IDENT LSQR INT RSQR
+
+State 11:
+## Known stack suffix:
+## v_type var_ident
+## LR(1) items:
+separated_nonempty_list(COMMA,var_ident) -> var_ident . [ SEMI ]
+separated_nonempty_list(COMMA,var_ident) -> var_ident . COMMA separated_nonempty_list(COMMA,var_ident) [ SEMI ]
+var_decl -> v_type var_ident . EQUAL expression SEMI [ WHILE T_STR T_INT T_BOOL THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS CIDENT BOOL BEGIN ASSERT ]
+## Transitions:
+-- On EQUAL shift to state 12
+-- On COMMA shift to state 74
+## Reductions:
+-- On SEMI
+--   reduce production separated_nonempty_list(COMMA,var_ident) -> var_ident
+
+State 12:
+## Known stack suffix:
+## v_type var_ident EQUAL
+## LR(1) items:
+var_decl -> v_type var_ident EQUAL . expression SEMI [ WHILE T_STR T_INT T_BOOL THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS CIDENT BOOL BEGIN ASSERT ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 72
+## Reductions:
+
+State 13:
+## Known stack suffix:
+## THIS
+## LR(1) items:
+expression -> THIS . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD
+--   reduce production expression -> THIS
+
+State 14:
+## Known stack suffix:
+## SUB
+## LR(1) items:
+unop -> SUB . [ THIS SUB STR NOT NEW LPAR INT IDENT BOOL BEGIN ]
+## Transitions:
+## Reductions:
+-- On THIS SUB STR NOT NEW LPAR INT IDENT BOOL BEGIN
+--   reduce production unop -> SUB
+
+State 15:
+## Known stack suffix:
+## STR
+## LR(1) items:
+expression -> STR . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD
+--   reduce production expression -> STR
+
+State 16:
+## Known stack suffix:
+## NOT
+## LR(1) items:
+unop -> NOT . [ THIS SUB STR NOT NEW LPAR INT IDENT BOOL BEGIN ]
+## Transitions:
+## Reductions:
+-- On THIS SUB STR NOT NEW LPAR INT IDENT BOOL BEGIN
+--   reduce production unop -> NOT
+
+State 17:
+## Known stack suffix:
+## NEW
+## LR(1) items:
+expression -> NEW . CIDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> NEW . CIDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On CIDENT shift to state 18
+## Reductions:
+
+State 18:
+## Known stack suffix:
+## NEW CIDENT
+## LR(1) items:
+expression -> NEW CIDENT . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> NEW CIDENT . LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On LPAR shift to state 19
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD
+--   reduce production expression -> NEW CIDENT
+
+State 19:
+## Known stack suffix:
+## NEW CIDENT LPAR
+## LR(1) items:
+expression -> NEW CIDENT LPAR . loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On separated_nonempty_list(COMMA,expression) shift to state 34
+-- On mem shift to state 26
+-- On loption(separated_nonempty_list(COMMA,expression)) shift to state 70
+-- On expression shift to state 37
+## Reductions:
+-- On RPAR
+--   reduce production loption(separated_nonempty_list(COMMA,expression)) ->
+
+State 20:
+## Known stack suffix:
+## LPAR
+## LR(1) items:
+expression -> LPAR . expression RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 68
+## Reductions:
+
+State 21:
+## Known stack suffix:
+## INT
+## LR(1) items:
+expression -> INT . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD
+--   reduce production expression -> INT
+
+State 22:
+## Known stack suffix:
+## IDENT
+## LR(1) items:
+mem -> IDENT . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ END DOT DIV COMMA AND ADD
+--   reduce production mem -> IDENT
+
+State 23:
+## Known stack suffix:
+## BOOL
+## LR(1) items:
+expression -> BOOL . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD
+--   reduce production expression -> BOOL
+
+State 24:
+## Known stack suffix:
+## BEGIN
+## LR(1) items:
+expression -> BEGIN . loption(separated_nonempty_list(COMMA,expression)) END [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On separated_nonempty_list(COMMA,expression) shift to state 34
+-- On mem shift to state 26
+-- On loption(separated_nonempty_list(COMMA,expression)) shift to state 66
+-- On expression shift to state 37
+## Reductions:
+-- On END
+--   reduce production loption(separated_nonempty_list(COMMA,expression)) ->
+
+State 25:
+## Known stack suffix:
+## unop
+## LR(1) items:
+expression -> unop . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 27
+## Reductions:
+
+State 26:
+## Known stack suffix:
+## mem
+## LR(1) items:
+expression -> mem . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD
+--   reduce production expression -> mem
+
+State 27:
+## Known stack suffix:
+## unop expression
+## LR(1) items:
+expression -> unop expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On LSQR shift to state 28
+-- On DOT shift to state 31
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LE GT GE EQ END DIV COMMA AND ADD
+--   reduce production expression -> unop expression
+
+State 28:
+## Known stack suffix:
+## expression LSQR
+## LR(1) items:
+mem -> expression LSQR . INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On INT shift to state 29
+## Reductions:
+
+State 29:
+## Known stack suffix:
+## expression LSQR INT
+## LR(1) items:
+mem -> expression LSQR INT . RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On RSQR shift to state 30
+## Reductions:
+
+State 30:
+## Known stack suffix:
+## expression LSQR INT RSQR
+## LR(1) items:
+mem -> expression LSQR INT RSQR . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ END DOT DIV COMMA AND ADD
+--   reduce production mem -> expression LSQR INT RSQR
+
+State 31:
+## Known stack suffix:
+## expression DOT
+## LR(1) items:
+expression -> expression DOT . IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression DOT . IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On IDENT shift to state 32
+## Reductions:
+
+State 32:
+## Known stack suffix:
+## expression DOT IDENT
+## LR(1) items:
+expression -> expression DOT IDENT . LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression DOT IDENT . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On LPAR shift to state 33
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ END DOT DIV COMMA AND ADD
+--   reduce production mem -> expression DOT IDENT
+
+State 33:
+## Known stack suffix:
+## expression DOT IDENT LPAR
+## LR(1) items:
+expression -> expression DOT IDENT LPAR . loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On separated_nonempty_list(COMMA,expression) shift to state 34
+-- On mem shift to state 26
+-- On loption(separated_nonempty_list(COMMA,expression)) shift to state 35
+-- On expression shift to state 37
+## Reductions:
+-- On RPAR
+--   reduce production loption(separated_nonempty_list(COMMA,expression)) ->
+
+State 34:
+## Known stack suffix:
+## separated_nonempty_list(COMMA,expression)
+## LR(1) items:
+loption(separated_nonempty_list(COMMA,expression)) -> separated_nonempty_list(COMMA,expression) . [ RPAR END ]
+## Transitions:
+## Reductions:
+-- On RPAR END
+--   reduce production loption(separated_nonempty_list(COMMA,expression)) -> separated_nonempty_list(COMMA,expression)
+
+State 35:
+## Known stack suffix:
+## expression DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression))
+## LR(1) items:
+expression -> expression DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) . RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On RPAR shift to state 36
+## Reductions:
+
+State 36:
+## Known stack suffix:
+## expression DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR
+## LR(1) items:
+expression -> expression DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD
+--   reduce production expression -> expression DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR
+
+State 37:
+## Known stack suffix:
+## expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+separated_nonempty_list(COMMA,expression) -> expression . [ RPAR END ]
+separated_nonempty_list(COMMA,expression) -> expression . COMMA separated_nonempty_list(COMMA,expression) [ RPAR END ]
+## Transitions:
+-- On SUB shift to state 38
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On COMMA shift to state 62
+-- On AND shift to state 64
+-- On ADD shift to state 52
+## Reductions:
+-- On RPAR END
+--   reduce production separated_nonempty_list(COMMA,expression) -> expression
+
+State 38:
+## Known stack suffix:
+## expression SUB
+## LR(1) items:
+expression -> expression SUB . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 39
+## Reductions:
+
+State 39:
+## Known stack suffix:
+## expression SUB expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression SUB expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On REM shift to state 40
+-- On MUL shift to state 42
+-- On LSQR shift to state 28
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+## Reductions:
+-- On SUB SEMI RPAR OR NEQ LT LE GT GE EQ END COMMA AND ADD
+--   reduce production expression -> expression SUB expression
+
+State 40:
+## Known stack suffix:
+## expression REM
+## LR(1) items:
+expression -> expression REM . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 41
+## Reductions:
+
+State 41:
+## Known stack suffix:
+## expression REM expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression REM expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On MUL shift to state 42
+-- On LSQR shift to state 28
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ LT LE GT GE EQ END COMMA AND ADD
+--   reduce production expression -> expression REM expression
+
+State 42:
+## Known stack suffix:
+## expression MUL
+## LR(1) items:
+expression -> expression MUL . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 43
+## Reductions:
+
+State 43:
+## Known stack suffix:
+## expression MUL expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression MUL expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On LSQR shift to state 28
+-- On DOT shift to state 31
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LE GT GE EQ END DIV COMMA AND ADD
+--   reduce production expression -> expression MUL expression
+
+State 44:
+## Known stack suffix:
+## expression DIV
+## LR(1) items:
+expression -> expression DIV . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 45
+## Reductions:
+
+State 45:
+## Known stack suffix:
+## expression DIV expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression DIV expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On LSQR shift to state 28
+-- On DOT shift to state 31
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LE GT GE EQ END DIV COMMA AND ADD
+--   reduce production expression -> expression DIV expression
+
+State 46:
+## Known stack suffix:
+## expression OR
+## LR(1) items:
+expression -> expression OR . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 47
+## Reductions:
+
+State 47:
+## Known stack suffix:
+## expression OR expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression OR expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On REM shift to state 40
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On ADD shift to state 52
+## Reductions:
+-- On SEMI RPAR OR END COMMA AND
+--   reduce production expression -> expression OR expression
+
+State 48:
+## Known stack suffix:
+## expression NEQ
+## LR(1) items:
+expression -> expression NEQ . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 49
+## Reductions:
+
+State 49:
+## Known stack suffix:
+## expression NEQ expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression NEQ expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On REM shift to state 40
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On ADD shift to state 52
+## Reductions:
+-- On SEMI RPAR OR NEQ EQ END COMMA AND
+--   reduce production expression -> expression NEQ expression
+
+State 50:
+## Known stack suffix:
+## expression LT
+## LR(1) items:
+expression -> expression LT . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 51
+## Reductions:
+
+State 51:
+## Known stack suffix:
+## expression LT expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression LT expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On REM shift to state 40
+-- On MUL shift to state 42
+-- On LSQR shift to state 28
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On ADD shift to state 52
+## Reductions:
+-- On SEMI RPAR OR NEQ LT LE GT GE EQ END COMMA AND
+--   reduce production expression -> expression LT expression
+
+State 52:
+## Known stack suffix:
+## expression ADD
+## LR(1) items:
+expression -> expression ADD . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 53
+## Reductions:
+
+State 53:
+## Known stack suffix:
+## expression ADD expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression ADD expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On REM shift to state 40
+-- On MUL shift to state 42
+-- On LSQR shift to state 28
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+## Reductions:
+-- On SUB SEMI RPAR OR NEQ LT LE GT GE EQ END COMMA AND ADD
+--   reduce production expression -> expression ADD expression
+
+State 54:
+## Known stack suffix:
+## expression LE
+## LR(1) items:
+expression -> expression LE . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 55
+## Reductions:
+
+State 55:
+## Known stack suffix:
+## expression LE expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression LE expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On REM shift to state 40
+-- On MUL shift to state 42
+-- On LSQR shift to state 28
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On ADD shift to state 52
+## Reductions:
+-- On SEMI RPAR OR NEQ LT LE GT GE EQ END COMMA AND
+--   reduce production expression -> expression LE expression
+
+State 56:
+## Known stack suffix:
+## expression GT
+## LR(1) items:
+expression -> expression GT . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 57
+## Reductions:
+
+State 57:
+## Known stack suffix:
+## expression GT expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression GT expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On REM shift to state 40
+-- On MUL shift to state 42
+-- On LSQR shift to state 28
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On ADD shift to state 52
+## Reductions:
+-- On SEMI RPAR OR NEQ LT LE GT GE EQ END COMMA AND
+--   reduce production expression -> expression GT expression
+
+State 58:
+## Known stack suffix:
+## expression GE
+## LR(1) items:
+expression -> expression GE . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 59
+## Reductions:
+
+State 59:
+## Known stack suffix:
+## expression GE expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression GE expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On REM shift to state 40
+-- On MUL shift to state 42
+-- On LSQR shift to state 28
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On ADD shift to state 52
+## Reductions:
+-- On SEMI RPAR OR NEQ LT LE GT GE EQ END COMMA AND
+--   reduce production expression -> expression GE expression
+
+State 60:
+## Known stack suffix:
+## expression EQ
+## LR(1) items:
+expression -> expression EQ . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 61
+## Reductions:
+
+State 61:
+## Known stack suffix:
+## expression EQ expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression EQ expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On REM shift to state 40
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On ADD shift to state 52
+## Reductions:
+-- On SEMI RPAR OR NEQ EQ END COMMA AND
+--   reduce production expression -> expression EQ expression
+
+State 62:
+## Known stack suffix:
+## expression COMMA
+## LR(1) items:
+separated_nonempty_list(COMMA,expression) -> expression COMMA . separated_nonempty_list(COMMA,expression) [ RPAR END ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On separated_nonempty_list(COMMA,expression) shift to state 63
+-- On mem shift to state 26
+-- On expression shift to state 37
+## Reductions:
+
+State 63:
+## Known stack suffix:
+## expression COMMA separated_nonempty_list(COMMA,expression)
+## LR(1) items:
+separated_nonempty_list(COMMA,expression) -> expression COMMA separated_nonempty_list(COMMA,expression) . [ RPAR END ]
+## Transitions:
+## Reductions:
+-- On RPAR END
+--   reduce production separated_nonempty_list(COMMA,expression) -> expression COMMA separated_nonempty_list(COMMA,expression)
+
+State 64:
+## Known stack suffix:
+## expression AND
+## LR(1) items:
+expression -> expression AND . expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 65
+## Reductions:
+
+State 65:
+## Known stack suffix:
+## expression AND expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . REM expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . LE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GT expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . GE expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . AND expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression AND expression . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . OR expression [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On ADD shift to state 52
+## Reductions:
+-- On SEMI RPAR END COMMA AND
+--   reduce production expression -> expression AND expression
+
+State 66:
+## Known stack suffix:
+## BEGIN loption(separated_nonempty_list(COMMA,expression))
+## LR(1) items:
+expression -> BEGIN loption(separated_nonempty_list(COMMA,expression)) . END [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On END shift to state 67
+## Reductions:
+
+State 67:
+## Known stack suffix:
+## BEGIN loption(separated_nonempty_list(COMMA,expression)) END
+## LR(1) items:
+expression -> BEGIN loption(separated_nonempty_list(COMMA,expression)) END . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD
+--   reduce production expression -> BEGIN loption(separated_nonempty_list(COMMA,expression)) END
+
+State 68:
+## Known stack suffix:
+## LPAR expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> LPAR expression . RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+mem -> expression . DOT IDENT [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On RPAR shift to state 69
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On AND shift to state 64
+-- On ADD shift to state 52
+## Reductions:
+
+State 69:
+## Known stack suffix:
+## LPAR expression RPAR
+## LR(1) items:
+expression -> LPAR expression RPAR . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD
+--   reduce production expression -> LPAR expression RPAR
+
+State 70:
+## Known stack suffix:
+## NEW CIDENT LPAR loption(separated_nonempty_list(COMMA,expression))
+## LR(1) items:
+expression -> NEW CIDENT LPAR loption(separated_nonempty_list(COMMA,expression)) . RPAR [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+-- On RPAR shift to state 71
+## Reductions:
+
+State 71:
+## Known stack suffix:
+## NEW CIDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR
+## LR(1) items:
+expression -> NEW CIDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR . [ SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD ]
+## Transitions:
+## Reductions:
+-- On SUB SEMI RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ END DOT DIV COMMA AND ADD
+--   reduce production expression -> NEW CIDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR
+
+State 72:
+## Known stack suffix:
+## v_type var_ident EQUAL expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . REM expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LT expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LE expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GT expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GE expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . AND expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . OR expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+mem -> expression . DOT IDENT [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+var_decl -> v_type var_ident EQUAL expression . SEMI [ WHILE T_STR T_INT T_BOOL THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS CIDENT BOOL BEGIN ASSERT ]
+## Transitions:
+-- On SUB shift to state 38
+-- On SEMI shift to state 73
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On AND shift to state 64
+-- On ADD shift to state 52
+## Reductions:
+
+State 73:
+## Known stack suffix:
+## v_type var_ident EQUAL expression SEMI
+## LR(1) items:
+var_decl -> v_type var_ident EQUAL expression SEMI . [ WHILE T_STR T_INT T_BOOL THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS CIDENT BOOL BEGIN ASSERT ]
+## Transitions:
+## Reductions:
+-- On WHILE T_STR T_INT T_BOOL THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS CIDENT BOOL BEGIN ASSERT
+--   reduce production var_decl -> v_type var_ident EQUAL expression SEMI
+
+State 74:
+## Known stack suffix:
+## var_ident COMMA
+## LR(1) items:
+separated_nonempty_list(COMMA,var_ident) -> var_ident COMMA . separated_nonempty_list(COMMA,var_ident) [ SEMI ]
+## Transitions:
+-- On IDENT shift to state 7
+-- On var_ident shift to state 75
+-- On separated_nonempty_list(COMMA,var_ident) shift to state 76
+## Reductions:
+
+State 75:
+## Known stack suffix:
+## var_ident
+## LR(1) items:
+separated_nonempty_list(COMMA,var_ident) -> var_ident . [ SEMI ]
+separated_nonempty_list(COMMA,var_ident) -> var_ident . COMMA separated_nonempty_list(COMMA,var_ident) [ SEMI ]
+## Transitions:
+-- On COMMA shift to state 74
+## Reductions:
+-- On SEMI
+--   reduce production separated_nonempty_list(COMMA,var_ident) -> var_ident
+
+State 76:
+## Known stack suffix:
+## var_ident COMMA separated_nonempty_list(COMMA,var_ident)
+## LR(1) items:
+separated_nonempty_list(COMMA,var_ident) -> var_ident COMMA separated_nonempty_list(COMMA,var_ident) . [ SEMI ]
+## Transitions:
+## Reductions:
+-- On SEMI
+--   reduce production separated_nonempty_list(COMMA,var_ident) -> var_ident COMMA separated_nonempty_list(COMMA,var_ident)
+
+State 77:
+## Known stack suffix:
+## separated_nonempty_list(COMMA,var_ident)
+## LR(1) items:
+loption(separated_nonempty_list(COMMA,var_ident)) -> separated_nonempty_list(COMMA,var_ident) . [ SEMI ]
+## Transitions:
+## Reductions:
+-- On SEMI
+--   reduce production loption(separated_nonempty_list(COMMA,var_ident)) -> separated_nonempty_list(COMMA,var_ident)
+
+State 78:
+## Known stack suffix:
+## v_type loption(separated_nonempty_list(COMMA,var_ident))
+## LR(1) items:
+var_decl -> v_type loption(separated_nonempty_list(COMMA,var_ident)) . SEMI [ WHILE T_STR T_INT T_BOOL THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS CIDENT BOOL BEGIN ASSERT ]
+## Transitions:
+-- On SEMI shift to state 79
+## Reductions:
+
+State 79:
+## Known stack suffix:
+## v_type loption(separated_nonempty_list(COMMA,var_ident)) SEMI
+## LR(1) items:
+var_decl -> v_type loption(separated_nonempty_list(COMMA,var_ident)) SEMI . [ WHILE T_STR T_INT T_BOOL THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS CIDENT BOOL BEGIN ASSERT ]
+## Transitions:
+## Reductions:
+-- On WHILE T_STR T_INT T_BOOL THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS CIDENT BOOL BEGIN ASSERT
+--   reduce production var_decl -> v_type loption(separated_nonempty_list(COMMA,var_ident)) SEMI
+
+State 80:
+## Known stack suffix:
+## var_decl list(var_decl)
+## LR(1) items:
+list(var_decl) -> var_decl list(var_decl) . [ WHILE THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS BOOL BEGIN ASSERT ]
+## Transitions:
+## Reductions:
+-- On WHILE THIS SUB STR RETURN PRINT NOT NEW MAIN LPAR INT IF IDENT END CLASS BOOL BEGIN ASSERT
+--   reduce production list(var_decl) -> var_decl list(var_decl)
+
+State 81:
+## Known stack suffix:
+## program
+## LR(1) items:
+program' -> program . [ # ]
+## Transitions:
+## Reductions:
+-- On #
+--   accept program
+
+State 82:
+## Known stack suffix:
+## list(var_decl)
+## LR(1) items:
+program -> list(var_decl) . list(class_def) MAIN BEGIN list(instruction) END EOF [ # ]
+## Transitions:
+-- On CLASS shift to state 83
+-- On list(class_def) shift to state 157
+-- On class_def shift to state 163
+## Reductions:
+-- On MAIN
+--   reduce production list(class_def) ->
+
+State 83:
+## Known stack suffix:
+## CLASS
+## LR(1) items:
+class_def -> CLASS . CIDENT option(extends_bloc) BEGIN list(attr_decl) list(method_def) END [ MAIN CLASS ]
+## Transitions:
+-- On CIDENT shift to state 84
+## Reductions:
+
+State 84:
+## Known stack suffix:
+## CLASS CIDENT
+## LR(1) items:
+class_def -> CLASS CIDENT . option(extends_bloc) BEGIN list(attr_decl) list(method_def) END [ MAIN CLASS ]
+## Transitions:
+-- On EXTENDS shift to state 85
+-- On option(extends_bloc) shift to state 87
+-- On extends_bloc shift to state 156
+## Reductions:
+-- On BEGIN
+--   reduce production option(extends_bloc) ->
+
+State 85:
+## Known stack suffix:
+## EXTENDS
+## LR(1) items:
+extends_bloc -> EXTENDS . CIDENT [ BEGIN ]
+## Transitions:
+-- On CIDENT shift to state 86
+## Reductions:
+
+State 86:
+## Known stack suffix:
+## EXTENDS CIDENT
+## LR(1) items:
+extends_bloc -> EXTENDS CIDENT . [ BEGIN ]
+## Transitions:
+## Reductions:
+-- On BEGIN
+--   reduce production extends_bloc -> EXTENDS CIDENT
+
+State 87:
+## Known stack suffix:
+## CLASS CIDENT option(extends_bloc)
+## LR(1) items:
+class_def -> CLASS CIDENT option(extends_bloc) . BEGIN list(attr_decl) list(method_def) END [ MAIN CLASS ]
+## Transitions:
+-- On BEGIN shift to state 88
+## Reductions:
+
+State 88:
+## Known stack suffix:
+## CLASS CIDENT option(extends_bloc) BEGIN
+## LR(1) items:
+class_def -> CLASS CIDENT option(extends_bloc) BEGIN . list(attr_decl) list(method_def) END [ MAIN CLASS ]
+## Transitions:
+-- On T_STR shift to state 1
+-- On T_INT shift to state 2
+-- On T_BOOL shift to state 3
+-- On CIDENT shift to state 4
+-- On v_type shift to state 89
+-- On list(attr_decl) shift to state 92
+-- On attr_decl shift to state 154
+## Reductions:
+-- On METHOD END
+--   reduce production list(attr_decl) ->
+
+State 89:
+## Known stack suffix:
+## v_type
+## LR(1) items:
+attr_decl -> v_type . separated_nonempty_list(COMMA,var_ident) SEMI [ T_STR T_INT T_BOOL METHOD END CIDENT ]
+## Transitions:
+-- On IDENT shift to state 7
+-- On var_ident shift to state 75
+-- On separated_nonempty_list(COMMA,var_ident) shift to state 90
+## Reductions:
+
+State 90:
+## Known stack suffix:
+## v_type separated_nonempty_list(COMMA,var_ident)
+## LR(1) items:
+attr_decl -> v_type separated_nonempty_list(COMMA,var_ident) . SEMI [ T_STR T_INT T_BOOL METHOD END CIDENT ]
+## Transitions:
+-- On SEMI shift to state 91
+## Reductions:
+
+State 91:
+## Known stack suffix:
+## v_type separated_nonempty_list(COMMA,var_ident) SEMI
+## LR(1) items:
+attr_decl -> v_type separated_nonempty_list(COMMA,var_ident) SEMI . [ T_STR T_INT T_BOOL METHOD END CIDENT ]
+## Transitions:
+## Reductions:
+-- On T_STR T_INT T_BOOL METHOD END CIDENT
+--   reduce production attr_decl -> v_type separated_nonempty_list(COMMA,var_ident) SEMI
+
+State 92:
+## Known stack suffix:
+## CLASS CIDENT option(extends_bloc) BEGIN list(attr_decl)
+## LR(1) items:
+class_def -> CLASS CIDENT option(extends_bloc) BEGIN list(attr_decl) . list(method_def) END [ MAIN CLASS ]
+## Transitions:
+-- On METHOD shift to state 93
+-- On method_def shift to state 150
+-- On list(method_def) shift to state 152
+## Reductions:
+-- On END
+--   reduce production list(method_def) ->
+
+State 93:
+## Known stack suffix:
+## METHOD
+## LR(1) items:
+method_def -> METHOD . m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl) list(instruction) END [ METHOD END ]
+## Transitions:
+-- On VOID shift to state 94
+-- On T_STR shift to state 1
+-- On T_INT shift to state 2
+-- On T_BOOL shift to state 3
+-- On CIDENT shift to state 4
+-- On v_type shift to state 95
+-- On m_type shift to state 96
+## Reductions:
+
+State 94:
+## Known stack suffix:
+## VOID
+## LR(1) items:
+m_type -> VOID . [ IDENT ]
+## Transitions:
+## Reductions:
+-- On IDENT
+--   reduce production m_type -> VOID
+
+State 95:
+## Known stack suffix:
+## v_type
+## LR(1) items:
+m_type -> v_type . [ IDENT ]
+## Transitions:
+## Reductions:
+-- On IDENT
+--   reduce production m_type -> v_type
+
+State 96:
+## Known stack suffix:
+## METHOD m_type
+## LR(1) items:
+method_def -> METHOD m_type . IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl) list(instruction) END [ METHOD END ]
+## Transitions:
+-- On IDENT shift to state 97
+## Reductions:
+
+State 97:
+## Known stack suffix:
+## METHOD m_type IDENT
+## LR(1) items:
+method_def -> METHOD m_type IDENT . LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl) list(instruction) END [ METHOD END ]
+## Transitions:
+-- On LPAR shift to state 98
+## Reductions:
+
+State 98:
+## Known stack suffix:
+## METHOD m_type IDENT LPAR
+## LR(1) items:
+method_def -> METHOD m_type IDENT LPAR . loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl) list(instruction) END [ METHOD END ]
+## Transitions:
+-- On T_STR shift to state 1
+-- On T_INT shift to state 2
+-- On T_BOOL shift to state 3
+-- On CIDENT shift to state 4
+-- On v_type shift to state 99
+-- On separated_nonempty_list(COMMA,param_decl) shift to state 101
+-- On param_decl shift to state 102
+-- On loption(separated_nonempty_list(COMMA,param_decl)) shift to state 105
+## Reductions:
+-- On RPAR
+--   reduce production loption(separated_nonempty_list(COMMA,param_decl)) ->
+
+State 99:
+## Known stack suffix:
+## v_type
+## LR(1) items:
+param_decl -> v_type . IDENT [ RPAR COMMA ]
+## Transitions:
+-- On IDENT shift to state 100
+## Reductions:
+
+State 100:
+## Known stack suffix:
+## v_type IDENT
+## LR(1) items:
+param_decl -> v_type IDENT . [ RPAR COMMA ]
+## Transitions:
+## Reductions:
+-- On RPAR COMMA
+--   reduce production param_decl -> v_type IDENT
+
+State 101:
+## Known stack suffix:
+## separated_nonempty_list(COMMA,param_decl)
+## LR(1) items:
+loption(separated_nonempty_list(COMMA,param_decl)) -> separated_nonempty_list(COMMA,param_decl) . [ RPAR ]
+## Transitions:
+## Reductions:
+-- On RPAR
+--   reduce production loption(separated_nonempty_list(COMMA,param_decl)) -> separated_nonempty_list(COMMA,param_decl)
+
+State 102:
+## Known stack suffix:
+## param_decl
+## LR(1) items:
+separated_nonempty_list(COMMA,param_decl) -> param_decl . [ RPAR ]
+separated_nonempty_list(COMMA,param_decl) -> param_decl . COMMA separated_nonempty_list(COMMA,param_decl) [ RPAR ]
+## Transitions:
+-- On COMMA shift to state 103
+## Reductions:
+-- On RPAR
+--   reduce production separated_nonempty_list(COMMA,param_decl) -> param_decl
+
+State 103:
+## Known stack suffix:
+## param_decl COMMA
+## LR(1) items:
+separated_nonempty_list(COMMA,param_decl) -> param_decl COMMA . separated_nonempty_list(COMMA,param_decl) [ RPAR ]
+## Transitions:
+-- On T_STR shift to state 1
+-- On T_INT shift to state 2
+-- On T_BOOL shift to state 3
+-- On CIDENT shift to state 4
+-- On v_type shift to state 99
+-- On separated_nonempty_list(COMMA,param_decl) shift to state 104
+-- On param_decl shift to state 102
+## Reductions:
+
+State 104:
+## Known stack suffix:
+## param_decl COMMA separated_nonempty_list(COMMA,param_decl)
+## LR(1) items:
+separated_nonempty_list(COMMA,param_decl) -> param_decl COMMA separated_nonempty_list(COMMA,param_decl) . [ RPAR ]
+## Transitions:
+## Reductions:
+-- On RPAR
+--   reduce production separated_nonempty_list(COMMA,param_decl) -> param_decl COMMA separated_nonempty_list(COMMA,param_decl)
+
+State 105:
+## Known stack suffix:
+## METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl))
+## LR(1) items:
+method_def -> METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) . RPAR BEGIN list(var_decl) list(instruction) END [ METHOD END ]
+## Transitions:
+-- On RPAR shift to state 106
+## Reductions:
+
+State 106:
+## Known stack suffix:
+## METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR
+## LR(1) items:
+method_def -> METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR . BEGIN list(var_decl) list(instruction) END [ METHOD END ]
+## Transitions:
+-- On BEGIN shift to state 107
+## Reductions:
+
+State 107:
+## Known stack suffix:
+## METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN
+## LR(1) items:
+method_def -> METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN . list(var_decl) list(instruction) END [ METHOD END ]
+## Transitions:
+-- On T_STR shift to state 1
+-- On T_INT shift to state 2
+-- On T_BOOL shift to state 3
+-- On CIDENT shift to state 4
+-- On var_decl shift to state 5
+-- On v_type shift to state 6
+-- On list(var_decl) shift to state 108
+## Reductions:
+-- On WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT
+--   reduce production list(var_decl) ->
+
+State 108:
+## Known stack suffix:
+## METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl)
+## LR(1) items:
+method_def -> METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl) . list(instruction) END [ METHOD END ]
+## Transitions:
+-- On WHILE shift to state 109
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On RETURN shift to state 114
+-- On PRINT shift to state 117
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IF shift to state 122
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On ASSERT shift to state 127
+-- On unop shift to state 25
+-- On mem shift to state 132
+-- On list(instruction) shift to state 148
+-- On instruction shift to state 142
+-- On expression shift to state 144
+## Reductions:
+-- On END
+--   reduce production list(instruction) ->
+
+State 109:
+## Known stack suffix:
+## WHILE
+## LR(1) items:
+instruction -> WHILE . LPAR expression RPAR BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On LPAR shift to state 110
+## Reductions:
+
+State 110:
+## Known stack suffix:
+## WHILE LPAR
+## LR(1) items:
+instruction -> WHILE LPAR . expression RPAR BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 111
+## Reductions:
+
+State 111:
+## Known stack suffix:
+## WHILE LPAR expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+instruction -> WHILE LPAR expression . RPAR BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+mem -> expression . DOT IDENT [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On RPAR shift to state 112
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On AND shift to state 64
+-- On ADD shift to state 52
+## Reductions:
+
+State 112:
+## Known stack suffix:
+## WHILE LPAR expression RPAR
+## LR(1) items:
+instruction -> WHILE LPAR expression RPAR . BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On BEGIN shift to state 113
+## Reductions:
+
+State 113:
+## Known stack suffix:
+## WHILE LPAR expression RPAR BEGIN
+## LR(1) items:
+instruction -> WHILE LPAR expression RPAR BEGIN . list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On WHILE shift to state 109
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On RETURN shift to state 114
+-- On PRINT shift to state 117
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IF shift to state 122
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On ASSERT shift to state 127
+-- On unop shift to state 25
+-- On mem shift to state 132
+-- On list(instruction) shift to state 146
+-- On instruction shift to state 142
+-- On expression shift to state 144
+## Reductions:
+-- On END
+--   reduce production list(instruction) ->
+
+State 114:
+## Known stack suffix:
+## RETURN
+## LR(1) items:
+instruction -> RETURN . expression SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 115
+## Reductions:
+
+State 115:
+## Known stack suffix:
+## RETURN expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . REM expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LT expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LE expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GT expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GE expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . AND expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . OR expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+instruction -> RETURN expression . SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+mem -> expression . DOT IDENT [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On SEMI shift to state 116
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On AND shift to state 64
+-- On ADD shift to state 52
+## Reductions:
+
+State 116:
+## Known stack suffix:
+## RETURN expression SEMI
+## LR(1) items:
+instruction -> RETURN expression SEMI . [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+## Reductions:
+-- On WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT
+--   reduce production instruction -> RETURN expression SEMI
+
+State 117:
+## Known stack suffix:
+## PRINT
+## LR(1) items:
+instruction -> PRINT . LPAR expression RPAR SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On LPAR shift to state 118
+## Reductions:
+
+State 118:
+## Known stack suffix:
+## PRINT LPAR
+## LR(1) items:
+instruction -> PRINT LPAR . expression RPAR SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 119
+## Reductions:
+
+State 119:
+## Known stack suffix:
+## PRINT LPAR expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+instruction -> PRINT LPAR expression . RPAR SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+mem -> expression . DOT IDENT [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On RPAR shift to state 120
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On AND shift to state 64
+-- On ADD shift to state 52
+## Reductions:
+
+State 120:
+## Known stack suffix:
+## PRINT LPAR expression RPAR
+## LR(1) items:
+instruction -> PRINT LPAR expression RPAR . SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On SEMI shift to state 121
+## Reductions:
+
+State 121:
+## Known stack suffix:
+## PRINT LPAR expression RPAR SEMI
+## LR(1) items:
+instruction -> PRINT LPAR expression RPAR SEMI . [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+## Reductions:
+-- On WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT
+--   reduce production instruction -> PRINT LPAR expression RPAR SEMI
+
+State 122:
+## Known stack suffix:
+## IF
+## LR(1) items:
+instruction -> IF . LPAR expression RPAR BEGIN list(instruction) END ELSE BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On LPAR shift to state 123
+## Reductions:
+
+State 123:
+## Known stack suffix:
+## IF LPAR
+## LR(1) items:
+instruction -> IF LPAR . expression RPAR BEGIN list(instruction) END ELSE BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 124
+## Reductions:
+
+State 124:
+## Known stack suffix:
+## IF LPAR expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+instruction -> IF LPAR expression . RPAR BEGIN list(instruction) END ELSE BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+mem -> expression . DOT IDENT [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On RPAR shift to state 125
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On AND shift to state 64
+-- On ADD shift to state 52
+## Reductions:
+
+State 125:
+## Known stack suffix:
+## IF LPAR expression RPAR
+## LR(1) items:
+instruction -> IF LPAR expression RPAR . BEGIN list(instruction) END ELSE BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On BEGIN shift to state 126
+## Reductions:
+
+State 126:
+## Known stack suffix:
+## IF LPAR expression RPAR BEGIN
+## LR(1) items:
+instruction -> IF LPAR expression RPAR BEGIN . list(instruction) END ELSE BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On WHILE shift to state 109
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On RETURN shift to state 114
+-- On PRINT shift to state 117
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IF shift to state 122
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On ASSERT shift to state 127
+-- On unop shift to state 25
+-- On mem shift to state 132
+-- On list(instruction) shift to state 136
+-- On instruction shift to state 142
+-- On expression shift to state 144
+## Reductions:
+-- On END
+--   reduce production list(instruction) ->
+
+State 127:
+## Known stack suffix:
+## ASSERT
+## LR(1) items:
+instruction -> ASSERT . LPAR expression RPAR SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On LPAR shift to state 128
+## Reductions:
+
+State 128:
+## Known stack suffix:
+## ASSERT LPAR
+## LR(1) items:
+instruction -> ASSERT LPAR . expression RPAR SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 129
+## Reductions:
+
+State 129:
+## Known stack suffix:
+## ASSERT LPAR expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . SUB expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . MUL expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DIV expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . REM expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . EQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GT expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GE expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . AND expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . OR expression [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+instruction -> ASSERT LPAR expression . RPAR SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+mem -> expression . DOT IDENT [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB RPAR REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On RPAR shift to state 130
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On AND shift to state 64
+-- On ADD shift to state 52
+## Reductions:
+
+State 130:
+## Known stack suffix:
+## ASSERT LPAR expression RPAR
+## LR(1) items:
+instruction -> ASSERT LPAR expression RPAR . SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On SEMI shift to state 131
+## Reductions:
+
+State 131:
+## Known stack suffix:
+## ASSERT LPAR expression RPAR SEMI
+## LR(1) items:
+instruction -> ASSERT LPAR expression RPAR SEMI . [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+## Reductions:
+-- On WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT
+--   reduce production instruction -> ASSERT LPAR expression RPAR SEMI
+
+State 132:
+## Known stack suffix:
+## mem
+## LR(1) items:
+expression -> mem . [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+instruction -> mem . EQUAL expression SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On EQUAL shift to state 133
+## Reductions:
+-- On SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD
+--   reduce production expression -> mem
+
+State 133:
+## Known stack suffix:
+## mem EQUAL
+## LR(1) items:
+instruction -> mem EQUAL . expression SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On unop shift to state 25
+-- On mem shift to state 26
+-- On expression shift to state 134
+## Reductions:
+
+State 134:
+## Known stack suffix:
+## mem EQUAL expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . REM expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LT expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LE expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GT expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GE expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . AND expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . OR expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+instruction -> mem EQUAL expression . SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+mem -> expression . DOT IDENT [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On SEMI shift to state 135
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On AND shift to state 64
+-- On ADD shift to state 52
+## Reductions:
+
+State 135:
+## Known stack suffix:
+## mem EQUAL expression SEMI
+## LR(1) items:
+instruction -> mem EQUAL expression SEMI . [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+## Reductions:
+-- On WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT
+--   reduce production instruction -> mem EQUAL expression SEMI
+
+State 136:
+## Known stack suffix:
+## IF LPAR expression RPAR BEGIN list(instruction)
+## LR(1) items:
+instruction -> IF LPAR expression RPAR BEGIN list(instruction) . END ELSE BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On END shift to state 137
+## Reductions:
+
+State 137:
+## Known stack suffix:
+## IF LPAR expression RPAR BEGIN list(instruction) END
+## LR(1) items:
+instruction -> IF LPAR expression RPAR BEGIN list(instruction) END . ELSE BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On ELSE shift to state 138
+## Reductions:
+
+State 138:
+## Known stack suffix:
+## IF LPAR expression RPAR BEGIN list(instruction) END ELSE
+## LR(1) items:
+instruction -> IF LPAR expression RPAR BEGIN list(instruction) END ELSE . BEGIN list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On BEGIN shift to state 139
+## Reductions:
+
+State 139:
+## Known stack suffix:
+## IF LPAR expression RPAR BEGIN list(instruction) END ELSE BEGIN
+## LR(1) items:
+instruction -> IF LPAR expression RPAR BEGIN list(instruction) END ELSE BEGIN . list(instruction) END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On WHILE shift to state 109
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On RETURN shift to state 114
+-- On PRINT shift to state 117
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IF shift to state 122
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On ASSERT shift to state 127
+-- On unop shift to state 25
+-- On mem shift to state 132
+-- On list(instruction) shift to state 140
+-- On instruction shift to state 142
+-- On expression shift to state 144
+## Reductions:
+-- On END
+--   reduce production list(instruction) ->
+
+State 140:
+## Known stack suffix:
+## IF LPAR expression RPAR BEGIN list(instruction) END ELSE BEGIN list(instruction)
+## LR(1) items:
+instruction -> IF LPAR expression RPAR BEGIN list(instruction) END ELSE BEGIN list(instruction) . END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On END shift to state 141
+## Reductions:
+
+State 141:
+## Known stack suffix:
+## IF LPAR expression RPAR BEGIN list(instruction) END ELSE BEGIN list(instruction) END
+## LR(1) items:
+instruction -> IF LPAR expression RPAR BEGIN list(instruction) END ELSE BEGIN list(instruction) END . [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+## Reductions:
+-- On WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT
+--   reduce production instruction -> IF LPAR expression RPAR BEGIN list(instruction) END ELSE BEGIN list(instruction) END
+
+State 142:
+## Known stack suffix:
+## instruction
+## LR(1) items:
+list(instruction) -> instruction . list(instruction) [ END ]
+## Transitions:
+-- On WHILE shift to state 109
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On RETURN shift to state 114
+-- On PRINT shift to state 117
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IF shift to state 122
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On ASSERT shift to state 127
+-- On unop shift to state 25
+-- On mem shift to state 132
+-- On list(instruction) shift to state 143
+-- On instruction shift to state 142
+-- On expression shift to state 144
+## Reductions:
+-- On END
+--   reduce production list(instruction) ->
+
+State 143:
+## Known stack suffix:
+## instruction list(instruction)
+## LR(1) items:
+list(instruction) -> instruction list(instruction) . [ END ]
+## Transitions:
+## Reductions:
+-- On END
+--   reduce production list(instruction) -> instruction list(instruction)
+
+State 144:
+## Known stack suffix:
+## expression
+## LR(1) items:
+expression -> expression . ADD expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . SUB expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . MUL expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DIV expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . REM expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . EQ expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . NEQ expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LT expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . LE expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GT expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . GE expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . AND expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . OR expression [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+expression -> expression . DOT IDENT LPAR loption(separated_nonempty_list(COMMA,expression)) RPAR [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQ DOT DIV AND ADD ]
+instruction -> expression . SEMI [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+mem -> expression . DOT IDENT [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ DOT DIV AND ADD ]
+mem -> expression . LSQR INT RSQR [ SUB SEMI REM OR NEQ MUL LT LSQR LE GT GE EQUAL EQ DOT DIV AND ADD ]
+## Transitions:
+-- On SUB shift to state 38
+-- On SEMI shift to state 145
+-- On REM shift to state 40
+-- On OR shift to state 46
+-- On NEQ shift to state 48
+-- On MUL shift to state 42
+-- On LT shift to state 50
+-- On LSQR shift to state 28
+-- On LE shift to state 54
+-- On GT shift to state 56
+-- On GE shift to state 58
+-- On EQ shift to state 60
+-- On DOT shift to state 31
+-- On DIV shift to state 44
+-- On AND shift to state 64
+-- On ADD shift to state 52
+## Reductions:
+
+State 145:
+## Known stack suffix:
+## expression SEMI
+## LR(1) items:
+instruction -> expression SEMI . [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+## Reductions:
+-- On WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT
+--   reduce production instruction -> expression SEMI
+
+State 146:
+## Known stack suffix:
+## WHILE LPAR expression RPAR BEGIN list(instruction)
+## LR(1) items:
+instruction -> WHILE LPAR expression RPAR BEGIN list(instruction) . END [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+-- On END shift to state 147
+## Reductions:
+
+State 147:
+## Known stack suffix:
+## WHILE LPAR expression RPAR BEGIN list(instruction) END
+## LR(1) items:
+instruction -> WHILE LPAR expression RPAR BEGIN list(instruction) END . [ WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT ]
+## Transitions:
+## Reductions:
+-- On WHILE THIS SUB STR RETURN PRINT NOT NEW LPAR INT IF IDENT END BOOL BEGIN ASSERT
+--   reduce production instruction -> WHILE LPAR expression RPAR BEGIN list(instruction) END
+
+State 148:
+## Known stack suffix:
+## METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl) list(instruction)
+## LR(1) items:
+method_def -> METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl) list(instruction) . END [ METHOD END ]
+## Transitions:
+-- On END shift to state 149
+## Reductions:
+
+State 149:
+## Known stack suffix:
+## METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl) list(instruction) END
+## LR(1) items:
+method_def -> METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl) list(instruction) END . [ METHOD END ]
+## Transitions:
+## Reductions:
+-- On METHOD END
+--   reduce production method_def -> METHOD m_type IDENT LPAR loption(separated_nonempty_list(COMMA,param_decl)) RPAR BEGIN list(var_decl) list(instruction) END
+
+State 150:
+## Known stack suffix:
+## method_def
+## LR(1) items:
+list(method_def) -> method_def . list(method_def) [ END ]
+## Transitions:
+-- On METHOD shift to state 93
+-- On method_def shift to state 150
+-- On list(method_def) shift to state 151
+## Reductions:
+-- On END
+--   reduce production list(method_def) ->
+
+State 151:
+## Known stack suffix:
+## method_def list(method_def)
+## LR(1) items:
+list(method_def) -> method_def list(method_def) . [ END ]
+## Transitions:
+## Reductions:
+-- On END
+--   reduce production list(method_def) -> method_def list(method_def)
+
+State 152:
+## Known stack suffix:
+## CLASS CIDENT option(extends_bloc) BEGIN list(attr_decl) list(method_def)
+## LR(1) items:
+class_def -> CLASS CIDENT option(extends_bloc) BEGIN list(attr_decl) list(method_def) . END [ MAIN CLASS ]
+## Transitions:
+-- On END shift to state 153
+## Reductions:
+
+State 153:
+## Known stack suffix:
+## CLASS CIDENT option(extends_bloc) BEGIN list(attr_decl) list(method_def) END
+## LR(1) items:
+class_def -> CLASS CIDENT option(extends_bloc) BEGIN list(attr_decl) list(method_def) END . [ MAIN CLASS ]
+## Transitions:
+## Reductions:
+-- On MAIN CLASS
+--   reduce production class_def -> CLASS CIDENT option(extends_bloc) BEGIN list(attr_decl) list(method_def) END
+
+State 154:
+## Known stack suffix:
+## attr_decl
+## LR(1) items:
+list(attr_decl) -> attr_decl . list(attr_decl) [ METHOD END ]
+## Transitions:
+-- On T_STR shift to state 1
+-- On T_INT shift to state 2
+-- On T_BOOL shift to state 3
+-- On CIDENT shift to state 4
+-- On v_type shift to state 89
+-- On list(attr_decl) shift to state 155
+-- On attr_decl shift to state 154
+## Reductions:
+-- On METHOD END
+--   reduce production list(attr_decl) ->
+
+State 155:
+## Known stack suffix:
+## attr_decl list(attr_decl)
+## LR(1) items:
+list(attr_decl) -> attr_decl list(attr_decl) . [ METHOD END ]
+## Transitions:
+## Reductions:
+-- On METHOD END
+--   reduce production list(attr_decl) -> attr_decl list(attr_decl)
+
+State 156:
+## Known stack suffix:
+## extends_bloc
+## LR(1) items:
+option(extends_bloc) -> extends_bloc . [ BEGIN ]
+## Transitions:
+## Reductions:
+-- On BEGIN
+--   reduce production option(extends_bloc) -> extends_bloc
+
+State 157:
+## Known stack suffix:
+## list(var_decl) list(class_def)
+## LR(1) items:
+program -> list(var_decl) list(class_def) . MAIN BEGIN list(instruction) END EOF [ # ]
+## Transitions:
+-- On MAIN shift to state 158
+## Reductions:
+
+State 158:
+## Known stack suffix:
+## list(var_decl) list(class_def) MAIN
+## LR(1) items:
+program -> list(var_decl) list(class_def) MAIN . BEGIN list(instruction) END EOF [ # ]
+## Transitions:
+-- On BEGIN shift to state 159
+## Reductions:
+
+State 159:
+## Known stack suffix:
+## list(var_decl) list(class_def) MAIN BEGIN
+## LR(1) items:
+program -> list(var_decl) list(class_def) MAIN BEGIN . list(instruction) END EOF [ # ]
+## Transitions:
+-- On WHILE shift to state 109
+-- On THIS shift to state 13
+-- On SUB shift to state 14
+-- On STR shift to state 15
+-- On RETURN shift to state 114
+-- On PRINT shift to state 117
+-- On NOT shift to state 16
+-- On NEW shift to state 17
+-- On LPAR shift to state 20
+-- On INT shift to state 21
+-- On IF shift to state 122
+-- On IDENT shift to state 22
+-- On BOOL shift to state 23
+-- On BEGIN shift to state 24
+-- On ASSERT shift to state 127
+-- On unop shift to state 25
+-- On mem shift to state 132
+-- On list(instruction) shift to state 160
+-- On instruction shift to state 142
+-- On expression shift to state 144
+## Reductions:
+-- On END
+--   reduce production list(instruction) ->
+
+State 160:
+## Known stack suffix:
+## list(var_decl) list(class_def) MAIN BEGIN list(instruction)
+## LR(1) items:
+program -> list(var_decl) list(class_def) MAIN BEGIN list(instruction) . END EOF [ # ]
+## Transitions:
+-- On END shift to state 161
+## Reductions:
+
+State 161:
+## Known stack suffix:
+## list(var_decl) list(class_def) MAIN BEGIN list(instruction) END
+## LR(1) items:
+program -> list(var_decl) list(class_def) MAIN BEGIN list(instruction) END . EOF [ # ]
+## Transitions:
+-- On EOF shift to state 162
+## Reductions:
+
+State 162:
+## Known stack suffix:
+## list(var_decl) list(class_def) MAIN BEGIN list(instruction) END EOF
+## LR(1) items:
+program -> list(var_decl) list(class_def) MAIN BEGIN list(instruction) END EOF . [ # ]
+## Transitions:
+## Reductions:
+-- On #
+--   reduce production program -> list(var_decl) list(class_def) MAIN BEGIN list(instruction) END EOF
+
+State 163:
+## Known stack suffix:
+## class_def
+## LR(1) items:
+list(class_def) -> class_def . list(class_def) [ MAIN ]
+## Transitions:
+-- On CLASS shift to state 83
+-- On list(class_def) shift to state 164
+-- On class_def shift to state 163
+## Reductions:
+-- On MAIN
+--   reduce production list(class_def) ->
+
+State 164:
+## Known stack suffix:
+## class_def list(class_def)
+## LR(1) items:
+list(class_def) -> class_def list(class_def) . [ MAIN ]
+## Transitions:
+## Reductions:
+-- On MAIN
+--   reduce production list(class_def) -> class_def list(class_def)
+

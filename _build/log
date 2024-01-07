@@ -3,7 +3,7 @@
 # Shared cache: disabled
 # Workspace root: /home/user/Compilation/kawa
 # Auto-detected concurrency: 8
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_c2c046_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_033bbb_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -150,18 +150,15 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_c2c046_output
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl interpreter.ml) > _build/default/.kawai.eobjs/interpreter.ml.d
-$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .kawai.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/byte/dune__exe__Interpreter.cmo -c -impl interpreter.ml)
-> File "interpreter.ml", line 62, characters 8-9:
-> 62 |       | _ -> assert false
->              ^
-> Warning 11 [redundant-case]: this match case is unused.
-$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .kawai.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/byte/dune__exe__Kawai.cmo -c -impl kawai.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .kawai.eobjs/byte -I .kawai.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/native/dune__exe__Kawai.cmx -c -impl kawai.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .kawai.eobjs/byte -I .kawai.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/native/dune__exe__Interpreter.cmx -c -impl interpreter.ml)
-> File "interpreter.ml", line 62, characters 8-9:
-> 62 |       | _ -> assert false
->              ^
-> Warning 11 [redundant-case]: this match case is unused.
+$ (cd _build/default && /home/user/.opam/default/bin/menhir --explain --dump kawaparser.mly --base kawaparser --infer-write-query kawaparser__mock.ml.mock)
+> File "kawaparser.mly", line 25, characters 7-11:
+> Warning: the token ATTR is unused.
+> File "kawaparser.mly", line 19, characters 7-10:
+> Warning: the token VAR is unused.
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl kawaparser__mock.ml.mock) > _build/default/.kawai.eobjs/kawaparser__mock.ml.mock.d
+$ (cd _build/.sandbox/1c6afcc9cf28facfe21f1d37edf9dc80/default && /usr/bin/ocamlc.opt -g -I .kawai.eobjs/byte -open Dune__exe -short-paths -i -impl kawaparser__mock.ml.mock) > _build/.sandbox/1c6afcc9cf28facfe21f1d37edf9dc80/default/kawaparser__mock.mli.inferred
+$ (cd _build/default && /home/user/.opam/default/bin/menhir --explain --dump kawaparser.mly --base kawaparser --infer-read-reply kawaparser__mock.mli.inferred)
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl kawaparser.ml) > _build/default/.kawai.eobjs/kawaparser.ml.d
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .kawai.eobjs/byte -I .kawai.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .kawai.eobjs/native/dune__exe__Kawaparser.cmx -c -impl kawaparser.ml)
 $ (cd _build/default && /usr/bin/ocamlopt.opt -g -o kawai.exe .kawai.eobjs/native/dune__exe.cmx .kawai.eobjs/native/dune__exe__Kawa.cmx .kawai.eobjs/native/dune__exe__Interpreter.cmx .kawai.eobjs/native/dune__exe__Kawaparser.cmx .kawai.eobjs/native/dune__exe__Kawalexer.cmx .kawai.eobjs/native/dune__exe__Typechecker.cmx .kawai.eobjs/native/dune__exe__Kawai.cmx)
 # Promoting "_build/default/kawai.exe" to "kawai.exe"
