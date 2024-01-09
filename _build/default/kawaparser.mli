@@ -4,7 +4,6 @@
 type token = 
   | WHILE
   | VOID
-  | VAR
   | T_STR
   | T_INT
   | T_BOOL
@@ -46,7 +45,6 @@ type token =
   | CIDENT of (string)
   | BOOL of (bool)
   | BEGIN
-  | ATTR
   | ASSERT
   | AND
   | ADD

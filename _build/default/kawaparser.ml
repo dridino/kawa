@@ -10,16 +10,15 @@ module MenhirBasics = struct
   type token = 
     | WHILE
     | VOID
-    | VAR
     | T_STR
     | T_INT
     | T_BOOL
     | THIS
     | SUB
     | STR of (
-# 34 "kawaparser.mly"
+# 33 "kawaparser.mly"
        (string)
-# 23 "kawaparser.ml"
+# 22 "kawaparser.ml"
   )
     | SEMI
     | RSQR
@@ -41,13 +40,13 @@ module MenhirBasics = struct
     | INT of (
 # 8 "kawaparser.mly"
        (int)
-# 45 "kawaparser.ml"
+# 44 "kawaparser.ml"
   )
     | IF
     | IDENT of (
 # 11 "kawaparser.mly"
        (string)
-# 51 "kawaparser.ml"
+# 50 "kawaparser.ml"
   )
     | GT
     | GE
@@ -62,17 +61,16 @@ module MenhirBasics = struct
     | COMMA
     | CLASS
     | CIDENT of (
-# 35 "kawaparser.mly"
+# 34 "kawaparser.mly"
        (string)
-# 68 "kawaparser.ml"
+# 67 "kawaparser.ml"
   )
     | BOOL of (
 # 9 "kawaparser.mly"
        (bool)
-# 73 "kawaparser.ml"
+# 72 "kawaparser.ml"
   )
     | BEGIN
-    | ATTR
     | ASSERT
     | AND
     | ADD
@@ -88,7 +86,7 @@ include MenhirBasics
   open Kawa
 
 
-# 92 "kawaparser.ml"
+# 90 "kawaparser.ml"
 
 type ('s, 'r) _menhir_state = 
   | MenhirState000 : ('s, _menhir_box_program) _menhir_state
@@ -389,9 +387,9 @@ and ('s, 'r) _menhir_cell1_BEGIN =
 
 and 's _menhir_cell0_CIDENT = 
   | MenhirCell0_CIDENT of 's * (
-# 35 "kawaparser.mly"
+# 34 "kawaparser.mly"
        (string)
-# 395 "kawaparser.ml"
+# 393 "kawaparser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_CLASS = 
@@ -401,7 +399,7 @@ and 's _menhir_cell0_IDENT =
   | MenhirCell0_IDENT of 's * (
 # 11 "kawaparser.mly"
        (string)
-# 405 "kawaparser.ml"
+# 403 "kawaparser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_IF = 
@@ -431,243 +429,243 @@ and _menhir_box_program =
 let _menhir_action_01 =
   fun i t ->
     (
-# 150 "kawaparser.mly"
+# 71 "kawaparser.mly"
                                                             ( List.fold_left
     (fun init (id, len) -> match len with None -> (id, t)::init | Some n -> (id, TTab (t, n))::init) [] i )
-# 438 "kawaparser.ml"
+# 436 "kawaparser.ml"
      : ((string * Kawa.typ) list))
 
 let _menhir_action_02 =
   fun attr ext i meth ->
     (
-# 76 "kawaparser.mly"
+# 92 "kawaparser.mly"
                                                                                                ( {class_name=i; attributes=List.concat attr; methods=meth; parent=ext} )
-# 446 "kawaparser.ml"
+# 444 "kawaparser.ml"
      : (Kawa.class_def))
 
 let _menhir_action_03 =
   fun n ->
     (
-# 117 "kawaparser.mly"
+# 114 "kawaparser.mly"
         ( Int(n) )
-# 454 "kawaparser.ml"
+# 452 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_04 =
   fun b ->
     (
-# 118 "kawaparser.mly"
+# 115 "kawaparser.mly"
          ( Bool(b) )
-# 462 "kawaparser.ml"
+# 460 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_05 =
   fun () ->
     (
-# 119 "kawaparser.mly"
+# 116 "kawaparser.mly"
        ( This )
-# 470 "kawaparser.ml"
+# 468 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_06 =
   fun m ->
     (
-# 120 "kawaparser.mly"
+# 117 "kawaparser.mly"
         ( Get(m) )
-# 478 "kawaparser.ml"
+# 476 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_07 =
   fun e u ->
     (
-# 121 "kawaparser.mly"
+# 118 "kawaparser.mly"
                                    ( Unop(u, e) )
-# 486 "kawaparser.ml"
+# 484 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_08 =
   fun e1 e2 ->
     let o = 
-# 101 "kawaparser.mly"
+# 134 "kawaparser.mly"
       ( Add )
-# 494 "kawaparser.ml"
+# 492 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 499 "kawaparser.ml"
+# 497 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_09 =
   fun e1 e2 ->
     let o = 
-# 102 "kawaparser.mly"
+# 135 "kawaparser.mly"
       ( Sub )
-# 507 "kawaparser.ml"
+# 505 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 512 "kawaparser.ml"
+# 510 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_10 =
   fun e1 e2 ->
     let o = 
-# 103 "kawaparser.mly"
+# 136 "kawaparser.mly"
       ( Mul )
-# 520 "kawaparser.ml"
+# 518 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 525 "kawaparser.ml"
+# 523 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_11 =
   fun e1 e2 ->
     let o = 
-# 104 "kawaparser.mly"
+# 137 "kawaparser.mly"
       ( Div )
-# 533 "kawaparser.ml"
+# 531 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 538 "kawaparser.ml"
+# 536 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_12 =
   fun e1 e2 ->
     let o = 
-# 105 "kawaparser.mly"
+# 138 "kawaparser.mly"
       ( Rem )
-# 546 "kawaparser.ml"
+# 544 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 551 "kawaparser.ml"
+# 549 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_13 =
   fun e1 e2 ->
     let o = 
-# 106 "kawaparser.mly"
+# 139 "kawaparser.mly"
       ( Eq )
-# 559 "kawaparser.ml"
+# 557 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 564 "kawaparser.ml"
+# 562 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_14 =
   fun e1 e2 ->
     let o = 
-# 107 "kawaparser.mly"
+# 140 "kawaparser.mly"
       ( Neq )
-# 572 "kawaparser.ml"
+# 570 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 577 "kawaparser.ml"
+# 575 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_15 =
   fun e1 e2 ->
     let o = 
-# 108 "kawaparser.mly"
+# 141 "kawaparser.mly"
       ( Lt )
-# 585 "kawaparser.ml"
+# 583 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 590 "kawaparser.ml"
+# 588 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_16 =
   fun e1 e2 ->
     let o = 
-# 109 "kawaparser.mly"
+# 142 "kawaparser.mly"
       ( Le )
-# 598 "kawaparser.ml"
+# 596 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 603 "kawaparser.ml"
+# 601 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_17 =
   fun e1 e2 ->
     let o = 
-# 110 "kawaparser.mly"
+# 143 "kawaparser.mly"
       ( Gt )
-# 611 "kawaparser.ml"
+# 609 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 616 "kawaparser.ml"
+# 614 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_18 =
   fun e1 e2 ->
     let o = 
-# 111 "kawaparser.mly"
+# 144 "kawaparser.mly"
       ( Ge )
-# 624 "kawaparser.ml"
+# 622 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 629 "kawaparser.ml"
+# 627 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_19 =
   fun e1 e2 ->
     let o = 
-# 112 "kawaparser.mly"
+# 145 "kawaparser.mly"
       ( And )
-# 637 "kawaparser.ml"
+# 635 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 642 "kawaparser.ml"
+# 640 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_20 =
   fun e1 e2 ->
     let o = 
-# 113 "kawaparser.mly"
+# 146 "kawaparser.mly"
       ( Or )
-# 650 "kawaparser.ml"
+# 648 "kawaparser.ml"
      in
     (
-# 122 "kawaparser.mly"
+# 119 "kawaparser.mly"
                                       ( Binop(o, e1, e2) )
-# 655 "kawaparser.ml"
+# 653 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_21 =
   fun e ->
     (
-# 123 "kawaparser.mly"
+# 120 "kawaparser.mly"
                          ( e )
-# 663 "kawaparser.ml"
+# 661 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_22 =
   fun i ->
     (
-# 124 "kawaparser.mly"
+# 121 "kawaparser.mly"
                ( New(i) )
-# 671 "kawaparser.ml"
+# 669 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_23 =
@@ -675,12 +673,12 @@ let _menhir_action_23 =
     let args = 
 # 229 "<standard.mly>"
     ( xs )
-# 679 "kawaparser.ml"
+# 677 "kawaparser.ml"
      in
     (
-# 125 "kawaparser.mly"
+# 122 "kawaparser.mly"
                                                                 ( NewCstr(i, args) )
-# 684 "kawaparser.ml"
+# 682 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_24 =
@@ -688,12 +686,12 @@ let _menhir_action_24 =
     let args = 
 # 229 "<standard.mly>"
     ( xs )
-# 692 "kawaparser.ml"
+# 690 "kawaparser.ml"
      in
     (
-# 126 "kawaparser.mly"
+# 123 "kawaparser.mly"
                                                                             ( MethCall(e, i, args) )
-# 697 "kawaparser.ml"
+# 695 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_25 =
@@ -701,84 +699,84 @@ let _menhir_action_25 =
     let l = 
 # 229 "<standard.mly>"
     ( xs )
-# 705 "kawaparser.ml"
+# 703 "kawaparser.ml"
      in
     (
-# 127 "kawaparser.mly"
+# 124 "kawaparser.mly"
                                                 ( Tab(Array.of_list l, List.length l) )
-# 710 "kawaparser.ml"
+# 708 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_26 =
   fun s ->
     (
-# 128 "kawaparser.mly"
+# 125 "kawaparser.mly"
         ( Str(s) )
-# 718 "kawaparser.ml"
+# 716 "kawaparser.ml"
      : (Kawa.expr))
 
 let _menhir_action_27 =
   fun c ->
     (
-# 63 "kawaparser.mly"
+# 89 "kawaparser.mly"
                    ( c )
-# 726 "kawaparser.ml"
+# 724 "kawaparser.ml"
      : (string))
 
 let _menhir_action_28 =
   fun e ->
     (
-# 86 "kawaparser.mly"
+# 105 "kawaparser.mly"
                                     ( Print(e) )
-# 734 "kawaparser.ml"
+# 732 "kawaparser.ml"
      : (Kawa.instr))
 
 let _menhir_action_29 =
   fun e m ->
     (
-# 87 "kawaparser.mly"
+# 106 "kawaparser.mly"
                                 ( Set(m, e) )
-# 742 "kawaparser.ml"
+# 740 "kawaparser.ml"
      : (Kawa.instr))
 
 let _menhir_action_30 =
   fun e l1 l2 ->
     (
-# 88 "kawaparser.mly"
+# 107 "kawaparser.mly"
                                                                                                ( If(e, l1, l2) )
-# 750 "kawaparser.ml"
+# 748 "kawaparser.ml"
      : (Kawa.instr))
 
 let _menhir_action_31 =
   fun e l ->
     (
-# 89 "kawaparser.mly"
+# 108 "kawaparser.mly"
                                                              ( While(e, l) )
-# 758 "kawaparser.ml"
+# 756 "kawaparser.ml"
      : (Kawa.instr))
 
 let _menhir_action_32 =
   fun e ->
     (
-# 90 "kawaparser.mly"
+# 109 "kawaparser.mly"
                            ( Return(e) )
-# 766 "kawaparser.ml"
+# 764 "kawaparser.ml"
      : (Kawa.instr))
 
 let _menhir_action_33 =
   fun e ->
     (
-# 91 "kawaparser.mly"
+# 110 "kawaparser.mly"
                     ( Expr(e) )
-# 774 "kawaparser.ml"
+# 772 "kawaparser.ml"
      : (Kawa.instr))
 
 let _menhir_action_34 =
   fun e ->
     (
-# 92 "kawaparser.mly"
+# 111 "kawaparser.mly"
                                      ( Assert(e) )
-# 782 "kawaparser.ml"
+# 780 "kawaparser.ml"
      : (Kawa.instr))
 
 let _menhir_action_35 =
@@ -786,7 +784,7 @@ let _menhir_action_35 =
     (
 # 208 "<standard.mly>"
     ( [] )
-# 790 "kawaparser.ml"
+# 788 "kawaparser.ml"
      : ((string * Kawa.typ) list list))
 
 let _menhir_action_36 =
@@ -794,7 +792,7 @@ let _menhir_action_36 =
     (
 # 210 "<standard.mly>"
     ( x :: xs )
-# 798 "kawaparser.ml"
+# 796 "kawaparser.ml"
      : ((string * Kawa.typ) list list))
 
 let _menhir_action_37 =
@@ -802,7 +800,7 @@ let _menhir_action_37 =
     (
 # 208 "<standard.mly>"
     ( [] )
-# 806 "kawaparser.ml"
+# 804 "kawaparser.ml"
      : (Kawa.class_def list))
 
 let _menhir_action_38 =
@@ -810,7 +808,7 @@ let _menhir_action_38 =
     (
 # 210 "<standard.mly>"
     ( x :: xs )
-# 814 "kawaparser.ml"
+# 812 "kawaparser.ml"
      : (Kawa.class_def list))
 
 let _menhir_action_39 =
@@ -818,7 +816,7 @@ let _menhir_action_39 =
     (
 # 208 "<standard.mly>"
     ( [] )
-# 822 "kawaparser.ml"
+# 820 "kawaparser.ml"
      : (Kawa.seq))
 
 let _menhir_action_40 =
@@ -826,7 +824,7 @@ let _menhir_action_40 =
     (
 # 210 "<standard.mly>"
     ( x :: xs )
-# 830 "kawaparser.ml"
+# 828 "kawaparser.ml"
      : (Kawa.seq))
 
 let _menhir_action_41 =
@@ -834,7 +832,7 @@ let _menhir_action_41 =
     (
 # 208 "<standard.mly>"
     ( [] )
-# 838 "kawaparser.ml"
+# 836 "kawaparser.ml"
      : (Kawa.method_def list))
 
 let _menhir_action_42 =
@@ -842,7 +840,7 @@ let _menhir_action_42 =
     (
 # 210 "<standard.mly>"
     ( x :: xs )
-# 846 "kawaparser.ml"
+# 844 "kawaparser.ml"
      : (Kawa.method_def list))
 
 let _menhir_action_43 =
@@ -850,7 +848,7 @@ let _menhir_action_43 =
     (
 # 208 "<standard.mly>"
     ( [] )
-# 854 "kawaparser.ml"
+# 852 "kawaparser.ml"
      : ((string * Kawa.typ * Kawa.expr option) list list))
 
 let _menhir_action_44 =
@@ -858,7 +856,7 @@ let _menhir_action_44 =
     (
 # 210 "<standard.mly>"
     ( x :: xs )
-# 862 "kawaparser.ml"
+# 860 "kawaparser.ml"
      : ((string * Kawa.typ * Kawa.expr option) list list))
 
 let _menhir_action_45 =
@@ -866,7 +864,7 @@ let _menhir_action_45 =
     (
 # 139 "<standard.mly>"
     ( [] )
-# 870 "kawaparser.ml"
+# 868 "kawaparser.ml"
      : (Kawa.expr list))
 
 let _menhir_action_46 =
@@ -874,7 +872,7 @@ let _menhir_action_46 =
     (
 # 141 "<standard.mly>"
     ( x )
-# 878 "kawaparser.ml"
+# 876 "kawaparser.ml"
      : (Kawa.expr list))
 
 let _menhir_action_47 =
@@ -882,7 +880,7 @@ let _menhir_action_47 =
     (
 # 139 "<standard.mly>"
     ( [] )
-# 886 "kawaparser.ml"
+# 884 "kawaparser.ml"
      : ((string * Kawa.typ) list))
 
 let _menhir_action_48 =
@@ -890,7 +888,7 @@ let _menhir_action_48 =
     (
 # 141 "<standard.mly>"
     ( x )
-# 894 "kawaparser.ml"
+# 892 "kawaparser.ml"
      : ((string * Kawa.typ) list))
 
 let _menhir_action_49 =
@@ -898,7 +896,7 @@ let _menhir_action_49 =
     (
 # 139 "<standard.mly>"
     ( [] )
-# 902 "kawaparser.ml"
+# 900 "kawaparser.ml"
      : ((string * int option) list))
 
 let _menhir_action_50 =
@@ -906,47 +904,47 @@ let _menhir_action_50 =
     (
 # 141 "<standard.mly>"
     ( x )
-# 910 "kawaparser.ml"
+# 908 "kawaparser.ml"
      : ((string * int option) list))
 
 let _menhir_action_51 =
   fun t ->
     (
-# 67 "kawaparser.mly"
+# 83 "kawaparser.mly"
             ( t )
-# 918 "kawaparser.ml"
+# 916 "kawaparser.ml"
      : (Kawa.typ))
 
 let _menhir_action_52 =
   fun () ->
     (
-# 68 "kawaparser.mly"
+# 84 "kawaparser.mly"
             ( TVoid )
-# 926 "kawaparser.ml"
+# 924 "kawaparser.ml"
      : (Kawa.typ))
 
 let _menhir_action_53 =
   fun i ->
     (
-# 80 "kawaparser.mly"
+# 100 "kawaparser.mly"
           ( Var(i) )
-# 934 "kawaparser.ml"
+# 932 "kawaparser.ml"
      : (Kawa.mem_access))
 
 let _menhir_action_54 =
   fun e i ->
     (
-# 81 "kawaparser.mly"
+# 101 "kawaparser.mly"
                            ( Field(e, i) )
-# 942 "kawaparser.ml"
+# 940 "kawaparser.ml"
      : (Kawa.mem_access))
 
 let _menhir_action_55 =
   fun e i ->
     (
-# 82 "kawaparser.mly"
+# 102 "kawaparser.mly"
                                ( TabIdx(e, i) )
-# 950 "kawaparser.ml"
+# 948 "kawaparser.ml"
      : (Kawa.mem_access))
 
 let _menhir_action_56 =
@@ -954,12 +952,12 @@ let _menhir_action_56 =
     let params = 
 # 229 "<standard.mly>"
     ( xs )
-# 958 "kawaparser.ml"
+# 956 "kawaparser.ml"
      in
     (
-# 72 "kawaparser.mly"
+# 95 "kawaparser.mly"
                                                                                                                                      ( {method_name=i; code=instr; params=params; locals=List.concat locals; return=t} )
-# 963 "kawaparser.ml"
+# 961 "kawaparser.ml"
      : (Kawa.method_def))
 
 let _menhir_action_57 =
@@ -967,7 +965,7 @@ let _menhir_action_57 =
     (
 # 111 "<standard.mly>"
     ( None )
-# 971 "kawaparser.ml"
+# 969 "kawaparser.ml"
      : (string option))
 
 let _menhir_action_58 =
@@ -975,7 +973,7 @@ let _menhir_action_58 =
     (
 # 113 "<standard.mly>"
     ( Some x )
-# 979 "kawaparser.ml"
+# 977 "kawaparser.ml"
      : (string option))
 
 let _menhir_action_59 =
@@ -983,15 +981,15 @@ let _menhir_action_59 =
     (
 # 59 "kawaparser.mly"
                    ( (i, t) )
-# 987 "kawaparser.ml"
+# 985 "kawaparser.ml"
      : (string * Kawa.typ))
 
 let _menhir_action_60 =
   fun classes globals main ->
     (
-# 55 "kawaparser.mly"
+# 54 "kawaparser.mly"
     ( {classes=classes; globals=List.concat globals; main=main} )
-# 995 "kawaparser.ml"
+# 993 "kawaparser.ml"
      : (Kawa.program))
 
 let _menhir_action_61 =
@@ -999,7 +997,7 @@ let _menhir_action_61 =
     (
 # 238 "<standard.mly>"
     ( [ x ] )
-# 1003 "kawaparser.ml"
+# 1001 "kawaparser.ml"
      : (Kawa.expr list))
 
 let _menhir_action_62 =
@@ -1007,7 +1005,7 @@ let _menhir_action_62 =
     (
 # 240 "<standard.mly>"
     ( x :: xs )
-# 1011 "kawaparser.ml"
+# 1009 "kawaparser.ml"
      : (Kawa.expr list))
 
 let _menhir_action_63 =
@@ -1015,7 +1013,7 @@ let _menhir_action_63 =
     (
 # 238 "<standard.mly>"
     ( [ x ] )
-# 1019 "kawaparser.ml"
+# 1017 "kawaparser.ml"
      : ((string * Kawa.typ) list))
 
 let _menhir_action_64 =
@@ -1023,7 +1021,7 @@ let _menhir_action_64 =
     (
 # 240 "<standard.mly>"
     ( x :: xs )
-# 1027 "kawaparser.ml"
+# 1025 "kawaparser.ml"
      : ((string * Kawa.typ) list))
 
 let _menhir_action_65 =
@@ -1031,7 +1029,7 @@ let _menhir_action_65 =
     (
 # 238 "<standard.mly>"
     ( [ x ] )
-# 1035 "kawaparser.ml"
+# 1033 "kawaparser.ml"
      : ((string * int option) list))
 
 let _menhir_action_66 =
@@ -1039,55 +1037,55 @@ let _menhir_action_66 =
     (
 # 240 "<standard.mly>"
     ( x :: xs )
-# 1043 "kawaparser.ml"
+# 1041 "kawaparser.ml"
      : ((string * int option) list))
 
 let _menhir_action_67 =
   fun () ->
     (
-# 96 "kawaparser.mly"
+# 130 "kawaparser.mly"
       ( Opp )
-# 1051 "kawaparser.ml"
+# 1049 "kawaparser.ml"
      : (Kawa.unop))
 
 let _menhir_action_68 =
   fun () ->
     (
-# 97 "kawaparser.mly"
+# 131 "kawaparser.mly"
       ( Not )
-# 1059 "kawaparser.ml"
+# 1057 "kawaparser.ml"
      : (Kawa.unop))
 
 let _menhir_action_69 =
   fun () ->
     (
-# 132 "kawaparser.mly"
+# 77 "kawaparser.mly"
         ( TInt )
-# 1067 "kawaparser.ml"
+# 1065 "kawaparser.ml"
      : (Kawa.typ))
 
 let _menhir_action_70 =
   fun () ->
     (
-# 133 "kawaparser.mly"
+# 78 "kawaparser.mly"
          ( TBool )
-# 1075 "kawaparser.ml"
+# 1073 "kawaparser.ml"
      : (Kawa.typ))
 
 let _menhir_action_71 =
   fun c ->
     (
-# 134 "kawaparser.mly"
+# 79 "kawaparser.mly"
            ( TClass(c) )
-# 1083 "kawaparser.ml"
+# 1081 "kawaparser.ml"
      : (Kawa.typ))
 
 let _menhir_action_72 =
   fun () ->
     (
-# 135 "kawaparser.mly"
+# 80 "kawaparser.mly"
           ( TStr )
-# 1091 "kawaparser.ml"
+# 1089 "kawaparser.ml"
      : (Kawa.typ))
 
 let _menhir_action_73 =
@@ -1095,37 +1093,37 @@ let _menhir_action_73 =
     let i = 
 # 229 "<standard.mly>"
     ( xs )
-# 1099 "kawaparser.ml"
+# 1097 "kawaparser.ml"
      in
     (
-# 144 "kawaparser.mly"
+# 66 "kawaparser.mly"
                                                    ( List.fold_left
     (fun init (id, len) -> match len with None -> (id, t, None)::init | Some n -> (id, TTab (t, n), None)::init) [] i )
-# 1105 "kawaparser.ml"
+# 1103 "kawaparser.ml"
      : ((string * Kawa.typ * Kawa.expr option) list))
 
 let _menhir_action_74 =
   fun e i t ->
     (
-# 146 "kawaparser.mly"
+# 68 "kawaparser.mly"
                                                ( [let i, len = i in match len with None -> (i, t, Some e) | Some len -> (i, TTab (t, len), Some e)] )
-# 1113 "kawaparser.ml"
+# 1111 "kawaparser.ml"
      : ((string * Kawa.typ * Kawa.expr option) list))
 
 let _menhir_action_75 =
   fun i ->
     (
-# 139 "kawaparser.mly"
+# 62 "kawaparser.mly"
           ( (i, None) )
-# 1121 "kawaparser.ml"
+# 1119 "kawaparser.ml"
      : (string * int option))
 
 let _menhir_action_76 =
   fun i n ->
     (
-# 140 "kawaparser.mly"
+# 63 "kawaparser.mly"
                           ( (i, Some n) )
-# 1129 "kawaparser.ml"
+# 1127 "kawaparser.ml"
      : (string * int option))
 
 let _menhir_print_token : token -> string =
@@ -1137,8 +1135,6 @@ let _menhir_print_token : token -> string =
         "AND"
     | ASSERT ->
         "ASSERT"
-    | ATTR ->
-        "ATTR"
     | BEGIN ->
         "BEGIN"
     | BOOL _ ->
@@ -1221,8 +1217,6 @@ let _menhir_print_token : token -> string =
         "T_INT"
     | T_STR ->
         "T_STR"
-    | VAR ->
-        "VAR"
     | VOID ->
         "VOID"
     | WHILE ->

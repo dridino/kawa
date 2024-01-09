@@ -13,7 +13,6 @@
       "main",       MAIN;
       "false",      BOOL(false);
       "true",       BOOL(true);
-      "var",        VAR;
       "int",        T_INT;
       "bool",       T_BOOL;
       "if",         IF;
@@ -21,7 +20,6 @@
       "while",      WHILE;
       "return",     RETURN;
       "class",      CLASS;
-      "attribute",  ATTR;
       "new",        NEW;
       "void",       VOID;
       "method",     METHOD;

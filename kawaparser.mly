@@ -16,13 +16,12 @@
 %token NOT
 %token ADD SUB MUL DIV REM
 %token EQ NEQ LT LE GT GE AND OR
-%token VAR EQUAL
+%token EQUAL
 %token T_INT T_BOOL T_STR
 %token IF ELSE
 %token WHILE
 %token RETURN
 %token CLASS
-%token ATTR
 %token NEW
 %token DOT
 %token METHOD
@@ -55,33 +54,53 @@ program:
     { {classes=classes; globals=List.concat globals; main=main} }
 ;
 
+
 param_decl:
 | t=v_type i=IDENT { (i, t) }
 ;
-
-extends_bloc:
-| EXTENDS c=CIDENT { c }
+var_ident:
+| i=IDENT { (i, None) }
+| i=IDENT LSQR n=INT RSQR { (i, Some n) }
+;
+var_decl:
+| t=v_type i=separated_list(COMMA, var_ident) SEMI { List.fold_left
+    (fun init (id, len) -> match len with None -> (id, t, None)::init | Some n -> (id, TTab (t, n), None)::init) [] i }
+| t=v_type i=var_ident EQUAL e=expression SEMI { [let i, len = i in match len with None -> (i, t, Some e) | Some len -> (i, TTab (t, len), Some e)] }
+;
+attr_decl:
+| t=v_type i=separated_nonempty_list(COMMA, var_ident) SEMI { List.fold_left
+    (fun init (id, len) -> match len with None -> (id, t)::init | Some n -> (id, TTab (t, n))::init) [] i }
 ;
 
+
+v_type:
+| T_INT { TInt }
+| T_BOOL { TBool }
+| c=CIDENT { TClass(c) }
+| T_STR   { TStr }
+;
 m_type:
 | t=v_type  { t }
 | VOID      { TVoid }
 ;
 
+
+extends_bloc:
+| EXTENDS c=CIDENT { c }
+;
+class_def:
+| CLASS i=CIDENT ext=option(extends_bloc) BEGIN attr=list(attr_decl) meth=list(method_def) END { {class_name=i; attributes=List.concat attr; methods=meth; parent=ext} }
+;
 method_def:
 | METHOD t=m_type i=IDENT LPAR params=separated_list(COMMA, param_decl) RPAR BEGIN locals=list(var_decl) instr=list(instruction) END { {method_name=i; code=instr; params=params; locals=List.concat locals; return=t} }
 ;
 
-class_def:
-| CLASS i=CIDENT ext=option(extends_bloc) BEGIN attr=list(attr_decl) meth=list(method_def) END { {class_name=i; attributes=List.concat attr; methods=meth; parent=ext} }
-;
 
 mem:
 | i=IDENT { Var(i) }
 | e=expression DOT i=IDENT { Field(e, i) }
 | e=expression LSQR i=INT RSQR { TabIdx(e, i) }
 ;
-
 instruction:
 | PRINT LPAR e=expression RPAR SEMI { Print(e) }
 | m=mem EQUAL e=expression SEMI { Set(m, e) }
@@ -91,28 +110,6 @@ instruction:
 | e=expression SEMI { Expr(e) }
 | ASSERT LPAR e=expression RPAR SEMI { Assert(e) }
 ;
-
-unop:
-| SUB { Opp }
-| NOT { Not }
-;
-
-%inline binop:
-| ADD { Add }
-| SUB { Sub }
-| MUL { Mul }
-| DIV { Div }
-| REM { Rem }
-| EQ  { Eq }
-| NEQ { Neq }
-| LT  { Lt }
-| LE  { Le }
-| GT  { Gt }
-| GE  { Ge }
-| AND { And }
-| OR  { Or }
-;
-
 expression:
 | n=INT { Int(n) }
 | b=BOOL { Bool(b) }
@@ -128,25 +125,23 @@ expression:
 | s=STR { Str(s) }
 ;
 
-v_type:
-| T_INT { TInt }
-| T_BOOL { TBool }
-| c=CIDENT { TClass(c) }
-| T_STR   { TStr }
-;
 
-var_ident:
-| i=IDENT { (i, None) }
-| i=IDENT LSQR n=INT RSQR { (i, Some n) }
+unop:
+| SUB { Opp }
+| NOT { Not }
 ;
-
-var_decl:
-| t=v_type i=separated_list(COMMA, var_ident) SEMI { List.fold_left
-    (fun init (id, len) -> match len with None -> (id, t, None)::init | Some n -> (id, TTab (t, n), None)::init) [] i }
-| t=v_type i=var_ident EQUAL e=expression SEMI { [let i, len = i in match len with None -> (i, t, Some e) | Some len -> (i, TTab (t, len), Some e)] }
-;
-
-attr_decl:
-| t=v_type i=separated_nonempty_list(COMMA, var_ident) SEMI { List.fold_left
-    (fun init (id, len) -> match len with None -> (id, t)::init | Some n -> (id, TTab (t, n))::init) [] i }
+%inline binop:
+| ADD { Add }
+| SUB { Sub }
+| MUL { Mul }
+| DIV { Div }
+| REM { Rem }
+| EQ  { Eq }
+| NEQ { Neq }
+| LT  { Lt }
+| LE  { Le }
+| GT  { Gt }
+| GE  { Ge }
+| AND { And }
+| OR  { Or }
 ;
