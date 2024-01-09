@@ -162,3 +162,7 @@ main {
 }
 ```
 Ceci est valable aussi bien pour les variables globales que pour les variables locales à une méthode.
+
+## Tests
+
+Des tests se trouvent dans le dossier de même nom. La compilation suivie du lancement de l'ensemble des tests peuvent être lancés avec la simple commande `make test`, grâce au fait que tous les tests reposent sur des `assert` et non des `print`, sauf pour tester l'affichage.
