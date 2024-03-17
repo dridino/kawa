@@ -1,5 +1,13 @@
 # Kawa
 
+## Description
+
+Interpréteur en OCaml ayant pour but d'interpréter un langage orienté objet ressemblant à Java via plusieurs étapes :
+- analyse lexicale
+- parsage
+- analyse des types
+- interprétation
+
 ## Fonctionnalités obligatoires
 
 ### Arithmétique
